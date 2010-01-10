@@ -1,0 +1,8 @@
+<zombie chance="95%" hp="2 - 5" damage="1" speed="40">
+	<graphic filename="zombie.png"/>
+</zombie>
+<metazombie chance="5%" hp="8 - 12" damage="1" speed="50">
+	<graphic filename="meta-zombie.png"/>
+	<graphic filename="meta-wounded.png" health="50%"/>
+</metazombie>
+
