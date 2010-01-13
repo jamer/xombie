@@ -18,7 +18,7 @@ Conf mobs("conf/mobs.conf");
  * Chooses a mob at random, based on chance-type data in mobs.conf.
  * Returns a new mob.
  */
-Mob* newRandomMob()
+Mob* newRandomMob(World* world)
 {
 	int count = mobs.getInt("Spawn", "Mob Count");
 	int percent = randInt(1, 100);
@@ -45,7 +45,7 @@ Mob* newRandomMob()
 }
 
 
-Mob::Mob(const char* Type)
+Mob::Mob(const char* Type, World* world)
 	: dead(false), dur(0)
 {
 	strcpy(type, Type);
@@ -61,10 +61,10 @@ Mob::Mob(const char* Type)
 	if (damagable)
 		graphicDmg = mobs.getString(type, "Damaged graphic");
 
-	generateSpawnPosition();
+	generateSpawnPosition(world);
 }
 
-void Mob::generateSpawnPosition()
+void Mob::generateSpawnPosition(World* world)
 {
 	int screenHeight = getEngine()->getHeight();
 	int screenWidth  = getEngine()->getWidth();

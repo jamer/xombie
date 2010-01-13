@@ -2,6 +2,7 @@
 #define _WORLD_H_
 
 #include <list>
+#include <SDL.h>
 
 #include "engine.h"
 #include "mob.h"
@@ -24,6 +25,8 @@ public:
 
 	void update(int dt);
 	void playerShoots();
+
+	SDL_Rect* getBounds();
 
 private:
 	void updateChars(int dt);
@@ -49,6 +52,8 @@ private:
 	int mobSpawnTimer;
 	int mobSpawnAcceleration;
 	int mobSpawnMinimum;
+
+	SDL_Rect bounds;
 };
 
 #endif // _WORLD_H_

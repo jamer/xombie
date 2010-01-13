@@ -4,11 +4,12 @@
 #include <SDL.h>
 
 #include "sprite.h"
+#include "world.h"
 
 class Mob : public Sprite
 {
 public:
-	Mob(const char* type);
+	Mob(const char* type, World* world);
 
 	/** update()
 	 * Update AI; randomly moves left, right, or straight for 0.5 to 2
@@ -33,7 +34,7 @@ private:
 	/** generateSpawnPosition()
 	 * Sets position to a random offscreen location.
 	 */
-	void generateSpawnPosition();
+	void generateSpawnPosition(World* world);
 
 	char type[64];
 
@@ -47,7 +48,7 @@ private:
 	int dir, dur;
 };
 
-Mob* newRandomMob();
+Mob* newRandomMob(World* world);
 
 #endif // _MOB_H_
 

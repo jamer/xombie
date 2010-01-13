@@ -44,13 +44,18 @@ World::World(const char* worldName)
 	}
 
 	for (int i = 0; i < mobCount; i++) {
-		Mob* zombie = newRandomMob();
+		Mob* zombie = newRandomMob(this);
 		mobs.push_back(zombie);
 	}
 
 	Pistol* pistol = new Pistol();
 	pistol->setLoc(150, 150); // FIXME: Shouldn't need to call this.
 	items.push_back(pistol);
+
+	bounds.x = 0;
+	bounds.y = 0;
+	bounds.w = 640;
+	bounds.h = 480;
 }
 
 list<Item*>* World::getItems()
@@ -286,3 +291,8 @@ void World::updateShots(int dt)
 }
 
 
+
+SDL_Rect* World::getBounds()
+{
+	return &bounds;
+}
