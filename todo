@@ -3,6 +3,7 @@ Non-engineering jobs:
 	* Free (as in speech) sound effects and music.
 
 Long term TODO list:
+	* Add alpha bitmaps to each image - hit testing.
 	* Terrain.
 	* Levels/cities (have to be dynamic).
 	* Overhead view of map.

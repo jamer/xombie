@@ -8,7 +8,7 @@
 class Sprite
 {
 public:
-	Sprite(int flags);
+	Sprite();
 	void move(long dt);
 	void move(long dt, double angle);
 	void stayOnScreen();
@@ -33,7 +33,6 @@ protected:
 	char gfxId[128];
 	uint32_t gfxHash;
 
-	bool rotates;
 	SDL_Rect loc; // public location for getLoc
 	SDL_Rect origsz;
 	SDL_Rect tmp;

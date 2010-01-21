@@ -6,11 +6,10 @@
 #include "imgbase.h"
 #include "sprite.h"
 
-Sprite::Sprite(int flags)
-	: gfxHash(0), loc({0, 0, 0, 0}), angle(0.0), speed(0.0), x(0), y(0)
+Sprite::Sprite()
+	: loc({0, 0, 0, 0}), angle(0.0), speed(0.0), x(0), y(0)
 {
 	gfxId[0] = '\0';
-	rotates = (bool)flags & S_CAN_ROTATE;
 }
 
 ////////////////////
@@ -45,14 +44,11 @@ void Sprite::draw(SDL_Surface* screen)
 {
 #if DEBUG
 	if (gfxId[0] == '\0')
-		throw "Sprite::draw invalid gfxId";
+		throw "Sprite::draw() - invalid gfxId";
 #endif
 	
 	if (!isOnScreen())
 		return;
-
-	if (rotates)
-		gfx = images.getImage(gfxId, INDEX_FROM_ANGLE(angle), true);
 
 	SDL_Rect* rect = getDispLoc();
 	SDL_BlitSurface(getGraphic(), NULL, screen, rect);
@@ -63,9 +59,10 @@ void Sprite::draw(SDL_Surface* screen)
 void Sprite::setGraphicId(const char* id)
 {
 	strcpy(gfxId, id);
+	gfxHash = hash(gfxId);
 
 	// grab the original size
-	gfx = images.getImage(gfxId, 0, true);
+	gfx = images.getImage(gfxId, gfxHash, 0, true);
 	origsz.w = gfx->w;
 	origsz.h = gfx->h;
 }
@@ -73,6 +70,7 @@ void Sprite::setGraphicId(const char* id)
 void Sprite::setAngle(double theta)
 {
 	angle = theta;
+	gfx = images.getImage(gfxId, gfxHash, INDEX_FROM_ANGLE(angle), true);
 }
 
 void Sprite::setAngleFromXY(double x, double y)
@@ -104,7 +102,7 @@ void Sprite::setAngleFromXY(double x, double y)
 			theta = 3*M_PI_2;
 	}
 
-	angle = theta;
+	setAngle(theta);
 }
 
 void Sprite::setSpeed(double spd)
@@ -158,13 +156,15 @@ void Sprite::setLoc(short nx, short ny)
 
 bool Sprite::isOnScreen()
 {
+	Engine* engine = getEngine();
+
 	short hw = gfx->w / 2;
 	short hh = gfx->h / 2;
 
 	if (0 < x + hw ||
-	        x - hw < getEngine()->getWidth() ||
+	        x - hw < engine->getWidth() ||
 	    0 < y + hh ||
-	        y - hh < getEngine()->getHeight())
+	        y - hh < engine->getHeight())
 		return true;
 	return false;
 }

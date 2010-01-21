@@ -8,7 +8,7 @@
 #include "random.h"
 
 Char::Char(const char* graphicId)
-	: Sprite(S_CAN_ROTATE), currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
+	: Sprite(), currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
 {
 	setSpeed(200.0);
 

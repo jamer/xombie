@@ -4,7 +4,7 @@
 #include "random.h"
 
 Item::Item(World* w)
-	: Sprite(NULL), world(w), dead(false)
+	: world(w), dead(false)
 {
 	SDL_Rect* rect = world->getBounds();
 	int x = randInt(100, rect->w - 100);

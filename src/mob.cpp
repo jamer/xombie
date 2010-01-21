@@ -46,7 +46,7 @@ Mob* newRandomMob(World* world)
 
 
 Mob::Mob(const char* Type, World* world)
-	: Sprite(S_CAN_ROTATE), dead(false), dur(0)
+	: dead(false), dur(0)
 {
 	strcpy(type, Type);
 

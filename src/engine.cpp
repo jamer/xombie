@@ -57,12 +57,12 @@ void Engine::loadGame()
 	/* Hmm, we should probably load a main menu view rather than jump
 	 * straight into combat. Let the player create their main character and
 	 * whatnot. */
-	CombatView* cv = new CombatView;
-	views.push(cv);
+	WorldView* wv = new WorldView;
+	views.push(wv);
 
 	World* world = new World("conf/worlds/default.conf");
 	player->setWorld(world);
-	cv->setWorld(world);
+	wv->setWorld(world);
 
 	getAudio()->startMusic();
 }
