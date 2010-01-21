@@ -10,6 +10,7 @@ class Sprite
 public:
 	Sprite(int flags);
 	void move(long dt);
+	void move(long dt, double angle);
 	void stayOnScreen();
 	virtual void draw(SDL_Surface* screen);
 

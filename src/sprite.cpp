@@ -17,6 +17,11 @@ Sprite::Sprite(int flags)
 // functions
 void Sprite::move(long dt)
 {
+	move(dt, angle);
+}
+
+void Sprite::move(long dt, double angle)
+{
 	double dx =  cos(angle) * speed * dt / 1000.0;
 	double dy = -sin(angle) * speed * dt / 1000.0;
 

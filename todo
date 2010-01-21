@@ -21,7 +21,6 @@ Long term TODO list:
 	  Definitely remove Sprite superclass.
 
 Short term TODO list:
-	* Change Sprite::move() to include an angle parameter.
 	* AI needs to follow player.
 	* Audio needs to play more than just a static "Music 1."
 	* Do a little research on rotating OpenGL textures for a replacement to
@@ -32,4 +31,3 @@ Half or semi-implemented:
 	* Inventory{,view}
 	* Mob{,Factory,Prototype} (need to redo Sprite for this... *sigh*)
 	* OpenGL rendering
-
