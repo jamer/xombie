@@ -14,7 +14,7 @@ using std::list;
 enum action {
 	SHOOT,
 	COOLDOWN,
-	RELOAD,
+	RELOAD
 };
 
 class Weapon : public Item

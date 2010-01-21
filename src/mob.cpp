@@ -36,7 +36,7 @@ Mob* newRandomMob(World* world)
 			typeStr += i;
 
 			const char* type = mobs.getString("Spawn", typeStr);
-			Mob* m = new Mob(type);
+			Mob* m = new Mob(type, world);
 			return m;
 		}
 	}
@@ -68,6 +68,8 @@ void Mob::generateSpawnPosition(World* world)
 {
 	int screenHeight = getEngine()->getHeight();
 	int screenWidth  = getEngine()->getWidth();
+
+	world = world; // TODO
 
 	// set mob to 45° to compensate for size changes with rotations
 	// 45° is the widest and highest it will ever get

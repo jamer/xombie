@@ -3,6 +3,12 @@
 
 
 
+Mob::Mob(MobPrototype* t)
+	: type(t)
+{
+	updateGraphic();
+}
+
 
 
 Mob* MobFactory::generateMob()

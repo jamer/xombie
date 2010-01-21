@@ -1,13 +1,14 @@
 PROJECT = xombie
 
 
-EXE = ../bin/${PROJECT}
+EXE = ../bin/$(PROJECT)
 
 #CC = g++ -march=native -mtune=native -Os
-CC = g++ -g
+CC = g++ -g -Wall -W -pedantic
 CFLAGS = `sdl-config --cflags` -Wall -W -I. -Iitem
 LIBS = `sdl-config --libs` -lSDL_mixer -lSDL_ttf -lSDL_image -lSDL_gfx
 
+OBJDIRS = obj/item obj
 OBJS = ../obj/audio.o\
        ../obj/char.o\
        ../obj/common.o\
@@ -42,32 +43,36 @@ all: build
 
 re: clean build
 
-build: ${EXE}
+build: $(EXE)
 
 run: build
-	(cd ../bin; ./${PROJECT})
+	(cd ../bin; ./$(PROJECT))
 
 debug: build
-	(cd ../bin; gdb ${PROJECT})
+	(cd ../bin; gdb $(PROJECT))
 
 profile: build
-	(cd ../bin; ./${PROJECT}; gprof ${PROJECT} > profile.txt; firefox profile.txt&)
+	(cd ../bin; ./$(PROJECT); gprof $(PROJECT) > profile.txt; firefox profile.txt&)
 
 tags:
 	ctags *.cpp *.h
 
-${EXE}: dirs ${OBJS}
-	$(CC) ${OBJS} ${LIBS} -o ${EXE} 
+$(EXE): $(OBJDIRS) $(OBJS)
+	$(CC) $(OBJS) $(LIBS) -o $(EXE) 
 
-dirs:
-	mkdir -p ../obj ../obj/item
+obj:
+	mkdir -p obj
+
+obj/item:
+	mkdir -p obj/item
 
 ../obj/%.o: %.c
-	$(CC) ${CFLAGS} -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 ../obj/%.o: %.cpp
-	$(CC) ${CFLAGS} -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -rf ${OBJS} ${EXE} tags ../obj/item ../obj
+	$(RM) $(OBJS) tags $(EXE)
+	$(RM) -r $(OBJDIRS)
 

@@ -4,6 +4,8 @@
 #include <list>
 #include <SDL.h>
 
+class World;
+
 #include "engine.h"
 #include "mob.h"
 #include "shot.h"

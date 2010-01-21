@@ -1,6 +1,8 @@
 #ifndef _SHOT_H_
 #define _SHOT_H_
 
+class Shot;
+
 #include "mob.h"
 #include "sprite.h"
 

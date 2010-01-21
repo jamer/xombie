@@ -7,6 +7,7 @@ CC = g++ -g
 CFLAGS = `sdl-config --cflags` -Wall -W -Isrc -Isrc/item
 LIBS = `sdl-config --libs` -lSDL_mixer -lSDL_ttf -lSDL_image -lSDL_gfx
 
+OBJDIRS = obj obj/item
 OBJS = obj/audio.o\
        obj/char.o\
        obj/common.o\
@@ -55,11 +56,14 @@ profile: build
 tags:
 	(cd src; ctags *.cpp *.h)
 
-${EXE}: dirs ${OBJS}
+${EXE}: $(OBJDIRS) ${OBJS}
 	$(CC) ${OBJS} ${LIBS} -o ${EXE} 
 
-dirs:
-	mkdir -p obj obj/item
+obj:
+	mkdir -p obj
+
+obj/item:
+	mkdir -p obj/item
 
 obj/%.o: src/%.c
 	$(CC) ${CFLAGS} -c -o $@ $<
@@ -68,5 +72,5 @@ obj/%.o: src/%.cpp
 	$(CC) ${CFLAGS} -c -o $@ $<
 
 clean:
-	rm -rf ${OBJS} ${EXE} src/tags obj/item obj
+	rm -rf ${OBJS} ${EXE} src/tags $(OBJDIRS)
 

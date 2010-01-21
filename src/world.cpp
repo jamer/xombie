@@ -128,7 +128,7 @@ void World::update(int dt)
 	static int spawned = 0;
 
 	while (SDL_GetTicks() >= mobTimer) {
-		Mob* mob = newRandomMob();
+		Mob* mob = newRandomMob(this);
 		mobs.push_back(mob);
 
 		int delay = max(mobSpawnMinimum,
@@ -296,3 +296,4 @@ SDL_Rect* World::getBounds()
 {
 	return &bounds;
 }
+

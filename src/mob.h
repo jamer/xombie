@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 
+class Mob;
+
 #include "sprite.h"
 #include "world.h"
 

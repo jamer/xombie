@@ -6,6 +6,8 @@
 
 using namespace xml;
 
+class MobPrototype;
+
 class IndexedList<class T>
 {
 	list<pair<int,T> > l;
@@ -13,21 +15,24 @@ class IndexedList<class T>
 
 class Mob
 {
-	int hp, mhp;
-	range damage;
-	int speed;
+public:
+	Mob(MobPrototype* type);
+
+private:
+	void updateGraphic();
+	
+	MobPrototype* type;
+	int hp;
 
 	// Update on health change.
 	graphic g;
-
-	// Update from here.
-	IndexedList<graphic>* graphics;
 };
 
 class MobPrototype
 {
 public:
-	MobPrototype(int chance, range hp, range damage, int speed, IndexedList<graphic>* graphics);
+	MobPrototype(int chance, range hp, range damage, int speed,
+	        IndexedList<graphic>* graphics);
 	Mob* generate();
 
 private:

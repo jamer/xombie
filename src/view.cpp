@@ -3,18 +3,15 @@
 #include "engine.h"
 #include "view.h"
 
-void View::update(int dt)
+void View::update(int)
 {
-	dt = 0;
 }
 
-void View::doKeyDown(int key)
+void View::doKeyDown(int)
 {
-	key = 0;
 }
 
-void View::doKeyUp(int key)
+void View::doKeyUp(int)
 {
-	key = 0;
 }
 
