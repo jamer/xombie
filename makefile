@@ -4,7 +4,7 @@ PROJECT = xombie
 EXE = bin/${PROJECT}
 
 CC = g++ -g
-CFLAGS = `sdl-config --cflags` -Wall -W -Isrc -Isrc/item
+CFLAGS = -std=c++0x `sdl-config --cflags` -Wall -W -Isrc -Isrc/item
 LIBS = `sdl-config --libs` -lSDL_mixer -lSDL_ttf -lSDL_image -lSDL_gfx
 
 OBJDIRS = obj obj/item

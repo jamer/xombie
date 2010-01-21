@@ -21,10 +21,9 @@ Long term TODO list:
 	  Definitely remove Sprite superclass.
 
 Short term TODO list:
-	* Change Sprite.move() to include an angle parameter.
+	* Change Sprite::move() to include an angle parameter.
 	* AI needs to follow player.
 	* Audio needs to play more than just a static "Music 1."
-	* Re-randomize item spawn locations.
 	* Do a little research on rotating OpenGL textures for a replacement to
 	  SDL_gfx.
 	* Give guns limited ammo, with ammo pickups.
