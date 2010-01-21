@@ -35,7 +35,7 @@ public:
 	int getMaxClip();
 
 protected:
-	Weapon(const char* type);
+	Weapon(World* world, const char* type);
 	void loadSpecs();
 
 private:

@@ -13,8 +13,8 @@ enum TextQuality {
 
 // Function prototypes
 TTF_Font* loadFont(char* file, int ptsize);
-SDL_Surface* drawText(TTF_Font* fonttodraw, int fgR, int fgG, int fgB,
-		int fgA, int bgR, int bgG, int bgB, int bgA, char text[],
+SDL_Surface* drawText(TTF_Font* fonttodraw, Uint8 fgR, Uint8 fgG, Uint8 fgB,
+		Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[],
 		int /* TextQuality*/ quality);
 
 
@@ -62,8 +62,8 @@ SDL_Surface* renderFont(char* text)
 			text, SOLID);
 }
 
-SDL_Surface* drawText(TTF_Font* fonttodraw, int fgR, int fgG, int fgB,
-		int fgA, int bgR, int bgG, int bgB, int bgA, char text[],
+SDL_Surface* drawText(TTF_Font* fonttodraw, Uint8 fgR, Uint8 fgG, Uint8 fgB,
+		Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[],
 		int /* TextQuality*/ quality)
 {
 	SDL_Color tmpfontcolor = {fgR, fgG, fgB, fgA};

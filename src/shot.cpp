@@ -7,8 +7,9 @@
 Conf shots("conf/shots.conf");
 
 Shot::Shot(const char* type, Sprite* src, int ent)
+	: Sprite(S_CAN_ROTATE)
 {
-	init(type);
+	setGraphicId(type);
 
 	entropy = ent;
 

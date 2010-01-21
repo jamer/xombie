@@ -3,11 +3,13 @@
 #include "item.h"
 #include "random.h"
 
-Item::Item()
-		: dead(false)
+Item::Item(World* w)
+	: Sprite(NULL), world(w), dead(false)
 {
-	int x = randInt(100, getEngine()->getWidth () - 100);
-	int y = randInt(100, getEngine()->getHeight() - 100);
+	SDL_Rect* rect = world->getBounds();
+	int x = randInt(100, rect->w - 100);
+	int y = randInt(100, rect->h - 100);
+
 	setLoc(x, y);
 }
 

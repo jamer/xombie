@@ -1,7 +1,7 @@
 #include "shotgun.h"
 
-Shotgun::Shotgun()
-	: Weapon("shotgun")
+Shotgun::Shotgun(World* world)
+	: Weapon(world, "shotgun")
 {
 	strcpy(name, "Shotgun");
 }

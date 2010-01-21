@@ -39,7 +39,7 @@ World::World(const char* worldName)
 		partymem->setWorld(this);
 		partymem->setLoc(randInt(200, 300), randInt(200, 300));
 		partymem->setAngle(randDouble() * M_PI * 2);
-		partymem->pickUp(new Pistol);
+		partymem->pickUp(new Pistol(this));
 		engine->getParty()->push_back(partymem);
 	}
 
@@ -48,7 +48,7 @@ World::World(const char* worldName)
 		mobs.push_back(zombie);
 	}
 
-	Pistol* pistol = new Pistol();
+	Pistol* pistol = new Pistol(this);
 	pistol->setLoc(150, 150); // FIXME: Shouldn't need to call this.
 	items.push_back(pistol);
 
@@ -118,7 +118,7 @@ void World::update(int dt)
 	static unsigned int itemTimer = SDL_GetTicks() + itemSpawnDelay;
 	while (SDL_GetTicks() >= itemTimer) {
 		// TODO: random item generator
-		Item* item = new FirstAidKit();
+		Item* item = new FirstAidKit(this);
 		items.push_back(item);
 		itemTimer = SDL_GetTicks() + itemSpawnTimer;
 	}

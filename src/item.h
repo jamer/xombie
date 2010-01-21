@@ -7,6 +7,7 @@ class Item;
 
 #include "char.h"
 #include "sprite.h"
+#include "world.h"
 
 class Item : public Sprite
 {
@@ -24,11 +25,14 @@ public:
 	bool isDead();
 
 protected:
-	Item();
+	Item(World* w);
+
 	char name[256];
-	SDL_Surface* invView; // inventory portrait
+	World* world;
 
 	bool dead;
+
+	SDL_Surface* invView; // inventory portrait
 };
 
 #endif // _ITEM_H_

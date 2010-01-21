@@ -46,11 +46,11 @@ Mob* newRandomMob(World* world)
 
 
 Mob::Mob(const char* Type, World* world)
-	: dead(false), dur(0)
+	: Sprite(S_CAN_ROTATE), dead(false), dur(0)
 {
 	strcpy(type, Type);
 
-	init(mobs.getString(type, "Graphic"));
+	setGraphicId(mobs.getString(type, "Graphic"));
 	setSpeed(mobs.getInt(type, "Speed"));
 	hp = mhp = randInt(mobs.getInt(type, "Min HP"), 
 	                   mobs.getInt(type, "Max HP"));
@@ -155,7 +155,7 @@ void Mob::setHP(int HP)
 		hp = mhp;
 
 	if (damagable && hp <= mhp / 2)
-		Sprite::setGraphic(graphicDmg);
+		Sprite::setGraphicId(graphicDmg);
 
 	if (hp <= 0)
 		dead = true;

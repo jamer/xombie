@@ -6,22 +6,15 @@
 #include "imgbase.h"
 #include "sprite.h"
 
-Sprite::Sprite()
+Sprite::Sprite(int flags)
+	: gfxHash(0), loc({0, 0, 0, 0}), angle(0.0), speed(0.0), x(0), y(0)
 {
+	gfxId[0] = '\0';
+	rotates = (bool)flags & S_CAN_ROTATE;
 }
 
 ////////////////////
 // functions
-void Sprite::init(const char* graphicId)
-{
-	loc.x = loc.y = loc.w = loc.h = 0;
-	x = y = 0;
-	speed = 0.0;
-	angle = 0.0;
-
-	setGraphic(graphicId);
-}
-
 void Sprite::move(long dt)
 {
 	double dx =  cos(angle) * speed * dt / 1000.0;
@@ -45,10 +38,16 @@ void Sprite::stayOnScreen()
 
 void Sprite::draw(SDL_Surface* screen)
 {
+#if DEBUG
+	if (gfxId[0] == '\0')
+		throw "Sprite::draw invalid gfxId";
+#endif
+	
 	if (!isOnScreen())
 		return;
 
-	gfx = images.getImage(gfxId, INDEX_FROM_ANGLE(angle), true);
+	if (rotates)
+		gfx = images.getImage(gfxId, INDEX_FROM_ANGLE(angle), true);
 
 	SDL_Rect* rect = getDispLoc();
 	SDL_BlitSurface(getGraphic(), NULL, screen, rect);
@@ -56,7 +55,7 @@ void Sprite::draw(SDL_Surface* screen)
 
 ////////////////////
 // setters
-void Sprite::setGraphic(const char* id)
+void Sprite::setGraphicId(const char* id)
 {
 	strcpy(gfxId, id);
 

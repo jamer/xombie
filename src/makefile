@@ -4,8 +4,8 @@ PROJECT = xombie
 EXE = ../bin/$(PROJECT)
 
 #CC = g++ -march=native -mtune=native -Os
-CC = g++ -g -Wall -W -pedantic
-CFLAGS = `sdl-config --cflags` -Wall -W -I. -Iitem
+CC = g++ -g -DDEBUG -Wall -W -pedantic
+CFLAGS = -std=c++0x `sdl-config --cflags` -Wall -W -I. -Iitem
 LIBS = `sdl-config --libs` -lSDL_mixer -lSDL_ttf -lSDL_image -lSDL_gfx
 
 OBJDIRS = obj/item obj

@@ -8,9 +8,9 @@
 #include "random.h"
 
 Char::Char(const char* graphicId)
-	: currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
+	: Sprite(S_CAN_ROTATE), currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
 {
-	init(graphicId);
+	setGraphicId(graphicId);
 	inv = new Inventory(this);
 }
 
