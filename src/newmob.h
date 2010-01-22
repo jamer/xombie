@@ -2,41 +2,49 @@
 #define NEWMOB_H
 
 #include <list>
+#include "range.h"
+#include "sprite.h"
 #include "xml.h"
 
 using namespace xml;
 
-class IndexedList<class T>
+template <class T1, class T2> struct IndexPair {
+	T1* a;
+	T2* b;
+};
+
+
+template <class T> class IndexedList
 {
-	list<pair<int,T> > l;
-}
+	std::list<IndexPair<int,T> > l;
+};
 
 class Mob
 {
 	int hp, mhp;
-	range damage;
+	Range damage;
 	int speed;
 
 	// Update on health change.
-	graphic g;
+	Sprite g;
 
 	// Update from here.
-	IndexedList<graphic>* graphics;
+	IndexedList<Sprite>* graphics;
 };
 
 class MobPrototype
 {
 public:
-	MobPrototype(int chance, range hp, range damage, int speed, IndexedList<graphic>* graphics);
+	MobPrototype(int chance, Range hp, Range damage, int speed, IndexedList<Sprite>* graphics);
 	Mob* generate();
 
 private:
 	int chance;
-	range hp;
-	range damage;
+	Range hp;
+	Range damage;
 	int speed;
 
-	IndexedList<graphic>* graphics;
+	IndexedList<Sprite>* graphics;
 };
 
 class MobFactory
@@ -49,7 +57,7 @@ private:
 	void parse(document* xml);
 	void parseOne(element* el);
 
-	list<MobPrototype> l;
+	std::list<MobPrototype> l;
 };
 
 #endif // NEWMOB_H

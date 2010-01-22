@@ -1,11 +1,13 @@
 #include "newmob.h"
+#include "random.h"
+#include "xml.h"
 
 
 
 
 
 
-Mob* MobFactory::generateMob()
+Mob* MobFactory::generate()
 {
 	int percent = randInt(1, 100);
 
@@ -37,6 +39,7 @@ Mob* MobFactory::generateMob()
 Mob* MobPrototype::generate()
 {
 	Mob* m = new Mob();
+	return m;
 }
 
 MobFactory::MobFactory()
