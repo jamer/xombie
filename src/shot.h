@@ -9,7 +9,7 @@ class Shot;
 class Shot : public Sprite {
 public:
 	Shot(const char* type, Sprite* src, int entropy);
-	~Shot();
+	virtual ~Shot();
 
 	void update(int dt);
 	void hit(Mob* mob);

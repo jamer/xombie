@@ -91,7 +91,7 @@ void World::playerShoots()
 
 Mob* World::findClosestMob(SDL_Rect* pt)
 {
-	unsigned int shortest = -1;
+	unsigned int shortest = (unsigned int)-1;
 	Mob* m = NULL;
 
 	list<Mob*>::iterator mobit;
@@ -101,7 +101,7 @@ Mob* World::findClosestMob(SDL_Rect* pt)
 		SDL_Rect* ml = mob->getLoc();
 		int b = pt->x - ml->x;
 		int c = pt->y - ml->y;
-		unsigned int dist = sqrt(b*b + c*c);
+		unsigned int dist = (unsigned int)sqrt(b*b + c*c);
 
 		if (dist < shortest) {
 			shortest = dist;

@@ -1,18 +1,27 @@
 PROJECT = xombie
 
-
 EXE = ../bin/$(PROJECT)
 
-#CC = g++ -march=native -mtune=native -Os
-CC = g++ -g -DDEBUG -Wall -W -pedantic
-CFLAGS = -std=c++0x `sdl-config --cflags` -Wall -W -I. -Iitem
-LIBS = `sdl-config --libs` -lSDL_mixer -lSDL_ttf -lSDL_image -lSDL_gfx
+#CXX := $(CXX) -g -DDEBUG
+CFLAGS = -Wall -W -I. -Iitem -Os
+LIBS = -lSDL_mixer -lSDL_ttf -lSDL_image -s -Os
+
+ifneq ($(OS),Windows_NT)
+	CFLAGS := $(CFLAGS) `sdl-config --cflags`
+	LIBS := $(LIBS) `sdl-config --libs`
+else
+	CFLAGS := $(CFLAGS) -I"C:/Dev-Cpp/include/SDL"
+	LIBS := -lSDLmain $(LIBS) -lSDL -lfreetype -mwindows
+endif
+
+
 
 OBJDIRS = obj/item obj
 OBJS = ../obj/audio.o\
        ../obj/char.o\
        ../obj/common.o\
        ../obj/conf.o\
+       ../obj/e.o\
        ../obj/engine.o\
        ../obj/font.o\
        ../obj/fstack.o\
@@ -24,6 +33,7 @@ OBJS = ../obj/audio.o\
        ../obj/mob.o\
        ../obj/random.o\
        ../obj/range.o\
+       ../obj/SDL_rotozoom.o\
        ../obj/shot.o\
        ../obj/sprite.o\
        ../obj/str.o\
@@ -57,8 +67,8 @@ profile: build
 tags:
 	ctags *.cpp *.h
 
-$(EXE): $(OBJDIRS) $(OBJS)
-	$(CC) $(OBJS) $(LIBS) -o $(EXE) 
+$(EXE): $(OBJS)
+	$(CXX) $(OBJS) $(LIBS) -o $(EXE)
 
 obj:
 	mkdir -p obj
@@ -67,10 +77,10 @@ obj/item:
 	mkdir -p obj/item
 
 ../obj/%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CXX) $(CFLAGS) -c -o $@ $<
 
 ../obj/%.o: %.cpp
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CXX) $(CFLAGS) -c -o $@ $<
 
 clean:
 	$(RM) $(OBJS) tags $(EXE)

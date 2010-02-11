@@ -1,4 +1,3 @@
-#include <err.h>
 #include <stdio.h>
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -8,6 +7,7 @@
 #include "audio.h"
 #include "common.h"
 #include "conf.h"
+#include "e.h"
 #include "engine.h"
 #include "font.h"
 #include "imgbase.h"
@@ -87,13 +87,13 @@ SDL_Surface* InitScreen()
 		resize_event.resize.w = width;
 		resize_event.resize.h = height;
 
-		SDL_PushEvent( &resize_event );
+		SDL_PushEvent(&resize_event);
 	}
 
-	SDL_WM_SetCaption( "Xombie", "Xombie" );
+	SDL_WM_SetCaption("Xombie", "Xombie");
 	SetIcon();
 
-	printf( "Created a %ix%i %i-bit window\n", width, height, depth );
+	printf("Created a %ix%i %i-bit window\n", width, height, depth);
 	return screen;
 }
 
@@ -111,11 +111,15 @@ void InitEverything()
 	SDL_WM_SetCaption("Xombie", "Xombie");
 }
 
-
-int main()
+#ifdef WIN32
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+#elif
+int main(int, char* [])
+#endif
 {
 	InitEverything();
 	Engine e(screen);
 	Quit();
+	
+	return 0;
 }
-

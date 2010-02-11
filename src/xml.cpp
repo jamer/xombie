@@ -2,13 +2,13 @@
  * Version 1.2.2 @ 2009/11/7
  */
 
-#include <err.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "common.h"
+#include "e.h"
 #include "xml.h"
 
 namespace xml {

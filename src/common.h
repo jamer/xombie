@@ -14,6 +14,10 @@ void Quit(int code);
 double max(double i1, double i2);
 double min(double i1, double i2);
 
+int max(int i1, int i2);
+int min(int i1, int i2);
+
+
 /** startsWith()
  * return true if s2 starts with s1
  */

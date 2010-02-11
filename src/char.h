@@ -13,7 +13,7 @@ class Char : public Sprite
 {
 public:
 	Char(const char* graphicId);
-	~Char();
+	virtual ~Char();
 
 	void update(int dx, int dy, int dt);
 	void update(int dt);
