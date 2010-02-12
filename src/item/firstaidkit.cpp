@@ -1,10 +1,11 @@
 #include "audio.h"
 #include "firstaidkit.h"
 
-FirstAidKit::FirstAidKit()
+FirstAidKit::FirstAidKit(World* world)
+	: Item(world)
 {
 	strcpy(name, "First Aid Kit");
-	Sprite::init("firstaidkit");
+	Sprite::setGraphicId("firstaidkit");
 }
 
 bool FirstAidKit::doCollision(Char* ch)

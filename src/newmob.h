@@ -8,19 +8,21 @@
 
 using namespace xml;
 
-template <class T1, class T2> struct IndexPair {
-	T1* a;
-	T2* b;
-};
+class MobPrototype;
 
-
-template <class T> class IndexedList
+class IndexedList<class T>
 {
 	std::list<IndexPair<int,T> > l;
 };
 
 class Mob
 {
+public:
+	Mob(MobPrototype* type);
+
+private:
+	void updateGraphic();
+
 	int hp, mhp;
 	Range damage;
 	int speed;
@@ -30,6 +32,8 @@ class Mob
 
 	// Update from here.
 	IndexedList<Sprite>* graphics;
+	
+	MobPrototype* type;
 };
 
 class MobPrototype

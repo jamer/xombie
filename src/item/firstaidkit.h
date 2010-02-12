@@ -7,7 +7,7 @@
 class FirstAidKit : public Item
 {
 public:
-	FirstAidKit();
+	FirstAidKit(World* world);
 	bool doCollision(Char* ch);
 };
 

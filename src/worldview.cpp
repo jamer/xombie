@@ -11,19 +11,19 @@
 
 using std::list;
 
-CombatView::CombatView()
+WorldView::WorldView()
 	: leftPressed(false), rightPressed(false),
 	upPressed(false), downPressed(false), world(NULL)
 {
 	engine = getEngine();
 }
 
-void CombatView::setWorld(World* w)
+void WorldView::setWorld(World* w)
 {
 	world = w;
 }
 
-void CombatView::update(int dt)
+void WorldView::update(int dt)
 {
 	// Once you die, we display a message for three seconds and quit
 	if (IsGameLost()) {
@@ -49,7 +49,7 @@ void CombatView::update(int dt)
 	}
 }
 
-void CombatView::draw()
+void WorldView::draw()
 {
 	// Blank screen buffer
 	SDL_Surface* screen = engine->getScreen();
@@ -147,7 +147,7 @@ void CombatView::draw()
 	SDL_Flip(engine->getScreen());
 }
 
-void CombatView::dropItem()
+void WorldView::dropItem()
 {
 /*
 	Char* p = engine->getPlayer();
@@ -164,7 +164,7 @@ void CombatView::dropItem()
 */
 }
 
-void CombatView::doKeyDown(int key)
+void WorldView::doKeyDown(int key)
 {
 	InventoryView* i;
 
@@ -198,7 +198,7 @@ void CombatView::doKeyDown(int key)
 	}
 }
 
-void CombatView::doKeyUp(int key)
+void WorldView::doKeyUp(int key)
 {
 	if (IsGameLost())
 		return;
@@ -221,7 +221,7 @@ void CombatView::doKeyUp(int key)
 	}
 }
 
-void CombatView::generateInfoText()
+void WorldView::generateInfoText()
 {
 	Char* player = engine->getPlayer();
 

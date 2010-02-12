@@ -6,7 +6,7 @@
 class Shotgun : public Weapon
 {
 public:
-	Shotgun();
+	Shotgun(World* world);
 };
 
 #endif // _SHOTGUN_H_

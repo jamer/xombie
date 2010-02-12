@@ -7,22 +7,19 @@
 #include "sprite.h"
 
 Sprite::Sprite()
+	: loc({0, 0, 0, 0}), angle(0.0), speed(0.0), x(0), y(0)
 {
+	gfxId[0] = '\0';
 }
 
 ////////////////////
 // functions
-void Sprite::init(const char* graphicId)
+void Sprite::move(long dt)
 {
-	loc.x = loc.y = loc.w = loc.h = 0;
-	x = y = 0;
-	speed = 0.0;
-	angle = 0.0;
-
-	setGraphic(graphicId);
+	move(dt, angle);
 }
 
-void Sprite::move(long dt)
+void Sprite::move(long dt, double angle)
 {
 	double dx =  cos(angle) * speed * dt / 1000.0;
 	double dy = -sin(angle) * speed * dt / 1000.0;
@@ -45,10 +42,13 @@ void Sprite::stayOnScreen()
 
 void Sprite::draw(SDL_Surface* screen)
 {
+#if DEBUG
+	if (gfxId[0] == '\0')
+		throw "Sprite::draw() - invalid gfxId";
+#endif
+	
 	if (!isOnScreen())
 		return;
-
-	gfx = images.getImage(gfxId, INDEX_FROM_ANGLE(angle), true);
 
 	SDL_Rect* rect = getDispLoc();
 	SDL_BlitSurface(getGraphic(), NULL, screen, rect);
@@ -56,12 +56,13 @@ void Sprite::draw(SDL_Surface* screen)
 
 ////////////////////
 // setters
-void Sprite::setGraphic(const char* id)
+void Sprite::setGraphicId(const char* id)
 {
 	strcpy(gfxId, id);
+	gfxHash = hash(gfxId);
 
 	// grab the original size
-	gfx = images.getImage(gfxId, 0, true);
+	gfx = images.getImage(gfxId, gfxHash, 0, true);
 	origsz.w = gfx->w;
 	origsz.h = gfx->h;
 }
@@ -69,6 +70,7 @@ void Sprite::setGraphic(const char* id)
 void Sprite::setAngle(double theta)
 {
 	angle = theta;
+	gfx = images.getImage(gfxId, gfxHash, INDEX_FROM_ANGLE(angle), true);
 }
 
 void Sprite::setAngleFromXY(double x, double y)
@@ -100,7 +102,7 @@ void Sprite::setAngleFromXY(double x, double y)
 			theta = 3*M_PI_2;
 	}
 
-	angle = theta;
+	setAngle(theta);
 }
 
 void Sprite::setSpeed(double spd)
@@ -154,13 +156,15 @@ void Sprite::setLoc(short nx, short ny)
 
 bool Sprite::isOnScreen()
 {
+	Engine* engine = getEngine();
+
 	short hw = gfx->w / 2;
 	short hh = gfx->h / 2;
 
 	if (0 < x + hw ||
-	        x - hw < getEngine()->getWidth() ||
+	        x - hw < engine->getWidth() ||
 	    0 < y + hh ||
-	        y - hh < getEngine()->getHeight())
+	        y - hh < engine->getHeight())
 		return true;
 	return false;
 }

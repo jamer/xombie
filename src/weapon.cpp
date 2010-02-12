@@ -9,8 +9,8 @@
 
 static Conf data("conf/weapons.conf");
 
-Weapon::Weapon(const char* weaponType)
-	: wielder(NULL), cooling(false), reloading(false), count(0)
+Weapon::Weapon(World* world, const char* weaponType)
+	: Item(world), wielder(NULL), cooling(false), reloading(false), count(0)
 {
 	char buf[256];
 
@@ -18,7 +18,7 @@ Weapon::Weapon(const char* weaponType)
 
 	strcpy(buf, type);
 	strcat(buf, ".png");
-	Sprite::init(buf);
+	Sprite::setGraphicId(buf);
 
 	strcpy(buf, type);
 	strcat(buf, "-inv.png");

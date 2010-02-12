@@ -35,7 +35,7 @@ public:
 	Str& operator +=(int i);
 	Str& operator +=(long i);
 	Str& operator +=(unsigned long i);
-	Str& operator +=(long long i);
+//	Str& operator +=(long long i);
 
 	bool operator ==(const char* str);
 //	bool operator ==(Str& str);

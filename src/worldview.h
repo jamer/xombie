@@ -1,5 +1,5 @@
-#ifndef _COMBATVIEW_H_
-#define _COMBATVIEW_H_
+#ifndef _WORLDVIEW_H_
+#define _WORLDVIEW_H_
 
 #include <list>
 
@@ -13,10 +13,10 @@
 
 using std::list;
 
-class CombatView : public View
+class WorldView : public View
 {
 public:
-	CombatView();
+	WorldView();
 	void update(int dt);
 	void draw();
 	void doKeyDown(int key);
@@ -39,5 +39,5 @@ private:
 	World* world;
 };
 
-#endif // _COMBATVIEW_H_
+#endif // _WORLDVIEW_H_
 

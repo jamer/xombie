@@ -8,9 +8,11 @@
 #include "random.h"
 
 Char::Char(const char* graphicId)
-	: currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
+	: Sprite(), currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
 {
-	init(graphicId);
+	setSpeed(200.0);
+
+	setGraphicId(graphicId);
 	inv = new Inventory(this);
 }
 
@@ -49,17 +51,14 @@ void Char::update(int dt)
 
 		// Remember, logical screen coordinates have Y values reversed
 		setAngleFromXY(ploc->x - mouse->x, mouse->y - ploc->y);
-		stayOnScreen();
 	}
 	else {
-		setSpeed(200.0);
-
 		// Face nearest mob
-		Mob* m = world->findClosestMob(getLoc());
-		if (m) {
+		Mob* mob = world->findClosestMob(getLoc());
+		if (mob) {
 			SDL_Rect* l = getLoc();
-			SDL_Rect* ml = m->getLoc();
-			setAngleFromXY(l->x - ml->x, ml->y - l->y);
+			SDL_Rect* m = mob->getLoc();
+			setAngleFromXY(l->x - m->x, m->y - l->y);
 		}
 	}
 
@@ -77,7 +76,7 @@ void Char::draw(SDL_Surface* screen)
 void Char::doCollision(Mob* mob)
 {
 	// player is invulnerable while blinking, no collisions
-	if (blinking != 0)
+	if (blinking)
 		return;
 
 	blinking = 2500; // 2.5 seconds

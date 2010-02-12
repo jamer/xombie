@@ -3,16 +3,18 @@
 
 #include <SDL.h>
 
+#define S_CAN_ROTATE 1
+
 class Sprite
 {
 public:
 	Sprite();
-	void init(const char* graphicId);
 	void move(long dt);
+	void move(long dt, double angle);
 	void stayOnScreen();
 	virtual void draw(SDL_Surface* screen);
 
-	void setGraphic(const char* gfx);
+	void setGraphicId(const char* gfx);
 	void setAngle(double theta);
 	void setAngleFromXY(double x, double y);
 	void setLoc(short x, short y);
@@ -29,6 +31,8 @@ public:
 
 protected:
 	char gfxId[128];
+	uint32_t gfxHash;
+
 	SDL_Rect loc; // public location for getLoc
 	SDL_Rect origsz;
 	SDL_Rect tmp;

@@ -18,7 +18,7 @@ Conf mobs("conf/mobs.conf");
  * Chooses a mob at random, based on chance-type data in mobs.conf.
  * Returns a new mob.
  */
-Mob* newRandomMob()
+Mob* newRandomMob(World* world)
 {
 	int count = mobs.getInt("Spawn", "Mob Count");
 	int percent = randInt(1, 100);
@@ -36,7 +36,7 @@ Mob* newRandomMob()
 			typeStr += i;
 
 			const char* type = mobs.getString("Spawn", typeStr);
-			Mob* m = new Mob(type);
+			Mob* m = new Mob(type, world);
 			return m;
 		}
 	}
@@ -45,12 +45,12 @@ Mob* newRandomMob()
 }
 
 
-Mob::Mob(const char* Type)
+Mob::Mob(const char* Type, World* world)
 	: dead(false), dur(0)
 {
 	strcpy(type, Type);
 
-	init(mobs.getString(type, "Graphic"));
+	setGraphicId(mobs.getString(type, "Graphic"));
 	setSpeed(mobs.getInt(type, "Speed"));
 	hp = mhp = randInt(mobs.getInt(type, "Min HP"), 
 	                   mobs.getInt(type, "Max HP"));
@@ -61,13 +61,15 @@ Mob::Mob(const char* Type)
 	if (damagable)
 		graphicDmg = mobs.getString(type, "Damaged graphic");
 
-	generateSpawnPosition();
+	generateSpawnPosition(world);
 }
 
-void Mob::generateSpawnPosition()
+void Mob::generateSpawnPosition(World* world)
 {
 	int screenHeight = getEngine()->getHeight();
 	int screenWidth  = getEngine()->getWidth();
+
+	world = world; // TODO
 
 	// set mob to 45° to compensate for size changes with rotations
 	// 45° is the widest and highest it will ever get
@@ -153,7 +155,7 @@ void Mob::setHP(int HP)
 		hp = mhp;
 
 	if (damagable && hp <= mhp / 2)
-		Sprite::setGraphic(graphicDmg);
+		Sprite::setGraphicId(graphicDmg);
 
 	if (hp <= 0)
 		dead = true;

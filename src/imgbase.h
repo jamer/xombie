@@ -9,6 +9,8 @@
  * 2009-03-11 - Paul
  * 	Redesigned it to load images from disk for you, so no need to
  * 	precache them manually ;-)
+ * 2010-01-21 - Paul
+ * 	Add APIs that make caching the hash more practical.
  */
 
 #include <map>
@@ -32,7 +34,10 @@ void InitImgBase();
 class ImgBase
 {
 public:
-	SDL_Surface* getImage(const char* name, int frame = 0, bool rotate = false);
+	SDL_Surface* getImage(const char* name,
+	        int frame = 0, bool rotate = false);
+	SDL_Surface* getImage(const char* name, uint32_t hash,
+	        int frame = 0, bool rotate = false);
 
 	// For adding custom images
 	void put(const char* name, SDL_Surface* img, DWORD flags);

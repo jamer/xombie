@@ -38,6 +38,11 @@ int INDEX_FROM_ANGLE(double angle)
 SDL_Surface* ImgBase::getImage(const char* name, int frame, bool rotates)
 {
 	int h = hash(name);
+	return getImage(name, h, frame, rotates);
+}
+
+SDL_Surface* ImgBase::getImage(const char* name, uint32_t h, int frame, bool rotates)
+{
 	std::map<int,ImgRef>::iterator img;
 	SDL_Surface* sur;
 
