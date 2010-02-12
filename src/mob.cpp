@@ -1,9 +1,9 @@
-#include <err.h>
 #include <math.h>
 #include <stdlib.h>
 
 #include "common.h"
 #include "conf.h"
+#include "e.h"
 #include "engine.h"
 #include "mob.h"
 #include "random.h"

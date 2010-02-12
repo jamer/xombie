@@ -7,8 +7,9 @@
 #include "sprite.h"
 
 Sprite::Sprite()
-	: loc({0, 0, 0, 0}), angle(0.0), speed(0.0), x(0), y(0)
+	: angle(0.0), speed(0.0), x(0), y(0)
 {
+	loc.w = loc.h = loc.x = loc.y = 0;
 	gfxId[0] = '\0';
 }
 
@@ -27,8 +28,8 @@ void Sprite::move(long dt, double angle)
 	x = (double)x + (double)dx;
 	y = (double)y + (double)dy;
 
-	loc.x = x;
-	loc.y = y;
+	loc.x = (Sint16)x;
+	loc.y = (Sint16)y;
 }
 
 void Sprite::stayOnScreen()
@@ -150,8 +151,8 @@ void Sprite::setLoc(short nx, short ny)
 {
 	x = nx;
 	y = ny;
-	loc.x = x;
-	loc.y = y;
+	loc.x = nx;
+	loc.y = ny;
 }
 
 bool Sprite::isOnScreen()

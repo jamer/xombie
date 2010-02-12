@@ -110,12 +110,6 @@ Str& Str::operator +=(long i) {
 	return operator +=(buf);
 }
 
-Str& Str::operator +=(unsigned long i) {
-	char buf[64];
-	ltoa(i, buf, 10);
-	return operator +=(buf);
-}
-
 #if 0
 Str& Str::operator +=(long long i) {
 	char buf[64];

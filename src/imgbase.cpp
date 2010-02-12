@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_rotozoom.h>
+#include "SDL_rotozoom.h"
 
 // For loading directories
 #include <dirent.h>
@@ -31,7 +31,7 @@ int INDEX_FROM_ANGLE(double angle)
 		angle -= 2 * M_PI;
 	while (angle < 0)
 		angle += 2 * M_PI;
-	return floor(angle * imageAngles / (2*M_PI));
+	return (int)floor(angle * imageAngles / (2*M_PI));
 }
 
 

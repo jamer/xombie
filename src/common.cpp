@@ -1,9 +1,9 @@
-#include <err.h>
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <sys/stat.h>
 
 #include "common.h"
+#include "e.h"
 
 void Quit()
 {
@@ -23,6 +23,16 @@ double max(double i1, double i2)
 }
 
 double min(double i1, double i2)
+{
+	return (i1 > i2 ? i2 : i1);
+}
+
+int max(int i1, int i2)
+{
+	return (i1 < i2 ? i2 : i1);
+}
+
+int min(int i1, int i2)
 {
 	return (i1 > i2 ? i2 : i1);
 }

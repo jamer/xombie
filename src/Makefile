@@ -1,17 +1,27 @@
 PROJECT = xombie
 
+EXE = ../bin/$(PROJECT)
 
-EXE = ../bin/${PROJECT}
+#CXX := $(CXX) -g -DDEBUG
+CFLAGS = -Wall -W -I. -Iitem -Os
+LIBS = -lSDL_mixer -lSDL_ttf -lSDL_image -s -Os
 
-#CC = g++ -march=native -mtune=native -Os
-CC = g++ -g
-CFLAGS = `sdl-config --cflags` -Wall -W -I. -Iitem
-LIBS = `sdl-config --libs` -lSDL_mixer -lSDL_ttf -lSDL_image -lSDL_gfx
+ifneq ($(OS),Windows_NT)
+	CFLAGS := $(CFLAGS) `sdl-config --cflags`
+	LIBS := $(LIBS) `sdl-config --libs`
+else
+	CFLAGS := $(CFLAGS) -I"C:/Dev-Cpp/include/SDL"
+	LIBS := -lSDLmain $(LIBS) -lSDL -lfreetype -mwindows
+endif
 
+
+
+OBJDIRS = ../obj/item ../obj
 OBJS = ../obj/audio.o\
        ../obj/char.o\
        ../obj/common.o\
        ../obj/conf.o\
+       ../obj/e.o\
        ../obj/engine.o\
        ../obj/font.o\
        ../obj/fstack.o\
@@ -21,9 +31,10 @@ OBJS = ../obj/audio.o\
        ../obj/item.o\
        ../obj/main.o\
        ../obj/mob.o\
-       ../obj/newmob.o\
+#       ../obj/newmob.o\
        ../obj/random.o\
        ../obj/range.o\
+       ../obj/SDL_rotozoom.o\
        ../obj/shot.o\
        ../obj/sprite.o\
        ../obj/str.o\
@@ -43,32 +54,36 @@ all: build
 
 re: clean build
 
-build: ${EXE}
+build: $(EXE)
 
 run: build
-	(cd ../bin; ./${PROJECT})
+	(cd ../bin; ./$(PROJECT))
 
 debug: build
-	(cd ../bin; gdb ${PROJECT})
+	(cd ../bin; gdb $(PROJECT))
 
 profile: build
-	(cd ../bin; ./${PROJECT}; gprof ${PROJECT} > profile.txt; firefox profile.txt&)
+	(cd ../bin; ./$(PROJECT); gprof $(PROJECT) > profile.txt; firefox profile.txt&)
 
 tags:
 	ctags *.cpp *.h
 
-${EXE}: ../obj ${OBJS}
-	$(CC) ${OBJS} ${LIBS} -o ${EXE} 
+$(EXE): $(OBJS)
+	$(CXX) $(OBJS) $(LIBS) -o $(EXE)
 
 ../obj:
-	mkdir -p ../obj ../obj/item
+	mkdir -p $<
+
+../obj/item:
+	mkdir -p $<
 
 ../obj/%.o: %.c
-	$(CC) ${CFLAGS} -c -o $@ $<
+	$(CXX) $(CFLAGS) -c -o $@ $<
 
 ../obj/%.o: %.cpp
-	$(CC) ${CFLAGS} -c -o $@ $<
+	$(CXX) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -rf ${OBJS} ${EXE} tags ../obj/item ../obj
+	$(RM) $(OBJS) tags $(EXE)
+	$(RM) -r $(OBJDIRS)
 
