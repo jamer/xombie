@@ -31,7 +31,6 @@ OBJS = ../obj/audio.o\
        ../obj/item.o\
        ../obj/main.o\
        ../obj/mob.o\
-#       ../obj/newmob.o\
        ../obj/random.o\
        ../obj/range.o\
        ../obj/SDL_rotozoom.o\
