@@ -26,12 +26,8 @@ public:
 
 private:
 	void dropItem();
-	void generateInfoText();
-
-	char tldisplay[512]; // top left
-	char bldisplay[512]; // bottom left
-	char trdisplay[512]; // top right
-	char brdisplay[512]; // bottom right
+	void generateInfoText(char** tldisplay, char** trdisplay,
+			char** bldisplay, char** brdisplay);
 
 	bool leftPressed, rightPressed, upPressed, downPressed;
 

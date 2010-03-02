@@ -2,9 +2,9 @@ PROJECT = xombie
 
 EXE = ../bin/$(PROJECT)
 
-#CXX := $(CXX) -g -DDEBUG
-CFLAGS = -Wall -W -I. -Iitem -Os
-LIBS = -lSDL_mixer -lSDL_ttf -lSDL_image -s -Os
+CXX := $(CXX) -g -DDEBUG
+CFLAGS = -Wall -W -I. -Iitem
+LIBS = -lSDL_mixer -lSDL_ttf -lSDL_image
 
 ifneq ($(OS),Windows_NT)
 	CFLAGS := $(CFLAGS) `sdl-config --cflags`
@@ -56,7 +56,7 @@ re: clean build
 build: $(EXE)
 
 run: build
-	(cd ../bin; ./$(PROJECT))
+	@(cd ../bin; echo \ \ ./$(PROJECT); ./$(PROJECT))
 
 debug: build
 	(cd ../bin; gdb $(PROJECT))
@@ -68,7 +68,8 @@ tags:
 	ctags *.cpp *.h
 
 $(EXE): $(OBJS)
-	$(CXX) $(OBJS) $(LIBS) -o $(EXE)
+	@echo \ \ CXX $(EXE)
+	@$(CXX) $(OBJS) $(LIBS) -o $(EXE)
 
 ../obj:
 	mkdir -p $<
@@ -77,12 +78,13 @@ $(EXE): $(OBJS)
 	mkdir -p $<
 
 ../obj/%.o: %.c
-	$(CXX) $(CFLAGS) -c -o $@ $<
+	@echo \ \ CXX $<
+	@$(CXX) $(CFLAGS) -c -o $@ $<
 
 ../obj/%.o: %.cpp
-	$(CXX) $(CFLAGS) -c -o $@ $<
+	@echo \ \ CXX $<
+	@$(CXX) $(CFLAGS) -c -o $@ $<
 
 clean:
 	$(RM) $(OBJS) tags $(EXE)
-	$(RM) -r $(OBJDIRS)
 
