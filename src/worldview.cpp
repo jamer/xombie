@@ -102,47 +102,6 @@ void WorldView::draw()
 	for (ci = party->rbegin(); ci != party->rend(); ci++)
 		(*ci)->draw(screen);
 
-	// Render text
-	SDL_Surface* text;
-	SDL_Rect location;
-
-	generateInfoText();
-
-	// top left text
-	if (tldisplay[0] != 0) {
-		text = renderFont(tldisplay);
-		location.x = location.y = 5;
-		SDL_BlitSurface(text, NULL, screen, &location);
-		SDL_FreeSurface(text);
-	}
-
-	// top right text
-	if (trdisplay[0] != 0) {
-		text = renderFont(trdisplay);
-		location.x = engine->getWidth() - 5 - text->w;
-		location.y = 5;
-		SDL_BlitSurface(text, NULL, screen, &location);
-		SDL_FreeSurface(text);
-	}
-
-	// bottom left text
-	if (bldisplay[0] != 0) {
-		text = renderFont(bldisplay);
-		location.x = 5;
-		location.y = engine->getHeight() - 5 - text->h;
-		SDL_BlitSurface(text, NULL, screen, &location);
-		SDL_FreeSurface(text);
-	}
-
-	// bottom right text
-	if (brdisplay[0] != 0) {
-		text = renderFont(brdisplay);
-		location.x = engine->getWidth() - 5 - text->w;
-		location.y = engine->getHeight() - 5 - text->h;
-		SDL_BlitSurface(text, NULL, screen, &location);
-		SDL_FreeSurface(text);
-	}
-
 	// Show it
 	SDL_Flip(engine->getScreen());
 }
@@ -219,70 +178,5 @@ void WorldView::doKeyUp(int key)
 		default:
 			break;
 	}
-}
-
-void WorldView::generateInfoText()
-{
-	Char* player = engine->getPlayer();
-
-	strcpy(tldisplay, "No movement");
-	strcpy(trdisplay, "");
-
-	const char* dir;
-
-	// Get angle
-	double theta = player->getAngle();
-	if (theta == 0.0)
-		dir = "E";
-	else if (theta < M_PI_2)
-		dir = "NE";
-	else if (theta == M_PI_2)
-		dir = "N";
-	else if (theta < M_PI)
-		dir = "NW";
-	else if (theta == M_PI)
-		dir = "W";
-	else if (theta < 3 * M_PI_2)
-		dir = "SW";
-	else if (theta == 3 * M_PI_2)
-		dir = "S";
-	else
-		dir = "SE";
-
-	sprintf(tldisplay, "theta = %f, dir = %s, x = %f, y = %f", theta, dir,
-	        cos(theta), sin(theta));
-
-	sprintf(trdisplay, "Score: %d", engine->getScore());
-
-	sprintf(bldisplay, "HP: %d, you are at (%i, %i)",
-	        player->getHP(),
-	        player->getLoc()->x, player->getLoc()->y);
-
-	// bottom right display --> weapon status + # of zombies
-	char zombies[256];
-	int sz = world->getMobs()->size();
-	if (sz)
-		sprintf(zombies, ", %d zombies", sz);
-	else
-		strcpy(zombies, "");
-
-	char wdisp[256];
-	Weapon* weapon = engine->getPlayer()->getInventory()->getWeapon();
-	if (weapon == NULL)
-		strcpy(wdisp, "No weapon");
-	else {
-		int status = weapon->tryShot();
-		if (status == SHOOT)
-			sprintf(wdisp, "%d/%d shots",
-			        weapon->getClip(), weapon->getMaxClip());
-		else if (status == COOLDOWN)
-			sprintf(wdisp, "cooling %d/%d shots",
-			        weapon->getClip(), weapon->getMaxClip());
-		else if (status == RELOAD)
-			sprintf(wdisp, "reloading 0/%d shots",
-			        weapon->getMaxClip());
-	}
-
-	sprintf(brdisplay, "%s%s", wdisp, zombies);
 }
 
