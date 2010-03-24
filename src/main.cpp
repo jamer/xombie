@@ -113,7 +113,7 @@ void InitEverything()
 
 #ifdef WIN32
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
-#elif
+#else
 int main(int, char* [])
 #endif
 {

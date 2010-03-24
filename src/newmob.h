@@ -10,9 +10,10 @@ using namespace xml;
 
 class MobPrototype;
 
-class IndexedList<class T>
+struct GraphicDamage
 {
-	std::list<IndexPair<int,T> > l;
+	Sprite* graphic;
+	int health;
 };
 
 class Mob
@@ -31,7 +32,7 @@ private:
 	Sprite g;
 
 	// Update from here.
-	IndexedList<Sprite>* graphics;
+	std::list<Sprite>* graphics;
 	
 	MobPrototype* type;
 };

@@ -84,5 +84,4 @@ $(EXE): $(OBJS)
 
 clean:
 	$(RM) $(OBJS) tags $(EXE)
-	$(RM) -r $(OBJDIRS)
 
