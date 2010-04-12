@@ -151,7 +151,8 @@ void WorldView::doKeyDown(int key)
 //			dropItem();
 			break;
 		case SDLK_ESCAPE:
-			Quit();
+			getEngine()->closeView();
+			break;
 		default:
 			break;
 	}
@@ -178,5 +179,9 @@ void WorldView::doKeyUp(int key)
 		default:
 			break;
 	}
+}
+
+void WorldView::close()
+{
 }
 

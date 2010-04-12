@@ -16,7 +16,7 @@ Str::Str(int len) : data(NULL), len(0), alloc(0) {
 }
 
 Str::~Str() {
-	free();
+	freeStr();
 }
 
 int Str::length() {
@@ -25,7 +25,7 @@ int Str::length() {
 
 void Str::buffer(int sz) {
 	if (len == 0) {
-		free();
+		freeStr();
 		data = new char[sz];
 		alloc = sz;
 		return;
@@ -36,7 +36,7 @@ void Str::buffer(int sz) {
 	char* newData = new char[sz];
 	strcpy(newData, data);
 
-	free();
+	freeStr();
 	len = l;
 	alloc = sz;
 	data = newData;
@@ -47,10 +47,10 @@ inline void Str::expand(int sz) {
 		buffer(alloc * 3 + 1);
 }
 
-void Str::free() {
+void Str::freeStr() {
 	if (data == NULL)
 		return;
-	delete data;
+	delete[] data;
 	data = NULL;
 	len = alloc = 0;
 }

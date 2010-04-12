@@ -13,6 +13,11 @@ Sprite::Sprite()
 	gfxId[0] = '\0';
 }
 
+Sprite::~Sprite()
+{
+	
+}
+
 ////////////////////
 // functions
 void Sprite::move(long dt)
@@ -63,15 +68,16 @@ void Sprite::setGraphicId(const char* id)
 	gfxHash = hash(gfxId);
 
 	// grab the original size
-	gfx = images.getImage(gfxId, gfxHash, 0, true);
+	gfx = getImgBase()->getImage(gfxId, gfxHash, 0, true);
 	origsz.w = gfx->w;
 	origsz.h = gfx->h;
 }
 
 void Sprite::setAngle(double theta)
 {
+	ImgBase* base = getImgBase();
 	angle = theta;
-	gfx = images.getImage(gfxId, gfxHash, INDEX_FROM_ANGLE(angle), true);
+	gfx = base->getImage(gfxId, gfxHash, base->indexFromAngle(angle), true);
 }
 
 void Sprite::setAngleFromXY(double x, double y)

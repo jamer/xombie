@@ -3,6 +3,8 @@
 
 class Range
 {
+public:
+	Range();
 	Range(int min, int max);
 	Range(const char* str);
 	int get();
@@ -12,8 +14,8 @@ private:
 	int max;
 
 	/** parse()
-	 * Try to parse a number range from a string. Returns false if invalid string
-	 * used.
+	 * Try to parse a number range from a string. Returns false if invalid
+	 * string used.
 	 */
 	bool parse(const char* s);
 };

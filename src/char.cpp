@@ -18,7 +18,7 @@ Char::Char(const char* graphicId)
 
 Char::~Char()
 {
-	free(inv);
+	delete inv;
 }
 
 /**

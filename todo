@@ -1,3 +1,7 @@
+* Shots, Mobs has a global Conf. Make a map<Conf> to access global conf files. Can
+  go in ConfManager or something. That way, it's easy to free() them, too.
+
+
 Non-engineering jobs:
 	* Additional or higher quality artwork/graphics.
 	* Free (as in speech) sound effects and music.

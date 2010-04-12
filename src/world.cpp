@@ -58,6 +58,28 @@ World::World(const char* worldName)
 	bounds.h = 480;
 }
 
+World::~World()
+{
+	list<Item*>::iterator itemit;
+	list<Mob*>::iterator mobit;
+	list<Char*>::iterator charit;
+	list<Shot*>::iterator shotit;
+
+	for (itemit = items.begin(); itemit != items.end(); itemit++)
+		delete *itemit;
+	for (mobit = mobs.begin(); mobit != mobs.end(); mobit++)
+		delete *mobit;
+	for (charit = neutrals.begin(); charit != neutrals.end(); charit++)
+		delete *charit;
+	for (shotit = shots.begin(); shotit != shots.end(); shotit++)
+		delete *shotit;
+	
+	items.clear();
+	mobs.clear();
+	neutrals.clear();
+	shots.clear();
+}
+
 list<Item*>* World::getItems()
 {
 	return &items;

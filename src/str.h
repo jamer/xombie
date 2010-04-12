@@ -16,7 +16,7 @@ public:
 	// Methods
 	int length();
 	void buffer(int len);
-	void free();
+	void freeStr();
 	char* copy();
 
 	operator const char*();

@@ -9,22 +9,12 @@
 
 #include "common.h"
 #include "conf.h"
+#include "engine.h"
 #include "imgbase.h"
 
-// Pre-render rotations with this number of angles
-//  more looks better but takes a bit longer to load
-//  and uses more memory
-int imageAngles;
+ImgBase* images;
 
-ImgBase images;
-
-
-void InitImgBase()
-{
-	imageAngles = globals->getInt("Graphics", "Pre-rendered angles", 36);
-}
-
-int INDEX_FROM_ANGLE(double angle)
+int ImgBase::indexFromAngle(double angle)
 {
 	angle += 2 * M_PI / imageAngles / 2;
 	while (angle > 2 * M_PI)
@@ -34,6 +24,24 @@ int INDEX_FROM_ANGLE(double angle)
 	return (int)floor(angle * imageAngles / (2*M_PI));
 }
 
+ImgBase::ImgBase()
+{
+	images = this;
+	imageAngles = globals->getInt("Graphics", "Pre-rendered angles", 36);	
+}
+
+ImgBase::~ImgBase()
+{
+	std::map<int, ImgRef*>::iterator it;
+	for (it = base.begin(); it != base.end(); it++) {
+		ImgRef* ref = it->second;
+		for (int i = 0; i < imageAngles; i++)
+			if (ref->images[i])
+				SDL_FreeSurface(ref->images[i]);
+		free(ref);
+	}
+	base.clear();
+}
 
 SDL_Surface* ImgBase::getImage(const char* name, int frame, bool rotates)
 {
@@ -43,13 +51,13 @@ SDL_Surface* ImgBase::getImage(const char* name, int frame, bool rotates)
 
 SDL_Surface* ImgBase::getImage(const char* name, uint32_t h, int frame, bool rotates)
 {
-	std::map<int,ImgRef>::iterator img;
+	std::map<int,ImgRef*>::iterator img;
 	SDL_Surface* sur;
 
 	// finally, just get image
 	img = base.find(h);
 	if (img != base.end()) {
-		ImgRef* ir = &img->second;
+		ImgRef* ir = img->second;
 		sur = ir->images[frame];
 		return sur;
 	}
@@ -68,10 +76,10 @@ SDL_Surface* ImgBase::lookForImg(const char* name, int frame, bool rotates)
 	}
 
 	dirent* dent = NULL;
-	char* fileName = NULL;
+	char fileName[512];
 	while ((dent = readdir(dir))) {
 		if (startsWith(name, dent->d_name)) { 
-			fileName = dent->d_name;
+			strcpy(fileName, dent->d_name);
 			break;
 		}
 	}
@@ -126,7 +134,11 @@ void ImgBase::put(const char* name, SDL_Surface* img, DWORD flags)
 	}
 
 	// Save
-	base[h] = *ref;
+	base[h] = ref;
 }
 
+ImgBase* getImgBase()
+{
+	return images;
+}
 

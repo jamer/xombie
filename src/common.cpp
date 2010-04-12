@@ -1,21 +1,8 @@
 #include <SDL.h>
-#include <SDL_ttf.h>
 #include <sys/stat.h>
 
 #include "common.h"
 #include "e.h"
-
-void Quit()
-{
-	Quit(0);
-}
-
-void Quit(int code)
-{
-	SDL_Quit();
-	TTF_Quit();
-	exit(code);
-}
 
 double max(double i1, double i2)
 {
@@ -113,8 +100,7 @@ bool readLine(FILE* f, char* buffer, int len)
 				return false;
 			}
 			else {
-				perror("Read file failed");
-				Quit(1);
+				err(1, "Read file failed");
 			}
 		}
 

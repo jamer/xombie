@@ -17,6 +17,7 @@ class World
 {
 public:
 	World(const char* worldName);
+	~World();
 
 	list<Item*>* getItems();
 	list<Mob*>* getMobs();

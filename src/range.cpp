@@ -4,6 +4,11 @@
 #include "range.h"
 #include "random.h"
 
+Range::Range()
+		: min(0), max(0)
+{
+}
+
 Range::Range(int n, int x)
 		: min(n), max(x)
 {
@@ -14,14 +19,18 @@ Range::Range(const char* str)
 	parse(str);
 }
 
-int Range::get() {
+int Range::get()
+{
+	if (min <= max)
+		return min;
 	return randInt(min, max);
 }
 
 /** parse()
  * This function is -extremely- innefficient. I wrote it in a hurry.
  */
-bool Range::parse(const char* s) {
+bool Range::parse(const char* s)
+{
 	// TODO: at failure points, add return false
 	const char* sep = strchr(s, '-');
 	if (sep == NULL) {

@@ -2,7 +2,7 @@ PROJECT = xombie
 
 EXE = ../bin/$(PROJECT)
 
-CXX := $(CXX) -g -DDEBUG
+CXX := $(CXX) -g -DDEBUG -pg
 CFLAGS = -Wall -W -I. -Iitem
 LIBS = -lSDL_mixer -lSDL_ttf -lSDL_image
 
@@ -53,13 +53,20 @@ all: build
 
 re: clean build
 
-build: $(EXE)
+build: ../obj ../obj/item $(EXE)
 
 run: build
 	@(cd ../bin; echo \ \ ./$(PROJECT); ./$(PROJECT))
 
 debug: build
 	(cd ../bin; gdb $(PROJECT))
+
+valstdout: build
+	(cd ../bin; uberval ./$(PROJECT))
+
+val: build
+	(cd ../bin; uberval ./$(PROJECT) > val.out 2>&1)
+	gedit ../bin/val.out &
 
 profile: build
 	(cd ../bin; ./$(PROJECT); gprof $(PROJECT) > profile.txt; firefox profile.txt&)
@@ -72,10 +79,10 @@ $(EXE): $(OBJS)
 	@$(CXX) $(OBJS) $(LIBS) -o $(EXE)
 
 ../obj:
-	mkdir -p $<
+	@mkdir -p $@
 
 ../obj/item:
-	mkdir -p $<
+	@mkdir -p $@
 
 ../obj/%.o: %.c
 	@echo \ \ CXX $<
@@ -87,4 +94,5 @@ $(EXE): $(OBJS)
 
 clean:
 	$(RM) $(OBJS) tags $(EXE)
+	rmdir ../obj/item ../obj
 

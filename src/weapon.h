@@ -7,6 +7,7 @@ class Weapon;
 
 #include "char.h"
 #include "item.h"
+#include "range.h"
 #include "shot.h"
 
 using std::list;
@@ -14,7 +15,7 @@ using std::list;
 enum action {
 	SHOOT,
 	COOLDOWN,
-	RELOAD
+	LOAD
 };
 
 class Weapon : public Item
@@ -31,8 +32,9 @@ public:
 	action tryShot();
 	void doShot(list<Shot*>* shots);
 
-	int getClip();
+	int getShotsRemaining();
 	int getMaxClip();
+	bool isEmpty();
 
 protected:
 	Weapon(World* world, const char* type);
@@ -42,20 +44,22 @@ private:
 	char* type;
 	Char* wielder;
 
-	char ammo[256];
+	char* ammo;
 	int shots;
-	int entropy;
+	Range inaccuracy;
 
 	int clipsize;
 	int clip; // current ammo in clip
 
 	bool cooling;
-	int cooldown;
+	Range cooldownDuration;
+	int coolTime;
 
-	bool reloading;
-	int reload;
+	bool loading;
+	Range loadDuration;
+	int loadTime;
 
-	int count;
+	char* loadSnd;
 };
 
 #endif // _WEAPON_H_

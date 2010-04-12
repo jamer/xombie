@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "conf.h"
+#include "engine.h"
 
 using std::map;
 
@@ -60,9 +61,32 @@ Conf::Conf(const char* filename)
 
 			data[sectionh][keyh] = val;
 		}
+		
+		free(line);
 	}
 
 	fclose(f);
+}
+
+Conf::~Conf()
+{
+//	std::map<int, std::map<int, char*> > 
+
+	std::map<int, std::map<int, char*> >::iterator it;
+	for (it = data.begin(); it != data.end(); it++) {
+	}
+	data.clear();
+#if 0
+	std::map<int, ImgRef*>::iterator it;
+	for (it = base.begin(); it != base.end(); it++) {
+		ImgRef* ref = it->second;
+		for (int i = 0; i < imageAngles; i++)
+			if (ref->images[i])
+				SDL_FreeSurface(ref->images[i]);
+		free(ref);
+	}
+	base.clear();
+#endif
 }
 
 
@@ -125,6 +149,21 @@ int Conf::getInt(const char* section, const char* key, int def)
 	i = atoi(str);
 
 	return i;
+}
+
+Range Conf::getRange(const char* section, const char* key,
+		int deflow, int defhigh)
+{
+	const char* str;
+	Range def(deflow, defhigh);
+
+	str = getString(section, key);
+	if (str == NULL)
+		return def;
+
+	Range r(str);
+
+	return r;
 }
 
 /**

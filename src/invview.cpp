@@ -20,7 +20,7 @@ void InventoryView::draw()
 	Engine* engine = getEngine();
 	SDL_Surface* screen = engine->getScreen();
 
-	SDL_Surface* invbg = images.getImage("inventory");
+	SDL_Surface* invbg = getImgBase()->getImage("inventory");
 	SDL_Rect bgrect;
 
 	bgrect.w = invbg->w;

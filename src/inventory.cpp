@@ -14,7 +14,9 @@ Inventory::~Inventory()
 	for (int i = 0; i < INV_SZ; i++)
 		if (items[i])
 			delete items[i];
-	delete items;
+	delete[] items;
+	if (weapon)
+		delete weapon;
 }
 
 bool Inventory::addItem(Item* item)

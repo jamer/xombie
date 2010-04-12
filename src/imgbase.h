@@ -23,17 +23,12 @@
 #define IB_PUT			0x000000 // no flags
 #define IB_IMAGE_ROTATES	0x000001 // rotating image
 
-/**
- * Get an image index for if you're using a rotational object
- */
-int INDEX_FROM_ANGLE(double angle);
-
-
-void InitImgBase();
-
 class ImgBase
 {
 public:
+	ImgBase();
+	~ImgBase();
+
 	SDL_Surface* getImage(const char* name,
 	        int frame = 0, bool rotate = false);
 	SDL_Surface* getImage(const char* name, uint32_t hash,
@@ -41,6 +36,11 @@ public:
 
 	// For adding custom images
 	void put(const char* name, SDL_Surface* img, DWORD flags);
+
+	/**
+	 * Get an image index for if you're using a rotational object
+	 */
+	int indexFromAngle(double angle);
 
 private:
 	// Look for && load image not in db
@@ -51,10 +51,14 @@ private:
 		SDL_Surface** images;
 	};
 
-	std::map<int, ImgRef> base;
+	std::map<int, ImgRef*> base;
+	
+	// Pre-render rotations with this number of angles. The more angles, the better
+	//  it looks but it takes a bit longer to load and uses more memory.
+	int imageAngles;
 };
 
-extern ImgBase images;
+ImgBase* getImgBase();
 
 #endif // _IMGBASE_H_
 

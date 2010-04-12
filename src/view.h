@@ -8,6 +8,7 @@ public:
 	virtual void draw() = 0;
 	virtual void doKeyDown(int key);
 	virtual void doKeyUp(int key);
+	virtual void close();
 };
 
 #endif // _VIEW_H_

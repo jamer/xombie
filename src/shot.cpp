@@ -6,8 +6,8 @@
 
 Conf shots("conf/shots.conf");
 
-Shot::Shot(const char* type, Sprite* src, int ent)
-	: entropy(ent)
+Shot::Shot(const char* type, Sprite* src, Range inaccuracy)
+	: entropy(inaccuracy.get())
 {
 	setGraphicId(type);
 
@@ -26,7 +26,7 @@ Shot::Shot(const char* type, Sprite* src, int ent)
 	double variation = ((randDouble() - 0.5) * maxVariation) + 1.0;
 	setSpeed((double)shots.getInt(type, "Speed", 400) * variation);
 
-	damage = shots.getInt(type, "Damage");
+	damage = shots.getRange(type, "Damage", 1, 2);
 	dur = shots.getInt(type, "Duration", 10000);
 	time = 0;
 	dead = false;
@@ -50,7 +50,7 @@ void Shot::update(int dt)
 
 void Shot::hit(Mob* mob)
 {
-	mob->setHP(mob->getHP() - damage);
+	mob->setHP(mob->getHP() - damage.get());
 	dead = true;
 
 	getAudio()->play("Bullet hit body");

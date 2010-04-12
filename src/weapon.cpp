@@ -4,13 +4,14 @@
 #include "audio.h"
 #include "common.h"
 #include "conf.h"
+#include "e.h"
 #include "imgbase.h"
 #include "weapon.h"
 
 static Conf data("conf/weapons.conf");
 
 Weapon::Weapon(World* world, const char* weaponType)
-	: Item(world), wielder(NULL), cooling(false), reloading(false), count(0)
+	: Item(world), wielder(NULL), cooling(false), loading(false)
 {
 	char buf[256];
 
@@ -22,24 +23,39 @@ Weapon::Weapon(World* world, const char* weaponType)
 
 	strcpy(buf, type);
 	strcat(buf, "-inv.png");
-	invView = images.getImage(buf);
+	invView = getImgBase()->getImage(buf);
 
 	loadSpecs();
+	
+	clip = clipsize;
 }
 
 Weapon::~Weapon()
 {
-	free(type);
+	if (type)
+		free(type);
+	if (ammo)
+		free(ammo);
+	if (loadSnd)
+		free(loadSnd);
 }
 
 void Weapon::loadSpecs()
 {
-	strcpy(ammo,      data.getString(type, "Ammo", "bullet"));
-	clip = clipsize = data.getInt(type, "Clip size", 1);
-	cooldown        = data.getInt(type, "Cooldown", 0);
-	reload          = data.getInt(type, "Reload", 0);
-	shots           = data.getInt(type, "Shots", 1);
-	entropy         = data.getInt(type, "Entropy", 0);
+	ammo             = strdup(data.getString(type, "Ammo", NULL));
+	if (!ammo)
+		err(1, "Weapon must have an ammo type.");
+
+	clipsize         = data.getInt(type, "Clip size", 1);
+	inaccuracy       = data.getRange(type, "Inaccuracy", 0, 3);
+	cooldownDuration = data.getRange(type, "Cooldown", 700, 900);
+	loadDuration     = data.getRange(type, "Load time", 2000, 2200);
+	shots            = data.getInt(type, "Shots", 1);
+
+	const char* sound;
+
+	sound           = data.getString(type, "Loading sound", NULL);
+	loadSnd         = sound ? strdup(sound) : NULL;
 }
 
 bool Weapon::isWeapon()
@@ -49,18 +65,18 @@ bool Weapon::isWeapon()
 
 void Weapon::update(int dt)
 {
-	if (reloading) {
-		count -= dt;
-		count = max(count, 0);
-		if (count == 0) {
-			reloading = false;
+	if (loading) {
+		loadTime -= dt;
+		loadTime = max(loadTime, 0);
+		if (loadTime == 0) {
+			loading = false;
 			clip = clipsize;
 		}
 	}
 	else if (cooling) {
-		count -= dt;
-		count = max(count, 0);
-		if (count == 0) {
+		coolTime -= dt;
+		coolTime = max(coolTime, 0);
+		if (coolTime == 0) {
 			cooling = false;
 		}
 	}
@@ -79,8 +95,8 @@ void Weapon::setWielder(Char* ch)
 
 action Weapon::tryShot()
 {
-	if (reloading)
-		return RELOAD;
+	if (loading)
+		return LOAD;
 	if (cooling)
 		return COOLDOWN;
 	return SHOOT;
@@ -89,25 +105,30 @@ action Weapon::tryShot()
 
 void Weapon::doShot(list<Shot*>* shotlist)
 {
-	clip--;
+	if (cooling || loading)
+		return;
 
-	if (clip == 0) {
-		getAudio()->play("Load clip");
-		reloading = true;
-		count = reload;
-	}
-	else {
+	if (getShotsRemaining()) {
+		clip--;
+
 		cooling = true;
-		count = cooldown;
+		coolTime = cooldownDuration.get();
+
+		for (int i = 0; i < shots; i++) {
+			Shot* shot = new Shot(ammo, wielder, inaccuracy);
+			shotlist->push_back(shot);
+		}
 	}
 
-	for (int i = 0; i < shots; i++) {
-		Shot* shot = new Shot(ammo, wielder, entropy);
-		shotlist->push_back(shot);
+	else {
+		if (loadSnd)
+			getAudio()->play(loadSnd);
+		loading = true;
+		loadTime = loadDuration.get();
 	}
 }
 
-int Weapon::getClip()
+int Weapon::getShotsRemaining()
 {
 	return clip;
 }
@@ -115,5 +136,10 @@ int Weapon::getClip()
 int Weapon::getMaxClip()
 {
 	return clipsize;
+}
+
+bool Weapon::isEmpty()
+{
+	return clip == 0;
 }
 

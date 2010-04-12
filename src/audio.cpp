@@ -43,6 +43,21 @@ Audio::Audio()
 	}
 }
 
+Audio::~Audio()
+{
+	std::map<uint32_t, Mix_Chunk*>::iterator it;
+	
+	for (it = data.begin(); it != data.end(); it++)
+		Mix_FreeChunk(it->second);
+	data.clear();
+	delete conf;
+	
+	Mix_HaltMusic();
+	Mix_FreeMusic(music);
+	
+	Mix_CloseAudio();
+}
+
 bool Audio::play(const char* sound)
 {
 	if (!audioSupported || !soundEnabled || !soundVolume)
@@ -97,7 +112,6 @@ bool Audio::startMusic()
 	if (!audioSupported || !musicEnabled || !musicVolume)
 		return true;
 
-	Mix_Music* music;
 	music = Mix_LoadMUS(conf->getString("Music", "Music 1"));
 	if (music == NULL) {
 		fprintf(stderr, "Unable to load Ogg file: %s\n",

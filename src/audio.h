@@ -15,6 +15,7 @@ class Audio
 {
 public:
 	Audio();
+	~Audio();
 
 	bool play(const char* sound);
 	bool startMusic();
@@ -22,6 +23,7 @@ public:
 
 private:
 	Conf* conf;
+	Mix_Music* music;
 	std::map<uint32_t, Mix_Chunk*> data;
 
 	bool audioSupported;

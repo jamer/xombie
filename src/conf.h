@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <map>
 
+#include "range.h"
+
 /**
  * Configuration files
  * 
@@ -23,10 +25,13 @@ class Conf
 {
 public:
 	Conf(const char* filename);
+	~Conf();
 
 	const char* getString(const char* section, const char* key,
 			const char* def = 0);
 	int getInt(const char* section, const char* key, int def = 0);
+	Range getRange(const char* section, const char* key,
+			int deflow, int defhigh);
 	bool getBool(const char* section, const char* key, bool def = false);
 
 private:

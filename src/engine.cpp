@@ -1,12 +1,44 @@
 #include <SDL.h> 
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #include "audio.h"
 #include "common.h"
 #include "conf.h"
 #include "engine.h"
 #include "imgbase.h"
+#include "main.h"
 #include "worldview.h"
+
+
+void Quit()
+{
+	Quit(0);
+}
+
+void Quit(int code)
+{
+	Engine* engine = getEngine();
+	if (engine)
+		delete engine;
+
+	delete getAudio();
+	delete getImgBase();
+	
+	SDL_FreeSurface(getWindowIcon());
+
+	SDL_Quit();
+	TTF_Quit();
+	
+	delete globals;
+	
+	exit(code);
+}
+
+
+
+
+
 
 Engine* engine;
 
@@ -44,6 +76,12 @@ Engine::Engine(SDL_Surface* s) : views(10), score(0)
 	mainLoop();
 }
 
+Engine::~Engine()
+{
+	delete world;
+	delete player;	
+}
+
 void Engine::loadGame()
 {
 	// Create a Player with graphic "player.[jpg|png|gif|bmp]".
@@ -60,7 +98,7 @@ void Engine::loadGame()
 	WorldView* wv = new WorldView;
 	views.push(wv);
 
-	World* world = new World("conf/worlds/default.conf");
+	world = new World("conf/worlds/default.conf");
 	player->setWorld(world);
 	wv->setWorld(world);
 
@@ -130,7 +168,7 @@ void Engine::runGameEngine(long dt)
 
 	if (topView == views.top()) {
 		while (closingView) {
-			views.pop();
+			delete views.pop();
 			closingView = false;
 		}
 	}
@@ -173,6 +211,8 @@ void Engine::handleEvent(SDL_Event& event)
 	switch (event.type) {
 
 		case SDL_QUIT:
+			while (views.size())
+				delete views.pop();
 			Quit();
 			break;
 

@@ -1,6 +1,14 @@
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
 
+
+// deinitialize everything and quit
+void Quit();
+void Quit(int code);
+
+
+
+
 #include <SDL.h>
 #include <list>
 
@@ -33,6 +41,8 @@ class Engine
 {
 public:
 	Engine(SDL_Surface* screen);
+	~Engine();
+	
 	void mainLoop();
 
 	/** openView()
@@ -100,6 +110,8 @@ private:
 
 	Char* player;
 	list<Char*> party; // list of characters in party
+	
+	World* world;
 
 	int score;
 };

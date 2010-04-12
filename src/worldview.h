@@ -23,6 +23,8 @@ public:
 	void doKeyUp(int key);
 
 	void setWorld(World* world);
+	
+	void close();
 
 private:
 	void dropItem();

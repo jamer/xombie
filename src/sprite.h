@@ -9,6 +9,8 @@ class Sprite
 {
 public:
 	Sprite();
+	~Sprite();
+	
 	void move(long dt);
 	void move(long dt, double angle);
 	void stayOnScreen();

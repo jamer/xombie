@@ -4,11 +4,12 @@
 class Shot;
 
 #include "mob.h"
+#include "range.h"
 #include "sprite.h"
 
 class Shot : public Sprite {
 public:
-	Shot(const char* type, Sprite* src, int entropy);
+	Shot(const char* type, Sprite* src, Range inaccuracy);
 	virtual ~Shot();
 
 	void update(int dt);
@@ -21,7 +22,7 @@ private:
 	int dur;
 	int time;
 	int entropy; // percentage, 0-100
-	int damage;
+	Range damage;
 };
 
 #endif // _SHOT_H_

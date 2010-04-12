@@ -6,10 +6,6 @@
 
 #define DWORD unsigned long
 
-// deinitialize everything and quit
-void Quit();
-void Quit(int code);
-
 // double-value functions for minimum and maximum
 double max(double i1, double i2);
 double min(double i1, double i2);
