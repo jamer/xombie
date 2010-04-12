@@ -82,8 +82,8 @@ bool Audio::play(const char* sound)
 	if (i == data.end()) {
 		chunk = Mix_LoadWAV(conf->getString("Sounds", sound, NULL));
 		if (chunk == NULL) {
-			fprintf(stderr, "Unable to load audio file: %s\n",
-					Mix_GetError());
+			fprintf(stderr, "Unable to load audio file '%s': %s\n",
+					sound, Mix_GetError());
 			return false;
 		}
 		data[h] = chunk;
