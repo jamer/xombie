@@ -2,7 +2,7 @@ PROJECT = xombie
 
 EXE = ../bin/$(PROJECT)
 
-CXX := $(CXX) -g -DDEBUG -pg
+CXX := $(CXX) -DDEBUG
 CFLAGS = -Wall -W -I. -Iitem
 LIBS = -lSDL_mixer -lSDL_ttf -lSDL_image
 
@@ -75,7 +75,7 @@ tags:
 	ctags *.cpp *.h
 
 $(EXE): $(OBJS)
-	@echo \ \ CXX $(EXE)
+	@echo \ \ CXX $(notdir $(EXE))
 	@$(CXX) $(OBJS) $(LIBS) -o $(EXE)
 
 ../obj:
@@ -85,11 +85,11 @@ $(EXE): $(OBJS)
 	@mkdir -p $@
 
 ../obj/%.o: %.c
-	@echo \ \ CXX $<
+	@echo \ \ CXX `echo $@ | sed 's_../obj/__'`
 	@$(CXX) $(CFLAGS) -c -o $@ $<
 
 ../obj/%.o: %.cpp
-	@echo \ \ CXX $<
+	@echo \ \ CXX `echo $@ | sed 's_../obj/__'`
 	@$(CXX) $(CFLAGS) -c -o $@ $<
 
 clean:
