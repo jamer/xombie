@@ -6,6 +6,7 @@
 #include "audio.h"
 #include "common.h"
 #include "conf.h"
+#include "random.h"
 
 Audio* audio;
 
@@ -111,8 +112,10 @@ bool Audio::startMusic()
 {
 	if (!audioSupported || !musicEnabled || !musicVolume)
 		return true;
+	
+	const char* musicFile = randInt(0, 1) ? "Music 1" : "Music 2";
 
-	music = Mix_LoadMUS(conf->getString("Music", "Music 1"));
+	music = Mix_LoadMUS(conf->getString("Music", musicFile));
 	if (music == NULL) {
 		fprintf(stderr, "Unable to load Ogg file: %s\n",
 				Mix_GetError());
