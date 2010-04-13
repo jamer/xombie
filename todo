@@ -1,12 +1,14 @@
-* Shots, Mobs has a global Conf. Make a map<Conf> to access global conf files. Can
-  go in ConfManager or something. That way, it's easy to free() them, too.
-
+ XOMBIE to-do list
+===================
 
 Non-engineering jobs:
 	* Additional or higher quality artwork/graphics.
 	* Free (as in speech) sound effects and music.
 
 Long term TODO list:
+	* Shots, Mobs has a global Conf. Make a map<Conf> to access global conf files. Can
+	  go in ConfManager or something. That way, it's easy to free() them, too.
+	* Convert project to use autoconf & automake.
 	* Add alpha bitmaps to each image - hit testing.
 	* Terrain.
 	* Levels/cities (have to be dynamic).
