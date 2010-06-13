@@ -1,5 +1,7 @@
 #include "textmanager.h"
 
+#define FONT_FACE (char*)"LiberationSans-Regular.ttf"
+
 TextManager::TextManager()
 {
 	if (TTF_Init() == -1) {
@@ -8,7 +10,7 @@ TextManager::TextManager()
 		return false;
 	}
 
-	font = loadFont((char*)"LiberationSans-Regular.ttf", 14);
+	font = loadFont(FONT_FACE, 14);
 }
 
 TTF_Font* TextManager::loadFont(char* file, int ptsize)
@@ -21,5 +23,9 @@ TTF_Font* TextManager::loadFont(char* file, int ptsize)
 		exit(0);
 	}
 	return font;
+}
+
+SDL_Surface* TextManager::renderString(char* text)
+{
 }
 

@@ -2,7 +2,7 @@ PROJECT = xombie
 
 EXE = ../bin/$(PROJECT)
 
-CXX := $(CXX) -DDEBUG
+CXX := $(CXX) -DDEBUG -g
 CFLAGS = -Wall -W -I. -Iitem
 LIBS = -lSDL_mixer -lSDL_ttf -lSDL_image
 

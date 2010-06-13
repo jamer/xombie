@@ -54,8 +54,8 @@ World::World(const char* worldName)
 
 	bounds.x = 0;
 	bounds.y = 0;
-	bounds.w = 640;
-	bounds.h = 480;
+	bounds.w = lvl.getInt("Map", "Width", 640);
+	bounds.h = lvl.getInt("Map", "Height", 480);
 }
 
 World::~World()
