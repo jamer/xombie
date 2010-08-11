@@ -117,7 +117,7 @@ public:
 	document();
 
 	// Methods
-	bool parse(char* buf);
+	bool parse(const char* buf);
 	bool write(const char* file);
 
 	// Members
