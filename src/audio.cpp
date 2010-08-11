@@ -53,10 +53,13 @@ Audio::~Audio()
 	data.clear();
 	delete conf;
 	
-	Mix_HaltMusic();
-	Mix_FreeMusic(music);
-	
-	Mix_CloseAudio();
+	if (audioSupported) {
+		if (musicEnabled) {
+			Mix_HaltMusic();
+			Mix_FreeMusic(music);
+		}
+		Mix_CloseAudio();
+	}
 }
 
 bool Audio::play(const char* sound)
@@ -110,9 +113,9 @@ bool Audio::play(const char* sound)
 
 bool Audio::startMusic()
 {
-	if (!audioSupported || !musicEnabled || !musicVolume)
+	if (!audioSupported || !musicEnabled)
 		return true;
-	
+
 	const char* musicFile = randInt(0, 1) ? "Music 1" : "Music 2";
 
 	music = Mix_LoadMUS(conf->getString("Music", musicFile));

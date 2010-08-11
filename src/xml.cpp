@@ -45,11 +45,11 @@ class document::reader {
 public:
 	document* doc;
 	element* par;
-	char* buf;
+	const char* buf;
 	int i;
 	int len;
 
-	bool parse(document* d, char* buf);
+	bool parse(document* d, const char* buf);
 
 private:
 	inline char cur();
@@ -300,7 +300,7 @@ document::document()
 		: element(NULL, NULL, NULL) {
 }
 
-bool document::parse(char* buf) {
+bool document::parse(const char* buf) {
 	reader r;
 	return r.parse(this, buf);
 }
@@ -358,7 +358,7 @@ char* document::reader::read_until(int bufsz, const char* delim,
 	}
 }
 
-bool document::reader::parse(document* d, char* buffer) {
+bool document::reader::parse(document* d, const char* buffer) {
 	doc = d;
 	i = 0;
 	par = doc;

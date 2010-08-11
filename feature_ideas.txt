@@ -1,0 +1,150 @@
+3d?
+	- map gen can handle multiple layers of tiles
+	- camera movement API
+	- try out blender tutorials
+	- direct SDL GL rendering
+
+random map generator
+
+pre defined in map segment part:
+	- exits
+	- mob spawns
+	- item spawn
+	- chest spawns
+	- barrel spawns
+	- mob generators
+
+map guidance files:
+	- lists of pre-defined map segment parts:
+		- possible starting segments
+		- possible ending segments
+	- guidance for map style:
+		- long corridor
+		- large expanse
+		- parallel paths
+	- meta-patterns?
+how to do never-ending expanse?
+
+ideas for map segments:
+	- traps:
+		- time interval based
+		- pressure based
+		- sight based
+	- tilesets:
+		- jungle:
+			- stone ziggurats
+			- stone totem poles
+		- hell (!??)
+		- plains/fields:
+			- wigwams
+		- dungeon
+		- (crystal?) cavern:
+			- water pools
+		- forest
+
+separate engine from modules:
+	- engine:
+		- should have all OS-specific code
+	- lists modules that it can load
+	- loads a module
+
+modules:
+	- list:
+		- xombie
+		- diablo clone:
+			- character-specific stash:
+				- holds items for you, used to hold items you can use in the future
+				- bank, secures your gold so you don't lose it on death
+			- account-wide shared stash between characters
+
+	- distributed in MPQ file
+		- Linux and Windows binary included:
+			- located in /bin
+			- platforms.txt lists ones included
+		- all resource files
+		- localization files
+		- can be overridden to use filesystem if file newer by date?
+
+start development on windows
+
+unique monsters:
+	- larger size
+	- extra strong
+	- extra fast
+	- releases spell upon being hit
+	- slows/slows upon being hit
+	- burns/burns upon being hit
+	- shocks/shocks upon being hit
+	- minions
+
+items:
+	- unique items
+	- stacks of items
+	- unidentified
+	- sets
+	- random item attributes:
+		- generic:
+			- increased movement speed
+			- max health/mana bonus
+			- passive health/mana regen
+			- gold drop bonus
+			- magic item % drop bonus
+		- armor:
+			- armor class bonus
+			- block bonus
+		- weapon:
+			- damage bonus
+			- to hit bonus
+			- health/mana steal
+	- barrels:
+		- like to come in large groups
+		- hold nothing/few items
+		- might be a trap (lone barrels will be traps more often than groups of barrels):
+			- explode
+			- cast spell
+			- generate enemy (skeleton/zombie)
+	- chests:
+		- hold lots of items
+		- glowy/gold chests hold more
+		- can be a mimic in disguise, will attack player
+		- mimics hold even more items than gold chests
+
+random item tables, like diablo 2
+
+pause game
+pause only mobs/players
+pause only spells/abilities
+
+party:
+	- follows you around
+	- wanders a little, though
+	- aggresive/defensive/passive?
+
+mana/energy?
+skills/stats
+
+gold
+shops
+towns
+
+loading screen?
+
+menus:
+	- main menu
+	- settings menu
+
+quests?
+
+inventory:
+	- spacious:
+		- items take up space in a visual grid
+		- bigger items take up more space
+	- paper doll for equipt items
+	- max carry weight, in addition to max space
+
+
+external quest designer that quest developer could use, perferably GUI
+
+use YAML to store data:
+	- random item tables?
+	- saved games
