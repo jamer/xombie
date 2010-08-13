@@ -5,13 +5,13 @@
 void Quit();
 void Quit(int code);
 
-#include <SDL.h>
 #include <list>
+#include <QStack>
+#include <SDL.h>
 
 class Engine;
 
 #include "char.h"
-#include "fstack.h"
 #include "view.h"
 
 using std::list;
@@ -97,7 +97,7 @@ private:
 	SDL_Surface* screen; // backbuffer
 	mouseStruct mouse;
 
-	Fstack<View*> views;
+	QStack<View*> views;
 	View* newView;
 	bool closingView;
 

@@ -1,22 +1,17 @@
-#include <string.h>
+#include <QStringList>
+#include <stdio.h>
 
-#include "common.h"
 #include "range.h"
 #include "random.h"
 
-Range::Range()
-		: min(0), max(0)
+Range::Range(int a, int b)
+		: min(a), max(b)
 {
 }
 
-Range::Range(int n, int x)
-		: min(n), max(x)
+Range::Range(QString range)
 {
-}
-
-Range::Range(const char* str)
-{
-	parse(str);
+	parse(range);
 }
 
 int Range::get()
@@ -27,32 +22,28 @@ int Range::get()
 }
 
 /** parse()
- * This function is -extremely- innefficient. I wrote it in a hurry.
+ * Parses a string to find a range.
  */
-bool Range::parse(const char* s)
+bool Range::parse(QString range)
 {
-	// TODO: at failure points, add return false
-	const char* sep = strchr(s, '-');
-	if (sep == NULL) {
-		char* val = strip(s);
-		min = max = atoi(val);
-		free(val);
-	}
-	else {
-		char* first = strip(s);
-		first[sep-s] = '\0';
-		char* second = strip(sep);
+	QStringList parts = range.split("-");
+	bool minOk, maxOk;
 
-		char* s_min = strip(first);
-		char* s_max = strip(second);
+	min = parts[0].trimmed().toInt(&minOk);
+	max = parts[1].trimmed().toInt(&maxOk);
 
-		min = atoi(s_min);
-		max = atoi(s_max);
-
-		free(first);  free(s_min);
-		free(second); free(s_max);
+	if (!minOk || !maxOk) {
+		printError(range);
+		return false;
 	}
 
 	return true;
 }
+
+void Range::printError(QString range)
+{
+	printf("Range::parse() - Error parsing string '%s'\n",
+			range.toUtf8().data());
+}
+
 

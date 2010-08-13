@@ -65,10 +65,10 @@ void Sprite::draw(SDL_Surface* screen)
 void Sprite::setGraphicId(const char* id)
 {
 	strcpy(gfxId, id);
-	gfxHash = hash(gfxId);
+//	gfxHash = hash(gfxId);
 
 	// grab the original size
-	gfx = getImgBase()->getImage(gfxId, gfxHash, 0, true);
+	gfx = getImgBase()->getImage(gfxId, 0, true); // !
 	origsz.w = gfx->w;
 	origsz.h = gfx->h;
 }
@@ -77,7 +77,7 @@ void Sprite::setAngle(double theta)
 {
 	ImgBase* base = getImgBase();
 	angle = theta;
-	gfx = base->getImage(gfxId, gfxHash, base->indexFromAngle(angle), true);
+	gfx = base->getImage(gfxId, base->indexFromAngle(angle), true); // !
 }
 
 void Sprite::setAngleFromXY(double x, double y)

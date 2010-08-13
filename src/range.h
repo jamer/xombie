@@ -1,12 +1,13 @@
 #ifndef _RANGE_H_
 #define _RANGE_H_
 
+#include <QString>
+
 class Range
 {
 public:
-	Range();
 	Range(int min, int max);
-	Range(const char* str);
+	Range(QString s);
 	int get();
 
 private:
@@ -17,7 +18,12 @@ private:
 	 * Try to parse a number range from a string. Returns false if invalid
 	 * string used.
 	 */
-	bool parse(const char* s);
+	bool parse(QString s);
+
+	/** printError()
+	 * Used to print an error if parsing had a problem.
+	 */
+	void printError(QString range);
 };
 
 #endif // _RANGE_

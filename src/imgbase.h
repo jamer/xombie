@@ -4,17 +4,17 @@
 /*
  * Image database/cache
  *
- * Don't want to load images every time we need 'em. Keep 'em here.
+ * Don't want to load images every time they are needed. Keep 'em here.
  * 
  * 2009-03-11 - Paul
  * 	Redesigned it to load images from disk for you, so no need to
- * 	precache them manually ;-)
+ * 	precache them manually. ;-)
  * 2010-01-21 - Paul
  * 	Add APIs that make caching the hash more practical.
  */
 
-#include <map>
 #include <math.h>
+#include <QHash>
 #include <SDL.h>
 
 #include "common.h"
@@ -29,32 +29,29 @@ public:
 	ImgBase();
 	~ImgBase();
 
-	SDL_Surface* getImage(const char* name,
-	        int frame = 0, bool rotate = false);
-	SDL_Surface* getImage(const char* name, uint32_t hash,
+	SDL_Surface* getImage(QString name,
 	        int frame = 0, bool rotate = false);
 
 	// For adding custom images
-	void put(const char* name, SDL_Surface* img, DWORD flags);
+	void put(QString name, SDL_Surface* img, DWORD flags);
 
-	/**
-	 * Get an image index for if you're using a rotational object
-	 */
+	// Get an image index for if you're using a rotational object
 	int indexFromAngle(double angle);
 
 private:
-	// Look for && load image not in db
-	SDL_Surface* lookForImg(const char* name, int frame, bool rotates);
+	// Look for and load an image that is not in the database.
+	SDL_Surface* lookForImg(QString search, int frame, bool rotates);
 
 	struct ImgRef {
-		char name[128];
+		QString name;
 		SDL_Surface** images;
 	};
 
-	std::map<int, ImgRef*> base;
+	QHash<QString,ImgRef*> base;
 	
-	// Pre-render rotations with this number of angles. The more angles, the better
-	//  it looks but it takes a bit longer to load and uses more memory.
+	// Pre-render rotations with this number of angles. The more angles,
+	// the better it looks but it takes a bit longer to load and uses more
+	// memory.
 	int imageAngles;
 };
 

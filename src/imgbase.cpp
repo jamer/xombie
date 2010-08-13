@@ -32,40 +32,33 @@ ImgBase::ImgBase()
 
 ImgBase::~ImgBase()
 {
-	std::map<int, ImgRef*>::iterator it;
+	QHash<QString,ImgRef*>::iterator it;
 	for (it = base.begin(); it != base.end(); it++) {
-		ImgRef* ref = it->second;
+		ImgRef* ref = it.value();
 		for (int i = 0; i < imageAngles; i++)
 			if (ref->images[i])
 				SDL_FreeSurface(ref->images[i]);
-		free(ref);
+		delete[] ref->images;
+		delete ref;
 	}
 	base.clear();
 }
 
-SDL_Surface* ImgBase::getImage(const char* name, int frame, bool rotates)
+SDL_Surface* ImgBase::getImage(QString name, int frame, bool rotates)
 {
-	int h = hash(name);
-	return getImage(name, h, frame, rotates);
-}
-
-SDL_Surface* ImgBase::getImage(const char* name, uint32_t h, int frame, bool rotates)
-{
-	std::map<int,ImgRef*>::iterator img;
-	SDL_Surface* sur;
+	QHash<QString,ImgRef*>::iterator img;
 
 	// finally, just get image
-	img = base.find(h);
+	img = base.find(name);
 	if (img != base.end()) {
-		ImgRef* ir = img->second;
-		sur = ir->images[frame];
-		return sur;
+		ImgRef* ir = img.value();
+		return ir->images[frame];
 	}
 
 	return lookForImg(name, frame, rotates);
 }
 
-SDL_Surface* ImgBase::lookForImg(const char* name, int frame, bool rotates)
+SDL_Surface* ImgBase::lookForImg(QString search, int frame, bool rotates)
 {
 	SDL_Surface* sur;
 
@@ -76,43 +69,43 @@ SDL_Surface* ImgBase::lookForImg(const char* name, int frame, bool rotates)
 	}
 
 	dirent* dent = NULL;
-	char fileName[512];
+	QString fileName;
 	while ((dent = readdir(dir))) {
-		if (startsWith(name, dent->d_name)) { 
-			strcpy(fileName, dent->d_name);
+		QString fname(dent->d_name);
+		if (fname.startsWith(search)) {
+			fileName = fname;
 			break;
 		}
 	}
 
 	closedir(dir);
 
-	if (fileName == NULL) {
-		fprintf(stderr, "Couldn't find the '%s' graphic\n", name);
+	if (fileName.isEmpty()) {
+		fprintf(stderr, "Couldn't find the '%s' graphic\n",
+				search.toUtf8().data());
 		throw;
 	}
 
-	char fnbuf[512];
-	sprintf(fnbuf, "gfx/%s", fileName);
-	sur = IMG_Load(fnbuf);
+	QString fnbuf = QString("gfx/%s").arg(fileName);
+	sur = IMG_Load(fnbuf.toUtf8().data());
 
 	DWORD flags = IB_PUT;
 	if (rotates)
 		flags |= IB_IMAGE_ROTATES;
-	put(name, sur, flags);
+	put(search, sur, flags);
 
 	if (rotates)
-		return getImage(name, frame);
+		return getImage(search, frame);
 	else
 		return sur;
 }
 
 
-void ImgBase::put(const char* name, SDL_Surface* img, DWORD flags)
+void ImgBase::put(QString name, SDL_Surface* img, DWORD flags)
 {
-	int h = hash(name);
-	ImgRef* ref = (ImgRef*)malloc(sizeof(ImgRef));
-	ref->images = (SDL_Surface**)malloc(sizeof(SDL_Surface*) * imageAngles);
-	strcpy(ref->name, name);
+	ImgRef* ref = new ImgRef;
+	ref->images = new SDL_Surface*[imageAngles];
+	ref->name = name;
 
 	bool rotate = (flags & IB_IMAGE_ROTATES) != 0;
 
@@ -120,8 +113,8 @@ void ImgBase::put(const char* name, SDL_Surface* img, DWORD flags)
 	if (rotate) {
 		ref->images[0] = img;
 		for (int i = 1; i < imageAngles; i++) {
-			SDL_Surface* sur = rotozoomSurface(img, 360/imageAngles*i,
-					1, SMOOTHING_ON);
+			SDL_Surface* sur = rotozoomSurface(img,
+					360/imageAngles*i, 1, SMOOTHING_ON);
 			ref->images[i] = sur;
 		}
 	}
@@ -134,7 +127,7 @@ void ImgBase::put(const char* name, SDL_Surface* img, DWORD flags)
 	}
 
 	// Save
-	base[h] = ref;
+	base[name] = ref;
 }
 
 ImgBase* getImgBase()

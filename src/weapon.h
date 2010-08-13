@@ -38,7 +38,6 @@ public:
 
 protected:
 	Weapon(World* world, const char* type);
-	void loadSpecs();
 
 private:
 	char* type;
@@ -46,17 +45,23 @@ private:
 
 	char* ammo;
 	int shots;
+
 	Range inaccuracy;
 
 	int clipsize;
 	int clip; // current ammo in clip
 
+	/*
+	 * Cooldown {
+	 * } reload, fire
+	 */
 	bool cooling;
-	Range cooldownDuration;
-	int coolTime;
-
 	bool loading;
+
+	Range cooldownDuration;
 	Range loadDuration;
+
+	int coolTime;
 	int loadTime;
 
 	char* loadSnd;

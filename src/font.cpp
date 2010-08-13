@@ -39,6 +39,11 @@ bool InitFont()
 	return true;
 }
 
+void DeinitFont()
+{
+	TTF_CloseFont(font);
+}
+
 
 TTF_Font* loadFont(char* file, int ptsize)
 {

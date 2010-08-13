@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 bool InitFont();
+void DeinitFont();
 
 // draws grey text
 SDL_Surface* renderFont(char* text);

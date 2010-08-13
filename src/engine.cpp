@@ -6,6 +6,7 @@
 #include "common.h"
 #include "conf.h"
 #include "engine.h"
+#include "font.h"
 #include "imgbase.h"
 #include "main.h"
 #include "worldview.h"
@@ -24,11 +25,12 @@ void Quit(int code)
 
 	delete getAudio();
 	delete getImgBase();
+	DeinitFont();
 	
 	SDL_FreeSurface(getWindowIcon());
 
-	SDL_Quit();
 	TTF_Quit();
+	SDL_Quit();
 	
 	delete globals;
 	
@@ -59,7 +61,7 @@ bool IsGameLost()
 	return gameLost;
 }
 
-Engine::Engine(SDL_Surface* s) : views(10), score(0)
+Engine::Engine(SDL_Surface* s) : views(), score(0)
 {
 	engine = this;
 

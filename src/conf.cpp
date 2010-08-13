@@ -6,8 +6,6 @@
 #include "conf.h"
 #include "engine.h"
 
-using std::map;
-
 Conf* globals;
 
 /**
@@ -70,23 +68,6 @@ Conf::Conf(const char* filename)
 
 Conf::~Conf()
 {
-//	std::map<int, std::map<int, char*> > 
-
-	std::map<int, std::map<int, char*> >::iterator it;
-	for (it = data.begin(); it != data.end(); it++) {
-	}
-	data.clear();
-#if 0
-	std::map<int, ImgRef*>::iterator it;
-	for (it = base.begin(); it != base.end(); it++) {
-		ImgRef* ref = it->second;
-		for (int i = 0; i < imageAngles; i++)
-			if (ref->images[i])
-				SDL_FreeSurface(ref->images[i]);
-		free(ref);
-	}
-	base.clear();
-#endif
 }
 
 
@@ -119,14 +100,15 @@ const char* Conf::getString(const char* s, const char* k,
 	free(k2);
 
 	// get section and then pair
-	map<int, map<int, char*> >::iterator i1 = data.find(h1);
+	QHash<int, QHash<int, char*> >::iterator i1 = data.find(h1);
 	if (i1 == data.end())
 		return def;
-	map<int, char*>::iterator i2 = i1->second.find(h2);
-	if (i2 == i1->second.end())
+	QHash<int, char*> section = i1.value();
+	QHash<int, char*>::iterator i2 = section.find(h2);
+	if (i2 == section.end())
 		return def;
 
-	const char* str = i2->second;
+	char* str = i2.value();
 
 	return str;
 }

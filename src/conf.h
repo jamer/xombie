@@ -1,8 +1,8 @@
 #ifndef _CONF_H_
 #define _CONF_H_
 
+#include <QHash>
 #include <stdio.h>
-#include <map>
 
 #include "range.h"
 
@@ -35,7 +35,7 @@ public:
 	bool getBool(const char* section, const char* key, bool def = false);
 
 private:
-	std::map<int, std::map<int, char*> > data;
+	QHash<int, QHash<int, char*> > data;
 };
 
 extern Conf* globals;

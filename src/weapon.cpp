@@ -10,8 +10,12 @@
 
 static Conf data("conf/weapons.conf");
 
-Weapon::Weapon(World* world, const char* weaponType)
-	: Item(world), wielder(NULL), cooling(false), loading(false)
+Weapon::Weapon(World* world, const char* weaponType) :
+	Item(world), wielder(NULL),
+	inaccuracy(data.getRange(type, "Inaccuracy", 0, 3)),
+	cooling(false), loading(false),
+	cooldownDuration(data.getRange(type, "Cooldown", 700, 900)),
+	loadDuration(data.getRange(type, "Load time", 2000, 2200))
 {
 	char buf[256];
 
@@ -25,8 +29,18 @@ Weapon::Weapon(World* world, const char* weaponType)
 	strcat(buf, "-inv.png");
 	invView = getImgBase()->getImage(buf);
 
-	loadSpecs();
-	
+	ammo             = strdup(data.getString(type, "Ammo", NULL));
+	if (!ammo)
+		err(1, "Weapon must have an ammo type.");
+
+	clipsize         = data.getInt(type, "Clip size", 1);
+	shots            = data.getInt(type, "Shots", 1);
+
+	const char* sound;
+
+	sound           = data.getString(type, "Loading sound", NULL);
+	loadSnd         = sound ? strdup(sound) : NULL;
+
 	clip = clipsize;
 }
 
@@ -38,24 +52,6 @@ Weapon::~Weapon()
 		free(ammo);
 	if (loadSnd)
 		free(loadSnd);
-}
-
-void Weapon::loadSpecs()
-{
-	ammo             = strdup(data.getString(type, "Ammo", NULL));
-	if (!ammo)
-		err(1, "Weapon must have an ammo type.");
-
-	clipsize         = data.getInt(type, "Clip size", 1);
-	inaccuracy       = data.getRange(type, "Inaccuracy", 0, 3);
-	cooldownDuration = data.getRange(type, "Cooldown", 700, 900);
-	loadDuration     = data.getRange(type, "Load time", 2000, 2200);
-	shots            = data.getInt(type, "Shots", 1);
-
-	const char* sound;
-
-	sound           = data.getString(type, "Loading sound", NULL);
-	loadSnd         = sound ? strdup(sound) : NULL;
 }
 
 bool Weapon::isWeapon()

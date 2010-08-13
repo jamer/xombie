@@ -6,8 +6,9 @@
 
 Conf shots("conf/shots.conf");
 
-Shot::Shot(const char* type, Sprite* src, Range inaccuracy)
-	: entropy(inaccuracy.get())
+Shot::Shot(const char* type, Sprite* src, Range inaccuracy) :
+	entropy(inaccuracy.get()),
+	damage(shots.getRange(type, "Damage", 1, 2))
 {
 	setGraphicId(type);
 
@@ -26,7 +27,6 @@ Shot::Shot(const char* type, Sprite* src, Range inaccuracy)
 	double variation = ((randDouble() - 0.5) * maxVariation) + 1.0;
 	setSpeed((double)shots.getInt(type, "Speed", 400) * variation);
 
-	damage = shots.getRange(type, "Damage", 1, 2);
 	dur = shots.getInt(type, "Duration", 10000);
 	time = 0;
 	dead = false;
