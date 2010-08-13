@@ -86,7 +86,7 @@ SDL_Surface* ImgBase::lookForImg(QString search, int frame, bool rotates)
 		throw;
 	}
 
-	QString fnbuf = QString("gfx/%s").arg(fileName);
+	QString fnbuf = QString("gfx/%1").arg(fileName);
 	sur = IMG_Load(fnbuf.toUtf8().data());
 
 	DWORD flags = IB_PUT;
