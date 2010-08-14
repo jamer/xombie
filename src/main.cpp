@@ -29,9 +29,8 @@ SDL_Surface* getWindowIcon()
 void SetIcon()
 {
 //	unsigned int colorkey;
-	const char* iconFile = globals->getString("Window", "Icon", NULL);
-
-	icon = IMG_Load(globals->getString("Window", "Icon", iconFile));
+	QString iconFile = globals->getString("Window", "Icon", NULL);
+	icon = IMG_Load(globals->getCString("Window", "Icon", iconFile));
 //	colorkey = SDL_MapRGB(icon->format, 255, 0, 255);
 //	SDL_SetColorKey(icon, SDL_SRCCOLORKEY, colorkey);
 	SDL_WM_SetIcon(icon, NULL);

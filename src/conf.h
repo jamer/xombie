@@ -28,12 +28,15 @@ public:
 	Conf(const char* filename);
 	~Conf();
 
-	const char* getString(QString section, QString key,
-			const char* def = 0);
-	int getInt(QString section, QString key, int def = 0);
+	QString getString(QString section, QString key,
+			QString def = QString()) const;
+	const char* getCString(QString section, QString key,
+			QString def = QString()) const;
+
+	int getInt(QString section, QString key, int def = 0) const;
 	Range getRange(QString section, QString key,
-			int deflow, int defhigh);
-	bool getBool(QString section, QString key, bool def = false);
+			int deflow, int defhigh) const;
+	bool getBool(QString section, QString key, bool def = false) const;
 
 private:
 	QHash<int, QHash<int, char*> > data;

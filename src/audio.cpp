@@ -84,7 +84,7 @@ bool Audio::play(const char* sound)
 
 	// If not found, load it and save it in cache.
 	if (i == data.end()) {
-		chunk = Mix_LoadWAV(conf->getString("Sounds", sound, NULL));
+		chunk = Mix_LoadWAV(conf->getCString("Sounds", sound, NULL));
 		if (chunk == NULL) {
 			fprintf(stderr, "Unable to load audio file '%s': %s\n",
 					sound, Mix_GetError());
@@ -118,7 +118,7 @@ bool Audio::startMusic()
 
 	const char* musicFile = randInt(0, 1) ? "Music 1" : "Music 2";
 
-	music = Mix_LoadMUS(conf->getString("Music", musicFile));
+	music = Mix_LoadMUS(conf->getCString("Music", musicFile));
 	if (music == NULL) {
 		fprintf(stderr, "Unable to load Ogg file: %s\n",
 				Mix_GetError());
