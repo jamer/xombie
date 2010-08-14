@@ -78,6 +78,7 @@ SDL_Surface* InitScreen()
 		SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+		/*
 		// SDL doesn't trigger off a ResizeEvent at startup, but as we need
 		// this for OpenGL, we do this ourselves
 		SDL_Event resize_event;
@@ -86,6 +87,7 @@ SDL_Surface* InitScreen()
 		resize_event.resize.h = height;
 
 		SDL_PushEvent(&resize_event);
+		*/
 	}
 
 	SDL_WM_SetCaption("Xombie", "Xombie");

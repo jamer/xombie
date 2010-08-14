@@ -14,6 +14,8 @@ Shot::Shot(QString type, Sprite* src, Range inaccuracy) :
 	setGraphicId(type);
 	orient = src->getOrientation();
 
+	// XXX use MountPoint
+
 	// move to sprite's "face", this way we look like we're shooting from
 	//  head of weapon
 	setSpeed((getBoundaries()->w + src->getBoundaries()->w) / 2);
@@ -25,7 +27,7 @@ Shot::Shot(QString type, Sprite* src, Range inaccuracy) :
 	// set speed, not all shots move equally
 	real maxVariation = 0.1; // maximum variation in either direction
 	real variation = ((randReal() - 0.5) * maxVariation) + 1.0;
-	setSpeed((real)shots.getInt(type, "Speed", 400) * variation);
+	setSpeed(shots.getInt(type, "Speed", 400) * variation);
 
 	dur = shots.getInt(type, "Duration", 10000);
 	time = 0;
