@@ -8,7 +8,6 @@
 #include "mob.h"
 #include "random.h"
 #include "range.h"
-#include "str.h"
 #include "xml.h"
 
 Conf mobs("conf/mobs.conf");
