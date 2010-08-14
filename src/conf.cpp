@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "conf.h"
+#include "e.h"
 #include "engine.h"
 
 Conf* globals;
@@ -13,11 +14,12 @@ Conf* globals;
  *
  * Initialize, load, and parse a configuration file.
  */
-Conf::Conf(const char* filename)
+Conf::Conf(QString filename)
 {
-	FILE* f = fopen(filename, "r");
+	// XXX rewrite with QFile
+	FILE* f = fopen(filename.toUtf8().data(), "r");
 	if (!f) {
-		fprintf(stderr, "Could not open '%s'", filename);
+		warn("Could not open " + filename);
 		Quit(1);
 	}
 
@@ -86,11 +88,11 @@ QString Conf::getString(QString s, QString k, QString def) const
 	int h2 = hash(k.toUtf8().data());
 
 	// get section and then pair
-	QHash<int, QHash<int, char*> >::const_iterator i1 = data.find(h1);
+	section_it i1 = data.find(h1);
 	if (i1 == data.end())
 		return def;
-	QHash<int, char*> section = i1.value();
-	QHash<int, char*>::const_iterator i2 = section.find(h2);
+	section_t section = i1.value();
+	key_it i2 = section.find(h2);
 	if (i2 == section.end())
 		return def;
 

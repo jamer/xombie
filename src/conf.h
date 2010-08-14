@@ -25,7 +25,7 @@
 class Conf
 {
 public:
-	Conf(const char* filename);
+	Conf(QString filename);
 	~Conf();
 
 	QString getString(QString section, QString key,
@@ -40,6 +40,10 @@ public:
 
 private:
 	QHash<int, QHash<int, char*> > data;
+
+	typedef QHash<int, QHash<int, char*> >::const_iterator section_it;
+	typedef QHash<int, char*> section_t;
+	typedef QHash<int, char*>::const_iterator key_it;
 };
 
 extern Conf* globals;

@@ -1,11 +1,11 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "audio.h"
 #include "common.h"
 #include "conf.h"
+#include "e.h"
 #include "random.h"
 
 Audio* audio;
@@ -32,14 +32,12 @@ Audio::Audio()
 
 
 	if (SDL_Init(SDL_INIT_AUDIO)) {
-		fprintf(stderr, "Unable to inialize audio: %s\n",
-				SDL_GetError());
+		warn(QString("Unable to initialize audio: %1").arg(SDL_GetError()));
 		audioSupported = false;
 	}
 
 	if (Mix_OpenAudio(rate, format, channels, buffers) < 0) {
-		fprintf(stderr, "Warning: Unable to initialize audio: %s\n",
-			       	Mix_GetError());
+		warn(QString("Unable to initialize audio: %1").arg(SDL_GetError()));
 		audioSupported = false;
 	}
 }
@@ -62,7 +60,7 @@ Audio::~Audio()
 	}
 }
 
-bool Audio::play(const char* sound)
+bool Audio::play(QString sound)
 {
 	if (!audioSupported || !soundEnabled || !soundVolume)
 		return true;
@@ -71,12 +69,7 @@ bool Audio::play(const char* sound)
 		return true;
 
 	// Generate hash
-	char* lower = strdup(sound);
-	for (unsigned int i = 0; i < strlen(lower); i++)
-		lower[i] = tolower(lower[i]);
-
-	uint32_t h = hash(lower);
-	free(lower);
+	uint32_t h = hash(sound.toLower().toUtf8().data()); // XXX
 
 	// Do we have the sound file cached?
 	std::map<uint32_t, Mix_Chunk*>::iterator i = data.find(h);
@@ -86,8 +79,8 @@ bool Audio::play(const char* sound)
 	if (i == data.end()) {
 		chunk = Mix_LoadWAV(conf->getCString("Sounds", sound, NULL));
 		if (chunk == NULL) {
-			fprintf(stderr, "Unable to load audio file '%s': %s\n",
-					sound, Mix_GetError());
+			warn(QString("Unable to load audio file %1: %2")
+					.arg(sound).arg(Mix_GetError()));
 			return false;
 		}
 		data[h] = chunk;
@@ -101,8 +94,8 @@ bool Audio::play(const char* sound)
 	// Play!
 	int channel = Mix_PlayChannel(-1, chunk, 0);
 	if (channel == -1) {
-		fprintf(stderr, "Unable to play audio file: %s\n", 
-				Mix_GetError());
+		warn(QString("Unable to load audio file %1: %2")
+				.arg(sound).arg(Mix_GetError()));
 		return false;
 	}
 
@@ -116,19 +109,17 @@ bool Audio::startMusic()
 	if (!audioSupported || !musicEnabled)
 		return true;
 
-	const char* musicFile = randInt(0, 1) ? "Music 1" : "Music 2";
+	QString musicFile = randInt(0, 1) ? "Music 1" : "Music 2";
 
 	music = Mix_LoadMUS(conf->getCString("Music", musicFile));
 	if (music == NULL) {
-		fprintf(stderr, "Unable to load Ogg file: %s\n",
-				Mix_GetError());
+		warn(QString("Unable to load music file: %1").arg(Mix_GetError()));
 		return false;
 	}
 
 	musicChannel = Mix_PlayMusic(music, -1);
 	if (musicChannel == -1) {
-		fprintf(stderr, "Unable to play Ogg file: %s\n",
-				Mix_GetError());
+		warn(QString("Unable to load music file: %1").arg(Mix_GetError()));
 		return false;
 	}
 

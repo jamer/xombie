@@ -92,17 +92,14 @@ void Weapon::doShot(list<Shot*>* shotlist)
 		coolTime = cooldownDuration.get();
 
 		for (int i = 0; i < shots; i++) {
-			// XXX: ammo.toUtf8().data()
-			Shot* shot = new Shot(ammo.toUtf8().data(), wielder,
-					inaccuracy);
+			Shot* shot = new Shot(ammo, wielder, inaccuracy);
 			shotlist->push_back(shot);
 		}
 	}
 
 	else {
 		if (!loadSnd.isEmpty())
-			// XXX: loadSnd.toUtf8().data()
-			getAudio()->play(loadSnd.toUtf8().data());
+			getAudio()->play(loadSnd);
 		loading = true;
 		loadTime = loadDuration.get();
 	}

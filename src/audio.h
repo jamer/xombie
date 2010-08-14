@@ -17,7 +17,7 @@ public:
 	Audio();
 	~Audio();
 
-	bool play(const char* sound);
+	bool play(QString sound);
 	bool startMusic();
 	// TODO: Have Level select which songs to play
 
