@@ -26,7 +26,7 @@ public:
 	void setSpeed(real speed);
 
 	Angle getAngle();
-	Orientation getOrientation();
+	Orientation& getOrientation();
 
 	SDL_Surface* getGraphic();
 	SDL_Rect* getLoc(); // XXX

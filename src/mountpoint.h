@@ -16,6 +16,8 @@ class MountPoint
 {
 public:
 	MountPoint(Sprite* mount, Vector offset);
+	~MountPoint();
+
 	Orientation getOrientation() const;
 
 private:
@@ -23,5 +25,5 @@ private:
 	Vector offset;
 };
 
-#endif // _MOUNT_POINT_H_
+#endif
 

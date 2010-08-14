@@ -5,6 +5,10 @@ MountPoint::MountPoint(Sprite* m, Vector off)
 {
 }
 
+MountPoint::~MountPoint()
+{
+}
+
 Orientation MountPoint::getOrientation() const
 {
 	return mount->getOrientation() + offset;

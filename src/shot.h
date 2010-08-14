@@ -9,7 +9,7 @@ class Shot;
 
 class Shot : public Sprite {
 public:
-	Shot(const char* type, Sprite* src, Range inaccuracy);
+	Shot(QString type, Sprite* src, Range inaccuracy);
 	virtual ~Shot();
 
 	void update(int dt);

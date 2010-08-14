@@ -17,12 +17,8 @@ Weapon::Weapon(World* world, QString weaponType) :
 	cooldownDuration(data.getRange(type, "Cooldown", 700, 900)),
 	loadDuration(data.getRange(type, "Load time", 2000, 2200))
 {
-	// XXX: buf.toUtf8().data()
-	QString buf = QString("%1.png").arg(type);
-	Sprite::setGraphicId(buf.toUtf8().data());
-
-	buf = QString("%1-inv.png").arg(type);
-	invView = getImgBase()->getImage(buf.toUtf8().data());
+	setGraphicId(QString("%1.png").arg(type));
+	invView = getImgBase()->getImage(QString("%1-inv.png").arg(type));
 
 	ammo = data.getString(type, "Ammo", NULL);
 	if (ammo.isEmpty())

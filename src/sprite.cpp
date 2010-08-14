@@ -120,7 +120,7 @@ Angle Sprite::getAngle()
 	return -orient.getAngle();
 }
 
-Orientation Sprite::getOrientation()
+Orientation& Sprite::getOrientation()
 {
 	return orient;
 }
