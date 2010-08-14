@@ -1,8 +1,13 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <QTextStream>
 #include <SDL.h>
 #include <stdio.h>
+
+extern QTextStream cin;
+extern QTextStream cout;
+extern QTextStream cerr;
 
 #define DWORD unsigned long
 

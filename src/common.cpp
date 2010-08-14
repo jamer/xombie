@@ -4,6 +4,11 @@
 #include "common.h"
 #include "e.h"
 
+QTextStream cin(stdin, QIODevice::ReadOnly);
+QTextStream cout(stdout, QIODevice::WriteOnly);
+QTextStream cerr(stderr, QIODevice::WriteOnly);
+
+
 double max(double i1, double i2)
 {
 	return (i1 < i2 ? i2 : i1);
@@ -100,7 +105,7 @@ bool readLine(FILE* f, char* buffer, int len)
 				return false;
 			}
 			else {
-				err(1, "Read file failed");
+				err("Read file failed");
 			}
 		}
 
@@ -146,7 +151,7 @@ char* readFile(const char* fname)
 {
 	FILE* f = fopen(fname, "r");
 	if (!f)	{
-		warn("%s", fname);
+		warn(fname);
 		return NULL;
 	}
 
@@ -159,7 +164,7 @@ char* readFile(const char* fname)
 
 	int read = fread(buf, len, 1, f);
 	if (read != 1) {
-		warn("%s", fname);
+		warn(fname);
 		delete buf;
 		return NULL;
 	}

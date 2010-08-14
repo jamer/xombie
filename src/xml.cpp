@@ -678,11 +678,11 @@ void document::writer::indent() {
 document* parse_xml(const char* filename) {
 	char* buf = readFile(filename);
 	if (!buf)
-		err(1, "Couldn't read xml file");
+		err("Couldn't read xml file");
 
 	document* doc = new document;
 	if (!doc->parse(buf))
-		err(1, "Couldn't parse xml file");
+		err("Couldn't parse xml file");
 
 	delete buf;
 	return doc;

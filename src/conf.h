@@ -2,6 +2,7 @@
 #define _CONF_H_
 
 #include <QHash>
+#include <QString>
 #include <stdio.h>
 
 #include "range.h"
@@ -27,12 +28,12 @@ public:
 	Conf(const char* filename);
 	~Conf();
 
-	const char* getString(const char* section, const char* key,
+	const char* getString(QString section, QString key,
 			const char* def = 0);
-	int getInt(const char* section, const char* key, int def = 0);
-	Range getRange(const char* section, const char* key,
+	int getInt(QString section, QString key, int def = 0);
+	Range getRange(QString section, QString key,
 			int deflow, int defhigh);
-	bool getBool(const char* section, const char* key, bool def = false);
+	bool getBool(QString section, QString key, bool def = false);
 
 private:
 	QHash<int, QHash<int, char*> > data;

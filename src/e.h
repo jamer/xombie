@@ -1,9 +1,10 @@
 #ifndef _ERR_H_
 #define _ERR_H_
 
-#include <stdarg.h>
+#include <QString>
 
-void err(int eval, const char* fmt, ...);
-void warn(const char* fmt, ...);
+void err(QString msg);
+void warn(QString msg);
 
 #endif // _ERR_H_
+

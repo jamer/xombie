@@ -10,48 +10,33 @@
 
 static Conf data("conf/weapons.conf");
 
-Weapon::Weapon(World* world, const char* weaponType) :
-	Item(world), wielder(NULL),
+Weapon::Weapon(World* world, QString weaponType) :
+	Item(world), type(weaponType), wielder(NULL),
 	inaccuracy(data.getRange(type, "Inaccuracy", 0, 3)),
 	cooling(false), loading(false),
 	cooldownDuration(data.getRange(type, "Cooldown", 700, 900)),
 	loadDuration(data.getRange(type, "Load time", 2000, 2200))
 {
-	char buf[256];
+	// XXX: buf.toUtf8().data()
+	QString buf = QString("%1.png").arg(type);
+	Sprite::setGraphicId(buf.toUtf8().data());
 
-	type = strdup(weaponType);
+	buf = QString("%1-inv.png").arg(type);
+	invView = getImgBase()->getImage(buf.toUtf8().data());
 
-	strcpy(buf, type);
-	strcat(buf, ".png");
-	Sprite::setGraphicId(buf);
+	ammo = data.getString(type, "Ammo", NULL);
+	if (ammo.isEmpty())
+		err("Weapon must have an ammo type.");
 
-	strcpy(buf, type);
-	strcat(buf, "-inv.png");
-	invView = getImgBase()->getImage(buf);
-
-	ammo             = strdup(data.getString(type, "Ammo", NULL));
-	if (!ammo)
-		err(1, "Weapon must have an ammo type.");
-
-	clipsize         = data.getInt(type, "Clip size", 1);
-	shots            = data.getInt(type, "Shots", 1);
-
-	const char* sound;
-
-	sound           = data.getString(type, "Loading sound", NULL);
-	loadSnd         = sound ? strdup(sound) : NULL;
-
+	clipsize = data.getInt(type, "Clip size", 1);
 	clip = clipsize;
+
+	shots = data.getInt(type, "Shots", 1);
+	loadSnd = data.getString(type, "Loading sound", NULL);
 }
 
 Weapon::~Weapon()
 {
-	if (type)
-		free(type);
-	if (ammo)
-		free(ammo);
-	if (loadSnd)
-		free(loadSnd);
 }
 
 bool Weapon::isWeapon()
@@ -111,14 +96,17 @@ void Weapon::doShot(list<Shot*>* shotlist)
 		coolTime = cooldownDuration.get();
 
 		for (int i = 0; i < shots; i++) {
-			Shot* shot = new Shot(ammo, wielder, inaccuracy);
+			// XXX: ammo.toUtf8().data()
+			Shot* shot = new Shot(ammo.toUtf8().data(), wielder,
+					inaccuracy);
 			shotlist->push_back(shot);
 		}
 	}
 
 	else {
-		if (loadSnd)
-			getAudio()->play(loadSnd);
+		if (!loadSnd.isEmpty())
+			// XXX: loadSnd.toUtf8().data()
+			getAudio()->play(loadSnd.toUtf8().data());
 		loading = true;
 		loadTime = loadDuration.get();
 	}

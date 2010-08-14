@@ -25,16 +25,11 @@ Mob* newRandomMob(World* world)
 	int chance = 0;
 
 	for (int i = 1; i <= count; i++) {
-		Str chanceStr(20);
-		chanceStr += "Chance ";
-		chanceStr += i;
-
+		QString chanceStr = QString("Chance %1").arg(i);
 		chance += mobs.getInt("Spawn", chanceStr);
-		if (chance >= percent) {
-			Str typeStr(10);
-			typeStr += "Type ";
-			typeStr += i;
 
+		if (chance >= percent) {
+			QString typeStr = QString("Type %1").arg(i);
 			const char* type = mobs.getString("Spawn", typeStr);
 			Mob* m = new Mob(type, world);
 			return m;

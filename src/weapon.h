@@ -37,13 +37,13 @@ public:
 	bool isEmpty();
 
 protected:
-	Weapon(World* world, const char* type);
+	Weapon(World* world, QString type);
 
 private:
-	char* type;
+	QString type;
 	Char* wielder;
 
-	char* ammo;
+	QString ammo;
 	int shots;
 
 	Range inaccuracy;
@@ -52,7 +52,7 @@ private:
 	int clip; // current ammo in clip
 
 	/*
-	 * Cooldown {
+	 * struct Cooldown {
 	 * } reload, fire
 	 */
 	bool cooling;
@@ -64,7 +64,7 @@ private:
 	int coolTime;
 	int loadTime;
 
-	char* loadSnd;
+	QString loadSnd;
 };
 
 #endif // _WEAPON_H_

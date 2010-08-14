@@ -52,24 +52,24 @@ SDL_Surface* InitScreen()
 		videoFlags |= SDL_FULLSCREEN;
 
 	// Use OpenGL?
-	bool opengl = globals->getBool( "Graphics", "Use-GL", false );
+	bool opengl = globals->getBool("Graphics", "Use-GL", false);
 	if (opengl) {
-		printf( "Using OpenGL! (not a good idea yet..)\n" );
+		printf("Using OpenGL! (not a good idea yet..)\n");
 		videoFlags |= SDL_OPENGL;
 	}
 	else {
 		// HWSURFACE should *not* be used with OpenGL
 		videoFlags |= SDL_HWSURFACE;
 		videoFlags |= SDL_DOUBLEBUF;
-		printf( "Using plain-old SDL for rendering....\n" );
+		printf("Using plain-old SDL for rendering....\n");
 	}
 
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
-		err(1, "Failed to initialize SDL");
+		err("Failed to initialize SDL");
 
 	screen = SDL_SetVideoMode(width, height, depth, videoFlags);
 	if (screen == NULL)
-		err(1, "Failed to initialize SDL window");
+		err("Failed to initialize SDL window");
 
 	if (opengl) {
 		// enable double-buffering with OGL

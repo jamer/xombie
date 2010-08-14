@@ -5,7 +5,7 @@ DEPENDPATH += . src src/item
 INCLUDEPATH += . src src/item
 
 CONFIG += debug windows qt
-QT = core
+QT = core gui
 
 LIBS += -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
 

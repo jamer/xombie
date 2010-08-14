@@ -77,27 +77,15 @@ Conf::~Conf()
  * Search the configuration for a value.
  * Section and key are case-insensative.
  */
-const char* Conf::getString(const char* s, const char* k,
+const char* Conf::getString(QString s, QString k,
 	       	const char* def)
 {
-	if (s == NULL || strlen(s) == 0 ||
-	    k == NULL || strlen(k) == 0)
-		return NULL;
-
-	// lower case
-	char* s2 = strdup(s);
-	for (unsigned int i = 0; i < strlen(s2); i++)
-		s2[i] = tolower(s2[i]);
-	char* k2 = strdup(k);
-	for (unsigned int i = 0; i < strlen(k2); i++)
-		k2[i] = tolower(k2[i]);
+	s = s.toLower();
+	k = k.toLower();
 
 	// hash
-	int h1 = hash(s2);
-	int h2 = hash(k2);
-
-	free(s2);
-	free(k2);
+	int h1 = hash(s.toUtf8().data());
+	int h2 = hash(k.toUtf8().data());
 
 	// get section and then pair
 	QHash<int, QHash<int, char*> >::iterator i1 = data.find(h1);
@@ -119,7 +107,7 @@ const char* Conf::getString(const char* s, const char* k,
  * Searches the configuration for a value and parses it as an integer.
  * Section and key are case-insensative.
  */
-int Conf::getInt(const char* section, const char* key, int def)
+int Conf::getInt(QString section, QString key, int def)
 {
 	const char* str;
 	int i = def;
@@ -133,8 +121,7 @@ int Conf::getInt(const char* section, const char* key, int def)
 	return i;
 }
 
-Range Conf::getRange(const char* section, const char* key,
-		int deflow, int defhigh)
+Range Conf::getRange(QString section, QString key, int deflow, int defhigh)
 {
 	const char* str;
 	Range def(deflow, defhigh);
@@ -154,7 +141,7 @@ Range Conf::getRange(const char* section, const char* key,
  * Searches the configuration for a value and parses it as a boolean.
  * Section and key are case-insensative.
  */
-bool Conf::getBool(const char* section, const char* key, bool def)
+bool Conf::getBool(QString section, QString key, bool def)
 {
 	const char* str;
 	bool b = def;
