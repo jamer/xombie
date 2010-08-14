@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 
+#include "orientation.h"
+
 #define S_CAN_ROTATE 1
 
 class Sprite
@@ -10,21 +12,23 @@ class Sprite
 public:
 	Sprite();
 	~Sprite();
-	
+
 	void move(long dt);
-	void move(long dt, double angle);
+	void move(long dt, Angle angle);
 	void stayOnScreen();
 	virtual void draw(SDL_Surface* screen);
 
 	void setGraphicId(const char* gfx);
-	void setAngle(double theta);
-	void setAngleFromXY(double x, double y);
+	void setAngle(Angle theta);
+	void setAngleFromXY(real x, real y);
 	void setLoc(short x, short y);
-	void setSpeed(double speed);
+	void setSpeed(real speed);
 
-	double getAngle();
+	Angle getAngle();
+	Orientation getOrientation();
+
 	SDL_Surface* getGraphic();
-	SDL_Rect* getLoc();
+	SDL_Rect* getLoc(); // XXX
 	SDL_Rect* getDispLoc();
 	SDL_Rect* getBoundaries(); // collision boundries
 
@@ -32,15 +36,15 @@ public:
 	bool isCompletelyOnScreen();
 
 protected:
-	char gfxId[128];
+	char gfxId[128]; // XXX make QString
 	uint32_t gfxHash;
 
-	SDL_Rect loc; // public location for getLoc
+	Orientation orient;
+
+	SDL_Rect loc; // public location for getLoc // XXX
 	SDL_Rect origsz;
 	SDL_Rect tmp;
-	double angle;
-	double speed;
-	double x, y; // private accurate doubles
+	real speed;
 
 	SDL_Surface* gfx;
 };
