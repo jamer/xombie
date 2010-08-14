@@ -14,6 +14,8 @@ public:
 	Vector();
 	Vector(real x, real y);
 
+	real distanceTo(const Vector& v);
+
 	Vector& operator += (const Vector& v);
 	Vector& operator *= (const Vector& v);
 

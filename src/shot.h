@@ -19,9 +19,8 @@ public:
 
 private:
 	bool dead;
-	int dur;
-	int time;
-	int entropy; // percentage, 0-100
+	int lifespan;
+	real entropy; // percentage, 0.01 to 1.00
 	Range damage;
 };
 

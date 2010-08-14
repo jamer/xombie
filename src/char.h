@@ -12,7 +12,7 @@ class Char;
 class Char : public Sprite
 {
 public:
-	Char(const char* graphicId);
+	Char(QString graphicId);
 	virtual ~Char();
 
 	void update(int dx, int dy, int dt);
@@ -37,7 +37,7 @@ public:
 
 private:
 	World* world;
-	Inventory* inv;
+	Inventory inventory;
 
 	bool currentChar;
 	int hp, mhp;

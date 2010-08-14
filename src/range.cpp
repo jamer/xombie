@@ -14,9 +14,9 @@ Range::Range(QString range)
 	parse(range);
 }
 
-int Range::get()
+int Range::value()
 {
-	if (min <= max)
+	if (min >= max)
 		return min;
 	return randInt(min, max);
 }

@@ -11,34 +11,30 @@
 #include "pistol.h"
 
 
-World::World(const char* worldName)
+World::World(QString worldName)
 {
-	char buf[256];
-	strcpy(buf, worldName);
-
 	engine = getEngine();
 
 	// Load specs.
-	Conf lvl(buf);
+	Conf lvl(worldName);
 
-	peopleCount          = lvl.getInt("People", "Count");
+	peopleCount = lvl.getInt("People", "Count");
 
-	mobCount             = lvl.getInt("Mobs", "Initial Count");
-	mobSpawnDelay        = lvl.getInt("Mobs", "Spawn Delay");
-	mobSpawnTimer        = lvl.getInt("Mobs", "Spawn Timer");
+	mobCount = lvl.getInt("Mobs", "Initial Count");
+	mobSpawnDelay = lvl.getInt("Mobs", "Spawn Delay");
+	mobSpawnTimer = lvl.getInt("Mobs", "Spawn Timer");
 	mobSpawnAcceleration = lvl.getInt("Mobs", "Spawn Acceleration");
-	mobSpawnMinimum      = lvl.getInt("Mobs", "Spawn Minimum");
+	mobSpawnMinimum = lvl.getInt("Mobs", "Spawn Minimum");
 
-	itemSpawnDelay       = lvl.getInt("Items", "Spawn Delay");
-	itemSpawnTimer       = lvl.getInt("Items", "Spawn Timer");
-
+	itemSpawnDelay = lvl.getInt("Items", "Spawn Delay");
+	itemSpawnTimer = lvl.getInt("Items", "Spawn Timer");
 
 	// Init party member, starting mobs, and first weapon.
 	for (int i = 0; i < peopleCount; i++) {
 		Char* partymem = new Char("susan");
 		partymem->setWorld(this);
 		partymem->setLoc(randInt(200, 300), randInt(200, 300));
-		partymem->setAngle(randAngle() * M_PI * 2);
+		partymem->setAngle(randAngle());
 		partymem->pickUp(new Pistol(this));
 		engine->getParty()->push_back(partymem);
 	}
@@ -104,34 +100,27 @@ list<Shot*>* World::getShots()
 void World::playerShoots()
 {
 	Weapon* weapon = engine->getPlayer()->getInventory()->getWeapon();
-	if (weapon != NULL) {
-		if (weapon->tryShot() == SHOOT) {
-			weapon->doShot(&shots);
-		}
-	}
+	if (weapon != NULL && weapon->tryShot() == SHOOT)
+		weapon->doShot(&shots);
 }
 
-Mob* World::findClosestMob(SDL_Rect* pt)
+Mob* World::findClosestMob(Vector location)
 {
-	unsigned int shortest = (unsigned int)-1;
-	Mob* m = NULL;
+	real shortest = 0;
+	Mob* nearest = NULL;
 
 	list<Mob*>::iterator mobit;
 	for (mobit = mobs.begin(); mobit != mobs.end(); mobit++) {
 		Mob* mob = *mobit;
-
-		SDL_Rect* ml = mob->getLoc();
-		int b = pt->x - ml->x;
-		int c = pt->y - ml->y;
-		unsigned int dist = (unsigned int)sqrt(b*b + c*c);
-
+		real dist = location.distanceTo(
+				mob->getOrientation().getLocation());
 		if (dist < shortest) {
 			shortest = dist;
-			m = mob;
+			nearest = mob;
 		}
 	}
 
-	return m;
+	return nearest;
 }
 
 void World::update(int dt)
@@ -210,9 +199,7 @@ void World::updateMobs(int dt)
 		// Collide with party.
 		for (pit = party->begin(); pit != party->end(); pit++) {
 			Char* ch = *pit;
-			bool collide = testCollision(mrect,
-			                             ch->getBoundaries());
-			if (collide)
+			if (testCollision(mrect, ch->getBoundaries()))
 				ch->doCollision(mob);
 		}
 

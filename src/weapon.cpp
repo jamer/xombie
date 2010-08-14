@@ -89,7 +89,7 @@ void Weapon::doShot(list<Shot*>* shotlist)
 		clip--;
 
 		cooling = true;
-		coolTime = cooldownDuration.get();
+		coolTime = cooldownDuration.value();
 
 		for (int i = 0; i < shots; i++) {
 			Shot* shot = new Shot(ammo, wielder, inaccuracy);
@@ -101,7 +101,7 @@ void Weapon::doShot(list<Shot*>* shotlist)
 		if (!loadSnd.isEmpty())
 			getAudio()->play(loadSnd);
 		loading = true;
-		loadTime = loadDuration.get();
+		loadTime = loadDuration.value();
 	}
 }
 

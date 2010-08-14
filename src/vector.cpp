@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "vector.h"
 
 Vector::Vector()
@@ -8,6 +10,13 @@ Vector::Vector()
 Vector::Vector(real _x, real _y)
 	: x(_x), y(_y)
 {
+}
+
+real Vector::distanceTo(const Vector& v)
+{
+	int b = x - v.x;
+	int c = y - v.y;
+	return (real)sqrt(b*b + c*c);
 }
 
 Vector& Vector::operator += (const Vector& v)

@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -20,6 +21,6 @@ real randReal()
 
 Angle randAngle()
 {
-	return (Angle)rand() / (Angle)RAND_MAX;
+	return (Angle)rand() / (Angle)RAND_MAX * M_PI * 2;
 }
 

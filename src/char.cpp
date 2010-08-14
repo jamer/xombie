@@ -7,18 +7,15 @@
 #include "engine.h"
 #include "random.h"
 
-Char::Char(const char* graphicId)
-	: Sprite(), currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
+Char::Char(QString graphicId)
+	: inventory(this), currentChar(false), hp(3), mhp(3), blinking(0), dead(false)
 {
-	setSpeed(200.0);
-
 	setGraphicId(graphicId);
-	inv = new Inventory(this);
+	setSpeed(200.0);
 }
 
 Char::~Char()
 {
-	delete inv;
 }
 
 /**
@@ -36,25 +33,21 @@ void Char::update(int dt)
 		int x = playerMoveVector.x;
 		int y = playerMoveVector.y;
 
-		setAngleFromXY(x, y);
-
-		// Are we moving?
-		if (x || y)
-			setSpeed(200.0);
-		else
-			setSpeed(0.0);
-		move(dt); 
+		if (x || y) {
+			setAngleFromXY(x, y);
+			move(dt);
+		}
 
 		// Look at the mouse, yes
 		mouseStruct* mouse = getEngine()->getMouse();
-		SDL_Rect* ploc = getLoc();
+		Vector loc = getOrientation().getLocation();
 
 		// Remember, logical screen coordinates have Y values reversed
-		setAngleFromXY(ploc->x - mouse->x, mouse->y - ploc->y);
+		setAngleFromXY(loc.x - mouse->x, mouse->y - loc.y);
 	}
 	else {
 		// Face nearest mob
-		Mob* mob = world->findClosestMob(getLoc());
+		Mob* mob = world->findClosestMob(getOrientation().getLocation());
 		if (mob) {
 			SDL_Rect* l = getLoc();
 			SDL_Rect* m = mob->getLoc();
@@ -99,7 +92,7 @@ void Char::doCollision(Mob* mob)
 
 void Char::pickUp(Item* item)
 {
-	inv->addItem(item);
+	inventory.addItem(item);
 }
 
 bool Char::isPlayer()
@@ -143,7 +136,7 @@ int Char::getMaxHP()
 
 Inventory* Char::getInventory()
 {
-	return inv;
+	return &inventory;
 }
 
 bool Char::isDead()

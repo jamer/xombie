@@ -1,10 +1,10 @@
 #ifndef _INVENTORY_H_
 #define _INVENTORY_H_
 
+class Char;
 class Inventory;
-
-#include "item.h"
-#include "weapon.h"
+class Item;
+class Weapon;
 
 // Permanent maximum inventory size
 #define INV_SZ 6
@@ -29,6 +29,9 @@ private:
 	Item** items;
 	Char* ch;
 };
+
+#include "item.h"
+#include "weapon.h"
 
 #endif // _INVENTORY_H_
 

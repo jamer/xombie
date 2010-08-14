@@ -8,7 +8,7 @@ class Range
 public:
 	Range(int min, int max);
 	Range(QString s);
-	int get();
+	int value();
 
 private:
 	int min;
