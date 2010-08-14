@@ -6,12 +6,13 @@
 class Mob;
 
 #include "sprite.h"
+#include "vector.h"
 #include "world.h"
 
 class Mob : public Sprite
 {
 public:
-	Mob(const char* type, World* world);
+	Mob(QString type, World* world);
 
 	/** update()
 	 * Update AI; randomly moves left, right, or straight for 0.5 to 2
@@ -24,7 +25,7 @@ public:
 	 */
 	void draw(SDL_Surface* screen);
 
-	char* spawnItem();
+	QString spawnItem(); // XXX what is this?
 
 	void setHP(int hp);
 	bool isDead();
@@ -38,14 +39,14 @@ private:
 	 */
 	void generateSpawnPosition(World* world);
 
-	char type[64];
+	QString type;
 
 	bool dead;
 	int hp, mhp;
 	int dmg;
 
 	bool damagable;
-	const char* graphicDmg;
+	QString graphicDmg;
 
 	int dir, dur;
 };

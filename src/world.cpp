@@ -38,7 +38,7 @@ World::World(const char* worldName)
 		Char* partymem = new Char("susan");
 		partymem->setWorld(this);
 		partymem->setLoc(randInt(200, 300), randInt(200, 300));
-		partymem->setAngle(randDouble() * M_PI * 2);
+		partymem->setAngle(randAngle() * M_PI * 2);
 		partymem->pickUp(new Pistol(this));
 		engine->getParty()->push_back(partymem);
 	}

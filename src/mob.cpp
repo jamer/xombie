@@ -30,7 +30,7 @@ Mob* newRandomMob(World* world)
 
 		if (chance >= percent) {
 			QString typeStr = QString("Type %1").arg(i);
-			const char* type = mobs.getString("Spawn", typeStr);
+			QString type = mobs.getString("Spawn", typeStr);
 			Mob* m = new Mob(type, world);
 			return m;
 		}
@@ -40,10 +40,10 @@ Mob* newRandomMob(World* world)
 }
 
 
-Mob::Mob(const char* Type, World* world)
+Mob::Mob(QString Type, World* world)
 	: dead(false), dur(0)
 {
-	strcpy(type, Type);
+	type = Type;
 
 	setGraphicId(mobs.getString(type, "Graphic"));
 	setSpeed(mobs.getInt(type, "Speed"));
@@ -77,25 +77,25 @@ void Mob::generateSpawnPosition(World* world)
 		case 0:
 			x = -gfx->w - 5;
 			y = randInt(100, screenHeight - 100);
-			setAngle(randDouble() * M_PI_2 - 1.0 * M_PI / 4.0);
+			setAngle(randAngle() * M_PI_2 - 1.0 * M_PI / 4.0);
 			break;
 		// right
 		case 1:
 			x = screenWidth + gfx->w + 5;
 			y = randInt(100, screenHeight - 100);
-			setAngle(randDouble() * M_PI_2 + 3.0 * M_PI / 4.0);
+			setAngle(randAngle() * M_PI_2 + 3.0 * M_PI / 4.0);
 			break;
 		// top
 		case 2:
 			x = randInt(100, screenHeight - 100);
 			y = -gfx->h - 5;
-			setAngle(randDouble() * M_PI_2 + 5.0 * M_PI / 4.0);
+			setAngle(randAngle() * M_PI_2 + 5.0 * M_PI / 4.0);
 			break;
 		// bottom
 		case 3:
 			x = randInt(100, screenHeight - 100);
 			y = screenHeight + gfx->h + 5;
-			setAngle(randDouble() * M_PI_2 + 1.0 * M_PI / 4.0);
+			setAngle(randAngle() * M_PI_2 + 1.0 * M_PI / 4.0);
 			break;
 	}
 
@@ -116,7 +116,7 @@ void Mob::update(int dt)
 		dir = randInt(-1, 1);
 	}
 
-	double ang = getAngle() + 0.001 * dt * dir;
+	Angle ang = getAngle() + 0.001 * dt * dir;
 
 	while (ang < 0)
 		ang += 2 * M_PI;
@@ -133,14 +133,14 @@ void Mob::draw(SDL_Surface* screen)
 	Sprite::draw(screen);
 }
 
-char* Mob::spawnItem()
+QString Mob::spawnItem() // XXX what is this?
 {
 	static bool shotgun = false;
-	if (!strcmp(type, "metazombie") && !shotgun) {
+	if (type == "metazombie" && !shotgun) {
 		shotgun = true;
-		return (char*)"shotgun";
+		return "shotgun";
 	}
-	return NULL;
+	return "";
 }
 
 void Mob::setHP(int HP)

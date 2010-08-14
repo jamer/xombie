@@ -20,11 +20,11 @@ Shot::Shot(QString type, Sprite* src, Range inaccuracy) :
 	move(1000);
 
 	Angle anglent = M_PI / 100 * entropy;
-	setAngle(getAngle() + anglent * 2 * (randDouble() - 0.5));
+	setAngle(getAngle() + anglent * 2 * (randAngle() - 0.5));
 
 	// set speed, not all shots move equally
 	real maxVariation = 0.1; // maximum variation in either direction
-	real variation = ((randDouble() - 0.5) * maxVariation) + 1.0;
+	real variation = ((randReal() - 0.5) * maxVariation) + 1.0;
 	setSpeed((real)shots.getInt(type, "Speed", 400) * variation);
 
 	dur = shots.getInt(type, "Duration", 10000);
