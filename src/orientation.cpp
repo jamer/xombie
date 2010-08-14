@@ -1,19 +1,17 @@
-#include <math.h>
 #include "orientation.h"
 
 Orientation::Orientation()
-	: location(), angle(0)
 {
 }
 
-Orientation::Orientation(Vector loc, Angle a)
-	: location(loc), angle(a)
+Orientation::Orientation(Vector loc, Angle angle)
+	: location(loc), rotation(angle)
 {
 }
 
 Angle Orientation::getAngle() const
 {
-	return angle;
+	return rotation;
 }
 
 Vector Orientation::getLocation() const
@@ -21,41 +19,31 @@ Vector Orientation::getLocation() const
 	return location;
 }
 
-void Orientation::setAngle(Angle a)
+void Orientation::setAngle(const Angle angle)
 {
-	angle = a;
-	calcUnits();
+	rotation = angle;
 }
 
-void Orientation::setLocation(Vector loc)
+void Orientation::setLocation(const Vector loc)
 {
 	location = loc;
 }
 
-void Orientation::translate(Vector coordinates)
+void Orientation::translate(const Vector coords)
 {
-	location += coordinates;
+	location += coords;
 }
 
-Orientation& Orientation::operator += (real distance)
+Orientation& Orientation::operator += (const real distance)
 {
-	location += dx * distance;
+	location += rotation.transform(distance);
 	return *this;
 }
 
-Orientation& Orientation::operator += (Vector v)
+Orientation& Orientation::operator += (const Vector coords)
 {
-	location += dx * v.x;
-	location += dy * v.y;
+	location += rotation.transform(coords);
 	return *this;
-}
-
-void Orientation::calcUnits()
-{
-	Angle rightAngle = angle + M_PI_2;
-
-	dx = Vector(cos(angle), sin(angle));
-	dy = Vector(cos(rightAngle), sin(rightAngle));
 }
 
 Orientation operator + (const Orientation& orient, real distance)

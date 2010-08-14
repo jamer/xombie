@@ -5,40 +5,35 @@
  * A position and direction.
  */
 
+#include "rotation.h"
 #include "vector.h"
 
 class Orientation
 {
 public:
 	Orientation();
-	Orientation(Vector location, Angle angle);
+	Orientation(const Vector location, const Angle angle);
 	
 	Angle getAngle() const;
 	Vector getLocation() const;
 
-	void setAngle(Angle angle);
-	void setLocation(Vector location);
+	void setAngle(const Angle angle);
+	void setLocation(const Vector location);
 
 	/*
 	 * Not rotated.
 	 */
-	void translate(Vector coordinates);
+	void translate(const Vector coords);
 
 	/*
-	 * Anything added to an Orientation is rotated by the angle first.
+	 * Anything added to an Orientation is transformed by the rotation first.
 	 */
-	Orientation& operator += (real distance);
-	Orientation& operator += (Vector v);
+	Orientation& operator += (const real distance);
+	Orientation& operator += (const Vector coords);
 
 private:
-	/*
-	 * Calculate dx and dy based on angle.
-	 */
-	void calcUnits();
-
 	Vector location;
-	Vector dx, dy; // Unit vectors of angle
-	Angle angle;
+	Rotation rotation;
 };
 
 Orientation operator + (const Orientation& o, real distance);
