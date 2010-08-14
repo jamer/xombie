@@ -1,6 +1,7 @@
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
+#include <QString>
 #include <SDL.h>
 
 #include "orientation.h"
@@ -18,7 +19,7 @@ public:
 	void stayOnScreen();
 	virtual void draw(SDL_Surface* screen);
 
-	void setGraphicId(const char* gfx);
+	void setGraphicId(QString id);
 	void setAngle(Angle theta);
 	void setAngleFromXY(real x, real y);
 	void setLoc(short x, short y);
@@ -36,14 +37,14 @@ public:
 	bool isCompletelyOnScreen();
 
 protected:
-	char gfxId[128]; // XXX make QString
-	uint32_t gfxHash;
+	QString gfxId;
 
-	Orientation orient;
 
 	SDL_Rect loc; // public location for getLoc // XXX
 	SDL_Rect origsz;
 	SDL_Rect tmp;
+
+	Orientation orient;
 	real speed;
 
 	SDL_Surface* gfx;

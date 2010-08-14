@@ -10,7 +10,6 @@ Sprite::Sprite()
 	: speed(0.0)
 {
 	loc.w = loc.h = loc.x = loc.y = 0;
-	gfxId[0] = '\0';
 }
 
 Sprite::~Sprite()
@@ -52,11 +51,6 @@ void Sprite::stayOnScreen() // XXX: terrible
 
 void Sprite::draw(SDL_Surface* screen)
 {
-#if DEBUG
-	if (gfxId[0] == '\0')
-		throw "Sprite::draw() - invalid gfxId";
-#endif
-	
 	if (!isOnScreen())
 		return;
 
@@ -64,11 +58,11 @@ void Sprite::draw(SDL_Surface* screen)
 	SDL_BlitSurface(getGraphic(), NULL, screen, rect);
 }
 
-void Sprite::setGraphicId(const char* id)
+void Sprite::setGraphicId(QString id)
 {
 	// XXX redo the image caching
 
-	strcpy(gfxId, id);
+	gfxId = id;
 //	gfxHash = hash(gfxId);
 
 	// grab the original size
