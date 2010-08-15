@@ -29,9 +29,21 @@ void Orientation::setLocation(const Vector loc)
 	location = loc;
 }
 
+void Orientation::setLocation(const real x, const real y)
+{
+	location.x = x;
+	location.y = y;
+}
+
 void Orientation::translate(const Vector coords)
 {
 	location += coords;
+}
+
+void Orientation::translate(const real x, const real y)
+{
+	location.x += x;
+	location.y += y;
 }
 
 Orientation& Orientation::operator += (const real distance)

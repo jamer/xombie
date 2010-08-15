@@ -9,7 +9,6 @@
 Sprite::Sprite()
 	: speed(0.0)
 {
-	loc.w = loc.h = loc.x = loc.y = 0;
 }
 
 Sprite::~Sprite()
@@ -19,8 +18,6 @@ Sprite::~Sprite()
 void Sprite::move(long dt)
 {
 	orient += speed / 1000 * dt;
-	loc.x = (Sint16)orient.getLocation().x;
-	loc.y = (Sint16)orient.getLocation().y;
 }
 
 void Sprite::move(long dt, Angle angle)
@@ -28,10 +25,7 @@ void Sprite::move(long dt, Angle angle)
 	real dx = cos(-angle) * speed * dt / 1000.0;
 	real dy = sin(-angle) * speed * dt / 1000.0;
 
-	orient.translate(Vector(dx, dy)); // XXX: add Orientation::translate(real x, real y)
-
-	loc.x = (Sint16)orient.getLocation().x;
-	loc.y = (Sint16)orient.getLocation().y;
+	orient.translate(dx, dy);
 }
 
 void Sprite::stayOnScreen() // XXX: terrible
@@ -46,7 +40,7 @@ void Sprite::stayOnScreen() // XXX: terrible
 	y = max(y, gfx->h / 2 + 0.001);
 	y = min(y, getEngine()->getHeight() - gfx->h / 2 - 0.001);
 
-	orient.setLocation(Vector(x, y)); // XXX: add Orientation::setLocation(real x, real y)
+	orient.setLocation(x, y);
 }
 
 void Sprite::draw(SDL_Surface* screen)
@@ -130,17 +124,12 @@ SDL_Surface* Sprite::getGraphic()
 	return gfx;
 }
 
-SDL_Rect* Sprite::getLoc()
-{
-	return &loc;
-}
-
 SDL_Rect* Sprite::getDispLoc()
 {
 	tmp.w = gfx->w;
 	tmp.h = gfx->h;
-	tmp.x = loc.x - gfx->w / 2;
-	tmp.y = loc.y - gfx->h / 2;
+	tmp.x = orient.getLocation().x - gfx->w / 2;
+	tmp.y = orient.getLocation().y - gfx->h / 2;
 
 	return &tmp;
 }
@@ -149,16 +138,9 @@ SDL_Rect* Sprite::getBoundaries()
 {
 	tmp.w = origsz.w;
 	tmp.h = origsz.h;
-	tmp.x = loc.x - origsz.w / 2;
-	tmp.y = loc.y - origsz.h / 2;
+	tmp.x = orient.getLocation().x - origsz.w / 2;
+	tmp.y = orient.getLocation().y - origsz.h / 2;
 	return &tmp;
-}
-
-void Sprite::setLoc(short x, short y)
-{
-	orient.setLocation(Vector(x, y));
-	loc.x = x;
-	loc.y = y;
 }
 
 bool Sprite::isOnScreen()

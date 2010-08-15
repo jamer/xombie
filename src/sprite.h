@@ -22,14 +22,12 @@ public:
 	void setGraphicId(QString id);
 	void setAngle(Angle theta);
 	void setAngleFromXY(real x, real y);
-	void setLoc(short x, short y);
 	void setSpeed(real speed);
 
 	Angle getAngle();
 	Orientation& getOrientation();
 
 	SDL_Surface* getGraphic();
-	SDL_Rect* getLoc(); // XXX
 	SDL_Rect* getDispLoc();
 	SDL_Rect* getBoundaries(); // collision boundries
 
@@ -39,8 +37,6 @@ public:
 protected:
 	QString gfxId;
 
-
-	SDL_Rect loc; // public location for getLoc // XXX
 	SDL_Rect origsz;
 	SDL_Rect tmp;
 

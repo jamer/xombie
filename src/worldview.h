@@ -19,6 +19,9 @@ public:
 	WorldView();
 	void update(int dt);
 	void draw();
+
+	void doMouseDown(MouseButton button);
+	void doMouseUp(MouseButton button);
 	void doKeyDown(int key);
 	void doKeyUp(int key);
 
@@ -31,6 +34,7 @@ private:
 	void generateInfoText(char** tldisplay, char** trdisplay,
 			char** bldisplay, char** brdisplay);
 
+	bool shooting;
 	bool leftPressed, rightPressed, upPressed, downPressed;
 
 	Engine* engine;

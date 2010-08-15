@@ -7,6 +7,14 @@ void View::update(int)
 {
 }
 
+void View::doMouseDown(MouseButton)
+{
+}
+
+void View::doMouseUp(MouseButton)
+{
+}
+
 void View::doKeyDown(int)
 {
 }

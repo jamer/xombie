@@ -39,19 +39,19 @@ void Char::update(int dt)
 		}
 
 		// Look at the mouse, yes
-		mouseStruct* mouse = getEngine()->getMouse();
+		Vector mouse = getEngine()->getMouse().getPosition();
 		Vector loc = getOrientation().getLocation();
 
 		// Remember, logical screen coordinates have Y values reversed
-		setAngleFromXY(loc.x - mouse->x, mouse->y - loc.y);
+		setAngleFromXY(loc.x - mouse.x, mouse.y - loc.y);
 	}
 	else {
 		// Face nearest mob
 		Mob* mob = world->findClosestMob(getOrientation().getLocation());
 		if (mob) {
-			SDL_Rect* l = getLoc();
-			SDL_Rect* m = mob->getLoc();
-			setAngleFromXY(l->x - m->x, m->y - l->y);
+			Vector l = orient.getLocation();
+			Vector m = mob->getOrientation().getLocation();
+			setAngleFromXY(l.x - m.x, m.y - l.y);
 		}
 	}
 

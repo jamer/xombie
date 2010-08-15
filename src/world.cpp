@@ -33,7 +33,7 @@ World::World(QString worldName)
 	for (int i = 0; i < peopleCount; i++) {
 		Char* partymem = new Char("susan");
 		partymem->setWorld(this);
-		partymem->setLoc(randInt(200, 300), randInt(200, 300));
+		partymem->getOrientation().setLocation(randInt(200, 300), randInt(200, 300));
 		partymem->setAngle(randAngle());
 		partymem->pickUp(new Pistol(this));
 		engine->getParty()->push_back(partymem);
@@ -45,7 +45,7 @@ World::World(QString worldName)
 	}
 
 	Pistol* pistol = new Pistol(this);
-	pistol->setLoc(150, 150); // FIXME: Shouldn't need to call this.
+	pistol->getOrientation().setLocation(150, 150); // FIXME: Shouldn't need to call this.
 	items.push_back(pistol);
 
 	bounds.x = 0;

@@ -10,7 +10,7 @@ Item::Item(World* w)
 	int x = randInt(100, rect->w - 100);
 	int y = randInt(100, rect->h - 100);
 
-	setLoc(x, y);
+	getOrientation().setLocation(x, y);
 }
 
 Item::~Item()

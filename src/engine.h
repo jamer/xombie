@@ -12,16 +12,10 @@ void Quit(int code);
 class Engine;
 
 #include "char.h"
+#include "mouse.h"
 #include "view.h"
 
 using std::list;
-
-struct mouseStruct {
-	int x;
-	int y;
-	bool btn1Down;
-	bool btn2Down;	
-};
 
 bool IsGameLost();
 void LoseGame();
@@ -57,7 +51,7 @@ public:
 	SDL_Surface* getScreen();
 	Char* getPlayer();
 	list<Char*>* getParty();
-	mouseStruct* getMouse();
+	Mouse& getMouse();
 
 	void addScore(int i);
 	int getScore();
@@ -93,9 +87,9 @@ private:
 	 */
 	long wait();
 
+	Mouse mouse;
 
 	SDL_Surface* screen; // backbuffer
-	mouseStruct mouse;
 
 	QStack<View*> views;
 	View* newView;
@@ -106,7 +100,7 @@ private:
 
 	Char* player;
 	list<Char*> party; // list of characters in party
-	
+
 	World* world;
 
 	int score;

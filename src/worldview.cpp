@@ -12,7 +12,8 @@
 using std::list;
 
 WorldView::WorldView()
-	: leftPressed(false), rightPressed(false),
+	: shooting(false),
+	leftPressed(false), rightPressed(false),
 	upPressed(false), downPressed(false), world(NULL)
 {
 	engine = getEngine();
@@ -43,10 +44,8 @@ void WorldView::update(int dt)
 	world->update(dt);
 
 	// Shoot on mouse click
-	mouseStruct* mouse = engine->getMouse();
-	if (mouse->btn1Down) {
+	if (shooting)
 		world->playerShoots();
-	}
 }
 
 void WorldView::draw()
@@ -121,6 +120,28 @@ void WorldView::dropItem()
 	          xy->y -  (30 + wh->h) * sin(p->getAngle()));
 	items.push_back(w);
 */
+}
+
+void WorldView::doMouseDown(MouseButton button)
+{
+	switch (button) {
+	case LEFT:
+		shooting = true;
+		break;
+	default:
+		break;
+	}
+}
+
+void WorldView::doMouseUp(MouseButton button)
+{
+	switch (button) {
+	case LEFT:
+		shooting = false;
+		break;
+	default:
+		break;
+	}
 }
 
 void WorldView::doKeyDown(int key)

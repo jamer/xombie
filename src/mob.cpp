@@ -98,7 +98,7 @@ void Mob::generateSpawnPosition(World* world)
 			break;
 	}
 
-	setLoc(x, y);
+	getOrientation().setLocation(x, y);
 }
 
 void Mob::update(int dt)

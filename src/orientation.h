@@ -19,11 +19,13 @@ public:
 
 	void setAngle(const Angle angle);
 	void setLocation(const Vector location);
+	void setLocation(const real x, const real y);
 
 	/*
 	 * Not rotated.
 	 */
 	void translate(const Vector coords);
+	void translate(const real x, const real y);
 
 	/*
 	 * Anything added to an Orientation is transformed by the rotation first.

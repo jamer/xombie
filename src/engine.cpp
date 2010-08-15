@@ -1,6 +1,7 @@
 #include <SDL.h> 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <stdlib.h>
 
 #include "audio.h"
 #include "common.h"
@@ -26,14 +27,14 @@ void Quit(int code)
 	delete getAudio();
 	delete getImgBase();
 	DeinitFont();
-	
+
 	SDL_FreeSurface(getWindowIcon());
 
 	TTF_Quit();
 	SDL_Quit();
-	
+
 	delete globals;
-	
+
 	exit(code);
 }
 
@@ -69,7 +70,7 @@ Engine::Engine(SDL_Surface* s) : views(), score(0)
 	newView = NULL;
 	closingView = false;
 
-	memset(&mouse, 0, sizeof(mouse));
+	mouse.setCursor(CROSSHAIR);
 
 	FPS = globals->getInt("Game", "FPS", 30);
 	UPS = 60;
@@ -91,7 +92,7 @@ void Engine::loadGame()
 	player->setPlayer(true);
 	party.push_back(player);
 
-	player->setLoc(0, 0);
+	player->getOrientation().setLocation(50, 50);
 	player->setAngle(0.0);
 
 	/* Hmm, we should probably load a main menu view rather than jump
@@ -142,9 +143,9 @@ std::list<Char*>* Engine::getParty()
 	return &party;
 }
 
-mouseStruct* Engine::getMouse()
+Mouse& Engine::getMouse()
 {
-	return &mouse;
+	return mouse;
 }
 
 void Engine::addScore(int i)
@@ -168,12 +169,11 @@ void Engine::runGameEngine(long dt)
 		newView = NULL;
 	}
 
-	if (topView == views.top()) {
+	if (topView == views.top())
 		while (closingView) {
 			delete views.pop();
 			closingView = false;
 		}
-	}
 
 	if (views.size() == 0)
 		Quit();
@@ -195,60 +195,50 @@ void Engine::render()
 	views.top()->draw();
 }
 
-/**
- * captureInput()
- *
- * Process 
- */
 void Engine::captureInput()
 {
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
+	while (SDL_PollEvent(&event))
 		handleEvent(event);
-	}
 }
 
 void Engine::handleEvent(SDL_Event& event)
 {
+	MouseButton button;
+	int key;
+
 	switch (event.type) {
 
-		case SDL_QUIT:
-			while (views.size())
-				delete views.pop();
-			Quit();
-			break;
+	case SDL_QUIT:
+		while (views.size())
+			delete views.pop();
+		Quit();
+		break;
 
-		case SDL_MOUSEMOTION:
-			mouse.x = event.motion.x;
-			mouse.y = event.motion.y;
-			break;
+	case SDL_MOUSEMOTION:
+		mouse.setPosition(event);
+		break;
 
-		case SDL_MOUSEBUTTONDOWN:
-			switch (event.button.button) {
-				case SDL_BUTTON_LEFT:
-					mouse.btn1Down = true;
-					break;
-			}
-			break;
+	case SDL_MOUSEBUTTONDOWN:
+		button = static_cast<MouseButton>(event.button.button);
+		views.top()->doMouseDown(button);
+		break;
+	case SDL_MOUSEBUTTONUP:
+		button = static_cast<MouseButton>(event.button.button);
+		views.top()->doMouseUp(button);
+		break;
 
-		case SDL_MOUSEBUTTONUP:
-			switch (event.button.button) {
-				case SDL_BUTTON_LEFT:
-					mouse.btn1Down = false;
-					break;
-			}
-			break;
+	case SDL_KEYDOWN:
+		key = event.key.keysym.sym;
+		views.top()->doKeyDown(key);
+		break;
+	case SDL_KEYUP:
+		key = event.key.keysym.sym;
+		views.top()->doKeyUp(key);
+		break;
 
-		case SDL_KEYDOWN:
-			views.top()->doKeyDown(event.key.keysym.sym);
-			break;
-
-		case SDL_KEYUP:
-			views.top()->doKeyUp(event.key.keysym.sym);
-			break;
-
-		default:
-			break;
+	default:
+		break;
 	}
 }
 
