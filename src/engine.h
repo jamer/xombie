@@ -101,8 +101,6 @@ private:
 	Char* player;
 	list<Char*> party; // list of characters in party
 
-	World* world;
-
 	int score;
 };
 

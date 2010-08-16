@@ -11,17 +11,13 @@
 
 using std::list;
 
-WorldView::WorldView()
+WorldView::WorldView(World* w)
 	: shooting(false),
 	leftPressed(false), rightPressed(false),
-	upPressed(false), downPressed(false), world(NULL)
+	upPressed(false), downPressed(false), world(w)
 {
-	engine = getEngine();
-}
 
-void WorldView::setWorld(World* w)
-{
-	world = w;
+	engine = getEngine();
 }
 
 void WorldView::update(int dt)
@@ -100,6 +96,8 @@ void WorldView::draw()
 		(*ci)->draw(screen);
 	for (ci = party->rbegin(); ci != party->rend(); ci++)
 		(*ci)->draw(screen);
+
+	engine->getMouse().draw(screen);
 
 	// Show it
 	SDL_Flip(engine->getScreen());

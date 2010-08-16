@@ -19,6 +19,7 @@ public:
 	Mouse();
 	~Mouse();
 
+	void draw(SDL_Surface* screen);
 	void setCursor(CursorType type);
 
 	Vector getPosition();
@@ -35,6 +36,7 @@ private:
 
 	SDL_Cursor* arrow;
 	SDL_Cursor* crosshair;
+	SDL_Surface* color;
 };
 
 #endif

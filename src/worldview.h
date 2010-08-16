@@ -16,7 +16,7 @@ using std::list;
 class WorldView : public View
 {
 public:
-	WorldView();
+	WorldView(World* world);
 	void update(int dt);
 	void draw();
 
@@ -25,8 +25,6 @@ public:
 	void doKeyDown(int key);
 	void doKeyUp(int key);
 
-	void setWorld(World* world);
-	
 	void close();
 
 private:

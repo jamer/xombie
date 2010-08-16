@@ -9,11 +9,26 @@ Mouse::Mouse()
 {
 	arrow = SDL_GetCursor();
 	crosshair = createCursor("gfx/crosshair.png");
+
+	color = IMG_Load("gfx/crosshair.png");
 }
 
 Mouse::~Mouse()
 {
 	SDL_FreeCursor(crosshair);
+	SDL_FreeSurface(color);
+}
+
+void Mouse::draw(SDL_Surface* screen)
+{
+	if (cursorType == COLOR) {
+		SDL_Rect r;
+		r.x = position.x - color->w / 2;
+		r.y = position.y - color->w / 2;
+		r.w = color->w;
+		r.h = color->h;
+		SDL_BlitSurface(color, NULL, screen, &r);
+	}
 }
 
 void Mouse::setCursor(CursorType type)
@@ -31,8 +46,11 @@ void Mouse::setCursor(CursorType type)
 		SDL_SetCursor(crosshair);
 		break;
 	case COLOR:
+		SDL_ShowCursor(0);
 		break;
 	}
+
+	cursorType = type;
 }
 
 void Mouse::unsetCursor()
@@ -46,6 +64,7 @@ void Mouse::unsetCursor()
 	case CROSSHAIR:
 		break;
 	case COLOR:
+		SDL_ShowCursor(1);
 		break;
 	}
 }

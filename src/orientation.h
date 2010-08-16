@@ -41,5 +41,5 @@ private:
 Orientation operator + (const Orientation& o, real distance);
 Orientation operator + (const Orientation& o, const Vector& v);
 
-#endif // _ORIENTATION_H_
+#endif
 

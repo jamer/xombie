@@ -70,7 +70,7 @@ Engine::Engine(SDL_Surface* s) : views(), score(0)
 	newView = NULL;
 	closingView = false;
 
-	mouse.setCursor(CROSSHAIR);
+	mouse.setCursor(COLOR);
 
 	FPS = globals->getInt("Game", "FPS", 30);
 	UPS = 60;
@@ -81,7 +81,8 @@ Engine::Engine(SDL_Surface* s) : views(), score(0)
 
 Engine::~Engine()
 {
-	delete world;
+	while (views.size())
+		delete views.pop();
 	delete player;	
 }
 
@@ -95,15 +96,14 @@ void Engine::loadGame()
 	player->getOrientation().setLocation(50, 50);
 	player->setAngle(0.0);
 
+	World* world = new World("conf/worlds/default.conf");
+	player->setWorld(world);
+
 	/* Hmm, we should probably load a main menu view rather than jump
 	 * straight into combat. Let the player create their main character and
 	 * whatnot. */
-	WorldView* wv = new WorldView;
+	WorldView* wv = new WorldView(world);
 	views.push(wv);
-
-	world = new World("conf/worlds/default.conf");
-	player->setWorld(world);
-	wv->setWorld(world);
 
 	getAudio()->startMusic();
 }
@@ -210,8 +210,6 @@ void Engine::handleEvent(SDL_Event& event)
 	switch (event.type) {
 
 	case SDL_QUIT:
-		while (views.size())
-			delete views.pop();
 		Quit();
 		break;
 
