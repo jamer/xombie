@@ -12,4 +12,3 @@ public:
 };
 
 #endif // _FIRSTAIDKIT_H_
-

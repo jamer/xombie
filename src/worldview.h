@@ -40,4 +40,3 @@ private:
 };
 
 #endif // _WORLDVIEW_H_
-

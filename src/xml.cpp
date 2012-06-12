@@ -690,4 +690,3 @@ document* parse_xml(const char* filename) {
 
 
 } // namespace xml
-

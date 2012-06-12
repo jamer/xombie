@@ -47,4 +47,3 @@ protected:
 };
 
 #endif // _SPRITE_H_
-

@@ -7,4 +7,3 @@ void err(QString msg);
 void warn(QString msg);
 
 #endif // _ERR_H_
-

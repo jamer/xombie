@@ -61,4 +61,3 @@ private:
 };
 
 #endif // _WORLD_H_
-

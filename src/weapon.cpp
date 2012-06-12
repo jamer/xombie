@@ -119,4 +119,3 @@ bool Weapon::isEmpty()
 {
 	return clip == 0;
 }
-

@@ -71,4 +71,3 @@ Orientation operator + (const Orientation& orient, const Point& v)
 	o += v;
 	return o;
 }
-

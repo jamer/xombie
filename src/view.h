@@ -23,4 +23,3 @@ public:
 };
 
 #endif // _VIEW_H_
-

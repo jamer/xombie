@@ -42,4 +42,3 @@ Orientation operator + (const Orientation& o, real distance);
 Orientation operator + (const Orientation& o, const Point& v);
 
 #endif
-

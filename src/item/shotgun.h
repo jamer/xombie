@@ -10,4 +10,3 @@ public:
 };
 
 #endif // _SHOTGUN_H_
-

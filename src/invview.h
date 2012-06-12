@@ -21,4 +21,3 @@ private:
 };
 
 #endif // _INVENTORYVIEW_H_
-

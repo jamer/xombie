@@ -1,4 +1,4 @@
-#include <SDL.h> 
+#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <stdlib.h>
@@ -20,10 +20,7 @@ void Quit()
 
 void Quit(int code)
 {
-	Engine* engine = getEngine();
-	if (engine)
-		delete engine;
-
+	delete getEngine();
 	delete getAudio();
 	delete getImgBase();
 	DeinitFont();
@@ -83,13 +80,13 @@ Engine::~Engine()
 {
 	while (views.size())
 		delete views.pop();
-	delete player;	
+	delete player;
 }
 
 void Engine::loadGame()
 {
 	// Create a Player with graphic "player.[jpg|png|gif|bmp]".
-	player = new Char("player"); 
+	player = new Char("player");
 	player->setPlayer(true);
 	party.push_back(player);
 
@@ -244,7 +241,7 @@ void Engine::handleEvent(SDL_Event& event)
 
 /**
  * wait()
- * 
+ *
  * Pauses the game, waiting for the next frame.
  * Returns time in milliseconds since last frame.
  */
@@ -281,4 +278,3 @@ void Engine::mainLoop()
 		dt = wait();
 	}
 }
-

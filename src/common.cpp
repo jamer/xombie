@@ -121,30 +121,24 @@ bool readLine(FILE* f, char* buffer, int len)
 	return true;
 }
 
-char* strip(const char* s)
+char* strip(const char* str)
 {
-	if (s == NULL || s[0] == '\0')
-		return strdup(s);
+	int beg = 0, end = 0, sz, len;
+	const char* s;
+	char* rem;
 
-	int beg = 0, end = 0, len = strlen(s);
-	const char* str;
+	if (str == NULL || str[0] == '\0')
+		return strdup(str);
 
-	str = s;
-	while (*str == ' ' || *str == '\t') {
-		beg++;
-		str++;
-	}
+	len = strlen(str);
+	for (s = str; *s == ' ' || *s == '\t'; str++, beg++);
+	for (s = str + len - 1; *str == ' ' || *str == '\t'; str--, end++);
 
-	str = s + len;
-	while (*--str == ' ' || *str == '\t')
-		end++;
-
-	int sz = len - beg - end;
-	char* r = (char*)malloc(sz + 1);
-	strncpy(r, s + beg, sz);
-	r[sz] = 0;
-
-	return r;
+	sz = len - (beg + end);
+	rem = (char*)malloc(sz + 1);
+	strncpy(rem, s + beg, sz);
+	rem[sz] = 0;
+	return rem;
 }
 
 char* readFile(const char* fname)
@@ -209,4 +203,3 @@ if (r 0) { // error handling code, at the very least looking at EIO ENOSPC and E
  *
  *
  */
-

@@ -13,4 +13,3 @@ Orientation MountPoint::getOrientation() const
 {
 	return mount->getOrientation() + offset;
 }
-

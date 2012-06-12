@@ -57,4 +57,3 @@ void InventoryView::doKeyDown(int key)
 			break;
 	}
 }
-

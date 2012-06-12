@@ -9,4 +9,3 @@ real randReal();
 angle randAngle();
 
 #endif // _RAND_H_
-

@@ -5,4 +5,3 @@ Shotgun::Shotgun(World* world)
 {
 	strcpy(name, "Shotgun");
 }
-

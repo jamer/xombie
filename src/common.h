@@ -62,4 +62,3 @@ uint32_t hash(const char* s);
 
 
 #endif // _COMMON_H_
-

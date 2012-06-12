@@ -45,4 +45,3 @@ angle Rotation::operator = (const angle theta)
 	setAngle(theta);
 	return theta;
 }
-

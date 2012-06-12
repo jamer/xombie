@@ -53,4 +53,3 @@ private:
 Mob* newRandomMob(World* world);
 
 #endif // _MOB_H_
-

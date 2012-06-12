@@ -30,8 +30,4 @@ private:
 	Char* ch;
 };
 
-#include "item.h"
-#include "weapon.h"
-
 #endif // _INVENTORY_H_
-

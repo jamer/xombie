@@ -25,4 +25,3 @@ private:
 };
 
 #endif // _SHOT_H_
-

@@ -17,4 +17,3 @@ private:
 };
 
 #endif // _PARTY_H_
-

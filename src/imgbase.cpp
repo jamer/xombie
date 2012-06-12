@@ -134,4 +134,3 @@ ImgBase* getImgBase()
 {
 	return images;
 }
-

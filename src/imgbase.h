@@ -48,7 +48,7 @@ private:
 	};
 
 	QHash<QString,ImgRef*> base;
-	
+
 	// Pre-render rotations with this number of angles. The more angles,
 	// the better it looks but it takes a bit longer to load and uses more
 	// memory.
@@ -58,4 +58,3 @@ private:
 ImgBase* getImgBase();
 
 #endif // _IMGBASE_H_
-

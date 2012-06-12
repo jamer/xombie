@@ -179,4 +179,3 @@ bool Sprite::isCompletelyOnScreen()
 			return true;
 	return false;
 }
-

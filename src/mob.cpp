@@ -174,4 +174,3 @@ int Mob::getDamage()
 {
 	return dmg;
 }
-

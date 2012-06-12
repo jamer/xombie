@@ -23,4 +23,3 @@ angle randAngle()
 {
 	return (angle)rand() / (angle)RAND_MAX * M_PI * 2;
 }
-

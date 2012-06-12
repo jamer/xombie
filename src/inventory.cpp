@@ -1,4 +1,6 @@
 #include "inventory.h"
+#include "item.h"
+#include "weapon.h"
 
 Inventory::Inventory(Char* c)
 {
@@ -69,4 +71,3 @@ int Inventory::getFreeSlot()
 			return i;
 	return -1;
 }
-

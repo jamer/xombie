@@ -37,4 +37,3 @@ bool Item::isDead()
 {
 	return dead;
 }
-

@@ -45,5 +45,3 @@ void Range::printError(QString range)
 	printf("Range::parse() - Error parsing string '%s'\n",
 			range.toUtf8().data());
 }
-
-

@@ -68,4 +68,3 @@ private:
 };
 
 #endif // _WEAPON_H_
-

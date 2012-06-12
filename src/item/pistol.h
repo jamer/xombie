@@ -10,4 +10,3 @@ public:
 };
 
 #endif // _PISTOL_H_
-

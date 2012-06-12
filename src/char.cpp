@@ -153,4 +153,3 @@ World* Char::getWorld()
 {
 	return world;
 }
-

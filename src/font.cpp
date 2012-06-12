@@ -94,4 +94,3 @@ SDL_Surface* drawText(TTF_Font* fonttodraw, Uint8 fgR, Uint8 fgG, Uint8 fgB,
 
 	return resulting_text;
 }
-

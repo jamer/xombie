@@ -50,4 +50,3 @@ private:
 };
 
 #endif // _CHAR_H_
-

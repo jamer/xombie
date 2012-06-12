@@ -132,4 +132,3 @@ document* parse_xml(const char* filename);
 #endif // XML_H
 
 } // namespace xml
-

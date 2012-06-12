@@ -26,4 +26,3 @@ void View::doKeyUp(int)
 void View::close()
 {
 }
-

@@ -91,7 +91,6 @@ int main(int, char* [])
 	InitEverything();
 	new Engine(screen);
 	Quit();
-	
+
 	return 0;
 }
-

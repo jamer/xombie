@@ -58,4 +58,3 @@ bool Shot::isDead()
 {
 	return dead;
 }
-

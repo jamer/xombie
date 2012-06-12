@@ -142,4 +142,3 @@ SDL_Cursor* Mouse::createCursor(SDL_Surface* surf)
 	return SDL_CreateCursor(data.data(), mask.data(),
 			cursorWidth, surf->h, 15, 15);
 }
-

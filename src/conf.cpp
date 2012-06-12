@@ -18,10 +18,8 @@ Conf::Conf(QString filename)
 {
 	// XXX rewrite with QFile
 	FILE* f = fopen(filename.toUtf8().data(), "r");
-	if (!f) {
-		warn("Could not open " + filename);
-		Quit(1);
-	}
+	if (!f)
+		err("Could not open " + filename); // no return
 
 	char buf[512];
 	char* line;
@@ -31,7 +29,7 @@ Conf::Conf(QString filename)
 
 		char* comment = strchr(buf, '#');
 		if (comment)
-			*comment = '\0'; 
+			*comment = '\0';
 		line = strip(buf);
 
 		if (line[0] == '\0'); // blank line
@@ -60,7 +58,7 @@ Conf::Conf(QString filename)
 
 			data[sectionh][keyh] = val;
 		}
-		
+
 		free(line);
 	}
 
@@ -148,4 +146,3 @@ bool Conf::getBool(QString section, QString key, bool def) const
 		return false;
 	return def;
 }
-

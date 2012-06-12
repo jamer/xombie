@@ -18,4 +18,3 @@ bool FirstAidKit::doCollision(Char* ch)
 	dead = true;
 	return true;
 }
-

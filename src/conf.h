@@ -49,4 +49,3 @@ private:
 extern Conf* globals;
 
 #endif //  _CONF_H_
-

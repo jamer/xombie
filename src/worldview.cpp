@@ -203,4 +203,3 @@ void WorldView::doKeyUp(int key)
 void WorldView::close()
 {
 }
-

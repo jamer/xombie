@@ -9,11 +9,10 @@ void err(QString msg)
 	cout << "Error: " << msg << endl;
 	QMessageBox box(QMessageBox::Critical, "Xombie", msg);
 	box.exec();
-	exit(-1);
+	abort();
 }
 
 void warn(QString msg)
 {
 	cout << "Warning: " << msg << endl;
 }
-

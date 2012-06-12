@@ -10,4 +10,3 @@ void DeinitFont();
 SDL_Surface* renderFont(char* text);
 
 #endif // _FONT_H_
-

@@ -305,4 +305,3 @@ SDL_Rect* World::getBounds()
 {
 	return &bounds;
 }
-
