@@ -46,6 +46,6 @@ private:
 	typedef QHash<int, char*>::const_iterator key_it;
 };
 
-extern Conf* globals;
+extern Conf globals;
 
 #endif //  _CONF_H_

@@ -3,8 +3,7 @@
 
 #include <SDL.h>
 
-bool InitFont();
-void DeinitFont();
+bool fontInit();
 
 // draws grey text
 SDL_Surface* renderFont(char* text);

@@ -35,7 +35,6 @@ private:
 	bool shooting;
 	bool leftPressed, rightPressed, upPressed, downPressed;
 
-	Engine* engine;
 	World* world;
 };
 

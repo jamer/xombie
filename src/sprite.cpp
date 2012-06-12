@@ -35,10 +35,10 @@ void Sprite::stayOnScreen() // XXX: terrible
 	real y = loc.y;
 
 	x = max(x, gfx->w / 2 + 0.001);
-	x = min(x, getEngine()->getWidth()  - gfx->w / 2 - 0.001);
+	x = min(x, Engine::instance()->getWidth()  - gfx->w / 2 - 0.001);
 
 	y = max(y, gfx->h / 2 + 0.001);
-	y = min(y, getEngine()->getHeight() - gfx->h / 2 - 0.001);
+	y = min(y, Engine::instance()->getHeight() - gfx->h / 2 - 0.001);
 
 	orient.setLocation(x, y);
 }
@@ -60,14 +60,14 @@ void Sprite::setGraphicId(QString id)
 //	gfxHash = hash(gfxId);
 
 	// grab the original size
-	gfx = getImgBase()->getImage(gfxId, 0, true); // !
+	gfx = ImgBase::instance()->getImage(gfxId, 0, true); // !
 	origsz.w = gfx->w;
 	origsz.h = gfx->h;
 }
 
 void Sprite::setAngle(angle theta)
 {
-	ImgBase* base = getImgBase();
+	ImgBase* base = ImgBase::instance();
 	gfx = base->getImage(gfxId, base->indexFromAngle(theta), true); // !
 	orient.setAngle(-theta);
 }
@@ -149,7 +149,7 @@ bool Sprite::isOnScreen()
 	real x = loc.x;
 	real y = loc.y;
 
-	Engine* engine = getEngine();
+	Engine* engine = Engine::instance();
 
 	short hw = gfx->w / 2;
 	short hh = gfx->h / 2;
@@ -168,7 +168,7 @@ bool Sprite::isCompletelyOnScreen()
 	real x = loc.x;
 	real y = loc.y;
 
-	Engine* engine = getEngine();
+	Engine* engine = Engine::instance();
 
 	if (0 <= x - gfx->w/2 &&
 	         x + gfx->w/2 <= engine->getWidth())

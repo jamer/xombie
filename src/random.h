@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void InitRand();
+void randInit();
 int randInt(int low, int high);
 real randReal();
 angle randAngle();

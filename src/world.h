@@ -43,8 +43,6 @@ private:
 	list<Char*> neutrals;
 	list<Shot*> shots;
 
-	Engine* engine;
-
 	// TODO: provide getter functions
 	int mobCount;
 	int peopleCount;

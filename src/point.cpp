@@ -7,29 +7,29 @@ Point::Point()
 {
 }
 
-Point::Point(real _x, real _y)
-	: x(_x), y(_y)
+Point::Point(real x, real y)
+	: x(x), y(y)
 {
 }
 
-real Point::distanceTo(const Point& v)
+real Point::distanceTo(const Point& p)
 {
-	int b = x - v.x;
-	int c = y - v.y;
+	int b = x - p.x;
+	int c = y - p.y;
 	return (real)sqrt(b*b + c*c);
 }
 
-Point& Point::operator += (const Point& v)
+Point& Point::operator += (const Point& p)
 {
-	x += v.x;
-	y += v.y;
+	x += p.x;
+	y += p.y;
 	return *this;
 }
 
-Point& Point::operator *= (const Point& v)
+Point& Point::operator *= (const Point& p)
 {
-	x *= v.x;
-	y *= v.y;
+	x *= p.x;
+	y *= p.y;
 	return *this;
 }
 
@@ -47,30 +47,30 @@ Point& Point::operator *= (real distance)
 	return *this;
 }
 
-Point operator + (const Point& vec, real distance)
+Point operator + (const Point& pt, real distance)
 {
-	Point v = vec;
-	v += distance;
-	return v;
+	Point p = pt;
+	p += distance;
+	return p;
 }
 
 Point operator + (const Point& lhs, const Point& rhs)
 {
-	Point v = lhs;
-	v += rhs;
-	return v;
+	Point p = lhs;
+	p += rhs;
+	return p;
 }
 
-Point operator * (const Point& vec, real distance)
+Point operator * (const Point& pt, real distance)
 {
-	Point v = vec;
-	v *= distance;
-	return v;
+	Point p = pt;
+	p *= distance;
+	return p;
 }
 
 Point operator * (const Point& lhs, const Point& rhs)
 {
-	Point v = lhs;
-	v *= rhs;
-	return v;
+	Point p = lhs;
+	p *= rhs;
+	return p;
 }

@@ -28,6 +28,7 @@ class ImgBase
 public:
 	ImgBase();
 	~ImgBase();
+	static ImgBase* instance();
 
 	SDL_Surface* getImage(QString name,
 	        int frame = 0, bool rotate = false);
@@ -54,7 +55,5 @@ private:
 	// memory.
 	int imageAngles;
 };
-
-ImgBase* getImgBase();
 
 #endif // _IMGBASE_H_

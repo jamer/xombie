@@ -1,7 +1,10 @@
+#include <cassert>
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
 
+#include "e.h"
 #include "font.h"
 
 
@@ -11,60 +14,34 @@ enum TextQuality {
 	BLENDED // anti-aliased font w/transparent
 };
 
-// Function prototypes
-TTF_Font* loadFont(char* file, int ptsize);
-SDL_Surface* drawText(TTF_Font* fonttodraw, Uint8 fgR, Uint8 fgG, Uint8 fgB,
-		Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA,
-		char text[], int /* TextQuality*/ quality);
-
-
-// Private variables
 TTF_Font* font;
 
 
-
-
-//
-// Functions
-//
-bool InitFont()
-{
-	if (TTF_Init() == -1) {
-		fprintf(stderr, "Error: unable to initialize SDL_ttf, %s\n",
-			TTF_GetError());
-		return false;
-	}
-
-	font = loadFont((char*)"LiberationSans-Regular.ttf", 14);
-	return true;
-}
-
-void DeinitFont()
+static void destroy()
 {
 	TTF_CloseFont(font);
 }
 
-
 TTF_Font* loadFont(char* file, int ptsize)
 {
-	TTF_Font* tmpfont;
-	tmpfont = TTF_OpenFont(file, ptsize);
-	if (tmpfont == NULL) {
-		fprintf(stderr, "Unable to load font '%s': %s\n", file,
-			TTF_GetError());
-		exit(0);
+	TTF_Font* font;
+	font = TTF_OpenFont(file, ptsize);
+	if (font == NULL) {
+		err(QString("unable to load font '%1': %2")
+			.arg(file).arg(TTF_GetError()));
 	}
-	return tmpfont;
+	return font;
 }
 
-
-
-SDL_Surface* renderFont(char* text)
+bool fontInit()
 {
-	return drawText(font,
-			0xdd, 0xdd, 0xdd, 0xff, /* grey text color */
-			0x00, 0x00, 0x00, 0xff, /* black background color */
-			text, SOLID);
+	if (TTF_Init() == -1)
+		err(QString("unable to initialize SDL_ttf: %1")
+			.arg(TTF_GetError()));
+
+	font = loadFont((char*)"sans", 14);
+	atexit(destroy);
+	return true;
 }
 
 SDL_Surface* drawText(TTF_Font* fonttodraw, Uint8 fgR, Uint8 fgG, Uint8 fgB,
@@ -89,8 +66,16 @@ SDL_Surface* drawText(TTF_Font* fonttodraw, Uint8 fgR, Uint8 fgG, Uint8 fgB,
 				text, tmpfontcolor);
 			break;
 		default:
-			fprintf(stderr, "Bad argument to drawtext call\n");
+			assert(false);
 	}
 
 	return resulting_text;
+}
+
+SDL_Surface* renderFont(char* text)
+{
+	return drawText(font,
+			0xdd, 0xdd, 0xdd, 0xff, /* grey text color */
+			0x00, 0x00, 0x00, 0xff, /* black background color */
+			text, SOLID);
 }

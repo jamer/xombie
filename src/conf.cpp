@@ -7,7 +7,7 @@
 #include "e.h"
 #include "engine.h"
 
-Conf* globals;
+Conf globals("conf/game.conf");
 
 /**
  * Conf()

@@ -51,7 +51,7 @@ void Shot::hit(Mob* mob)
 	mob->setHP(mob->getHP() - damage.value());
 	dead = true;
 
-	getAudio()->play("Bullet hit body");
+	audioPlay("Bullet hit body");
 }
 
 bool Shot::isDead()

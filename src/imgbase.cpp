@@ -1,18 +1,18 @@
+#include <cassert>
+#include <dirent.h>
 #include <math.h>
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include "SDL_rotozoom.h"
 
-// For loading directories
-#include <dirent.h>
-
 #include "common.h"
 #include "conf.h"
+#include "e.h"
 #include "engine.h"
 #include "imgbase.h"
 
-ImgBase* images;
+static ImgBase* images = NULL;
 
 int ImgBase::indexFromAngle(angle a)
 {
@@ -26,8 +26,15 @@ int ImgBase::indexFromAngle(angle a)
 
 ImgBase::ImgBase()
 {
+	assert(images == NULL);
 	images = this;
-	imageAngles = globals->getInt("Graphics", "Pre-rendered angles", 36);
+
+	imageAngles = globals.getInt("Graphics", "Pre-rendered angles", 36);
+}
+
+ImgBase* ImgBase::instance()
+{
+	return images;
 }
 
 ImgBase::~ImgBase()
@@ -63,10 +70,8 @@ SDL_Surface* ImgBase::lookForImg(QString search, int frame, bool rotates)
 	SDL_Surface* sur;
 
 	DIR* dir = opendir("gfx");
-	if (dir == NULL) {
-		fprintf(stderr, "Couldn't open directory 'gfx'\n");
-		Quit(1);
-	}
+	if (dir == NULL)
+		err("Couldn't open directory 'gfx'\n");
 
 	dirent* dent = NULL;
 	QString fileName;
@@ -128,9 +133,4 @@ void ImgBase::put(QString name, SDL_Surface* img, DWORD flags)
 
 	// Save
 	base[name] = ref;
-}
-
-ImgBase* getImgBase()
-{
-	return images;
 }

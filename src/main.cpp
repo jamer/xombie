@@ -1,9 +1,7 @@
-#include <QFile>
-#include <QString>
-#include <QVarLengthArray>
-
 #include <list>
 #include <stdio.h>
+
+#include <QString>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -23,7 +21,6 @@ int videoFlags;
 SDL_Surface* screen;
 SDL_Surface* icon;
 
-
 SDL_Surface* getWindowIcon()
 {
 	return icon;
@@ -32,23 +29,22 @@ SDL_Surface* getWindowIcon()
 void SetIcon()
 {
 //	unsigned int colorkey;
-	QString iconFile = globals->getString("Window", "Icon", NULL);
-	icon = IMG_Load(globals->getCString("Window", "Icon", iconFile));
+	QString iconFile = globals.getString("Window", "Icon", NULL);
+	icon = IMG_Load(globals.getCString("Window", "Icon", iconFile));
 //	colorkey = SDL_MapRGB(icon->format, 255, 0, 255);
 //	SDL_SetColorKey(icon, SDL_SRCCOLORKEY, colorkey);
 	SDL_WM_SetIcon(icon, NULL);
 }
 
-
 SDL_Surface* InitScreen()
 {
 	SDL_Surface* screen;
 
-	int width = globals->getInt("Window", "Width", 640);
-	int height = globals->getInt("Window", "Height", 480);
-	int depth = globals->getInt("Window", "Color depth", 32);
+	int width = globals.getInt("Window", "Width", 640);
+	int height = globals.getInt("Window", "Height", 480);
+	int depth = globals.getInt("Window", "Color depth", 32);
 
-	bool fullscreen = globals->getBool("Window", "Fullscreen", false);
+	bool fullscreen = globals.getBool("Window", "Fullscreen", false);
 	if (fullscreen)
 		videoFlags |= SDL_FULLSCREEN;
 
@@ -70,12 +66,9 @@ SDL_Surface* InitScreen()
 
 void InitEverything()
 {
-	globals = new Conf("conf/game.conf");
-
-	new Audio();
 	new ImgBase();
-	InitRand();
-	InitFont();
+	randInit();
+	fontInit();
 
 	screen = InitScreen();
 
@@ -90,7 +83,5 @@ int main(int, char* [])
 {
 	InitEverything();
 	new Engine(screen);
-	Quit();
-
 	return 0;
 }

@@ -1,3 +1,4 @@
+#include <cassert>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -20,19 +21,13 @@ void Quit()
 
 void Quit(int code)
 {
-	delete getEngine();
-	delete getAudio();
-	delete getImgBase();
-	DeinitFont();
+	delete Engine::instance();
+	delete ImgBase::instance();
 
 	SDL_FreeSurface(getWindowIcon());
 
 	TTF_Quit();
 	SDL_Quit();
-
-	delete globals;
-
-	exit(code);
 }
 
 
@@ -40,14 +35,9 @@ void Quit(int code)
 
 
 
-Engine* engine;
+static Engine* engine = NULL;
 
-bool gameLost = false;
-
-Engine* getEngine()
-{
-	return engine;
-}
+static bool gameLost = false;
 
 void LoseGame()
 {
@@ -59,8 +49,10 @@ bool IsGameLost()
 	return gameLost;
 }
 
-Engine::Engine(SDL_Surface* s) : views(), score(0)
+Engine::Engine(SDL_Surface* s) : quitting(false), views(), score(0)
 {
+	assert(engine == NULL);
+
 	engine = this;
 
 	screen = s;
@@ -69,7 +61,7 @@ Engine::Engine(SDL_Surface* s) : views(), score(0)
 
 	mouse.setCursor(COLOR);
 
-	FPS = globals->getInt("Game", "FPS", 30);
+	FPS = globals.getInt("Game", "FPS", 30);
 	UPS = 60;
 
 	loadGame();
@@ -81,6 +73,11 @@ Engine::~Engine()
 	while (views.size())
 		delete views.pop();
 	delete player;
+}
+
+Engine* Engine::instance()
+{
+	return engine;
 }
 
 void Engine::loadGame()
@@ -102,7 +99,7 @@ void Engine::loadGame()
 	WorldView* wv = new WorldView(world);
 	views.push(wv);
 
-	getAudio()->startMusic();
+	audioStartMusic();
 }
 
 void Engine::openView(View* view)
@@ -155,6 +152,11 @@ int Engine::getScore()
 	return score;
 }
 
+void Engine::requestQuit()
+{
+	quitting = true;
+}
+
 
 void Engine::runGameEngine(long dt)
 {
@@ -173,7 +175,7 @@ void Engine::runGameEngine(long dt)
 		}
 
 	if (views.size() == 0)
-		Quit();
+		requestQuit();
 }
 
 void Engine::tryRender()
@@ -189,7 +191,8 @@ void Engine::tryRender()
 
 void Engine::render()
 {
-	views.top()->draw();
+	if (views.size())
+		views.top()->draw();
 }
 
 void Engine::captureInput()
@@ -207,7 +210,7 @@ void Engine::handleEvent(SDL_Event& event)
 	switch (event.type) {
 
 	case SDL_QUIT:
-		Quit();
+		requestQuit();
 		break;
 
 	case SDL_MOUSEMOTION:
@@ -269,7 +272,7 @@ void Engine::mainLoop()
 {
 	long dt = 0; // delta time since last frame
 
-	while (true) {
+	while (!quitting) {
 		captureInput();
 		runGameEngine(dt);
 		tryRender();
@@ -277,4 +280,6 @@ void Engine::mainLoop()
 		// Sleep 'till next frame, don't waste the CPU
 		dt = wait();
 	}
+
+	Quit();
 }

@@ -16,8 +16,6 @@ WorldView::WorldView(World* w)
 	leftPressed(false), rightPressed(false),
 	upPressed(false), downPressed(false), world(w)
 {
-
-	engine = getEngine();
 }
 
 void WorldView::update(int dt)
@@ -26,7 +24,7 @@ void WorldView::update(int dt)
 	if (IsGameLost()) {
 		static unsigned int deathTimer = SDL_GetTicks() + 3000;
 		if (SDL_GetTicks() >= deathTimer)
-			Quit();
+			Engine::instance()->requestQuit();
 
 		return;
 	}
@@ -35,7 +33,7 @@ void WorldView::update(int dt)
 	SDL_Rect vector;
 	vector.x = leftPressed - rightPressed;
 	vector.y = downPressed - upPressed;
-	engine->getPlayer()->setInput(vector);
+	Engine::instance()->getPlayer()->setInput(vector);
 
 	world->update(dt);
 
@@ -47,31 +45,31 @@ void WorldView::update(int dt)
 void WorldView::draw()
 {
 	// Blank screen buffer
-	SDL_Surface* screen = engine->getScreen();
+	SDL_Surface* screen = Engine::instance()->getScreen();
 	SDL_FillRect(screen, NULL, 0x000000);
 
 	// Death message if dead
 	if (IsGameLost()) {
 		char buf[256];
 		sprintf(buf, "You become a zombie. Score: %d",
-				engine->getScore());
+				Engine::instance()->getScore());
 		SDL_Surface* text = renderFont(buf);
 
 		SDL_Rect loc;
-		loc.x = (engine->getWidth()  - text->w) / 2;
-		loc.y = (engine->getHeight() - text->h) / 2;
+		loc.x = (Engine::instance()->getWidth()  - text->w) / 2;
+		loc.y = (Engine::instance()->getHeight() - text->h) / 2;
 
 		SDL_BlitSurface(text, NULL, screen, &loc);
 		SDL_FreeSurface(text);
 
-		SDL_Flip(engine->getScreen());
+		SDL_Flip(Engine::instance()->getScreen());
 
 		return;
 	}
 
 	// Lets get our variable ready! This was fun to type out. Just kidding.
 	list<Char*>* neutrals = world->getNeutrals();
-	list<Char*>* party = engine->getParty();
+	list<Char*>* party = Engine::instance()->getParty();
 
 	list<Item*>* items = world->getItems();
 	list<Mob*>* mobs = world->getMobs();
@@ -97,16 +95,16 @@ void WorldView::draw()
 	for (ci = party->rbegin(); ci != party->rend(); ci++)
 		(*ci)->draw(screen);
 
-	engine->getMouse().draw(screen);
+	Engine::instance()->getMouse().draw(screen);
 
 	// Show it
-	SDL_Flip(engine->getScreen());
+	SDL_Flip(Engine::instance()->getScreen());
 }
 
 void WorldView::dropItem()
 {
 /*
-	Char* p = engine->getPlayer();
+	Char* p = Engine::instance()->getPlayer();
 	Weapon* w = p->getInventory()->dropWeapon();
 	if (w == NULL)
 		return;
@@ -164,13 +162,13 @@ void WorldView::doKeyDown(int key)
 			break;
 		case SDLK_i:
 			i = new InventoryView;
-			engine->openView(i);
+			Engine::instance()->openView(i);
 			break;
 		case SDLK_BACKSLASH:
 //			dropItem();
 			break;
 		case SDLK_ESCAPE:
-			getEngine()->closeView();
+			Engine::instance()->closeView();
 			break;
 		default:
 			break;

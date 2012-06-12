@@ -1,3 +1,4 @@
+#include <map>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <stdlib.h>
@@ -8,28 +9,52 @@
 #include "e.h"
 #include "random.h"
 
-Audio* audio;
+static Conf conf("conf/audio.conf");
+static Mix_Music* music;
+static std::map<uint32_t, Mix_Chunk*> data;
 
-Audio::Audio()
-	: audioSupported(true)
+static bool created = false;
+static bool audioSupported = true;
+static bool soundEnabled, musicEnabled;
+static int soundVolume, musicVolume;
+static int musicChannel;
+
+static void destroy()
 {
-	audio = this;
-	conf = new Conf("conf/audio.conf");
+	if (!created || !audioSupported)
+		return;
+
+	std::map<uint32_t, Mix_Chunk*>::iterator it;
+	for (it = data.begin(); it != data.end(); it++)
+		Mix_FreeChunk(it->second);
+	data.clear();
+
+	if (musicEnabled) {
+		Mix_HaltMusic();
+		Mix_FreeMusic(music);
+	}
+	Mix_CloseAudio();
+}
+
+static void create()
+{
+	if (created)
+		return;
+	created = true;
 
 	// Load a couple variables.
-	soundEnabled = conf->getBool("Settings", "Sound enabled", true);
-	musicEnabled = conf->getBool("Settings", "Music enabled", true);
-	soundVolume  = conf->getInt ("Settings", "Sound volume" , 100);
-	musicVolume  = conf->getInt ("Settings", "Music volume" , 100);
+	soundEnabled = conf.getBool("Settings", "Sound enabled", true);
+	musicEnabled = conf.getBool("Settings", "Music enabled", true);
+	soundVolume  = conf.getInt ("Settings", "Sound volume" , 100);
+	musicVolume  = conf.getInt ("Settings", "Music volume" , 100);
 
 	// The rest of this is just init'ing SDL_mixer.
-	int rate     = conf->getInt("Playback", "Rate"    , 44100);
-	int channels = conf->getInt("Playback", "Channels", 2);
+	int rate     = conf.getInt("Playback", "Rate"    , 44100);
+	int channels = conf.getInt("Playback", "Channels", 2);
 
 	unsigned short format = AUDIO_S16SYS; // Signed 16-bit samples in
 					      // system's natural byte order.
 	int buffers = 4096;
-
 
 	if (SDL_Init(SDL_INIT_AUDIO)) {
 		warn(QString("Unable to initialize audio: %1").arg(SDL_GetError()));
@@ -40,28 +65,14 @@ Audio::Audio()
 		warn(QString("Unable to initialize audio: %1").arg(SDL_GetError()));
 		audioSupported = false;
 	}
+
+	atexit(destroy);
 }
 
-Audio::~Audio()
+bool audioPlay(QString sound)
 {
-	std::map<uint32_t, Mix_Chunk*>::iterator it;
-	
-	for (it = data.begin(); it != data.end(); it++)
-		Mix_FreeChunk(it->second);
-	data.clear();
-	delete conf;
-	
-	if (audioSupported) {
-		if (musicEnabled) {
-			Mix_HaltMusic();
-			Mix_FreeMusic(music);
-		}
-		Mix_CloseAudio();
-	}
-}
+	create(); // Ensure audio is initialized.
 
-bool Audio::play(QString sound)
-{
 	if (!audioSupported || !soundEnabled || !soundVolume)
 		return true;
 
@@ -77,7 +88,7 @@ bool Audio::play(QString sound)
 
 	// If not found, load it and save it in cache.
 	if (i == data.end()) {
-		chunk = Mix_LoadWAV(conf->getCString("Sounds", sound, NULL));
+		chunk = Mix_LoadWAV(conf.getCString("Sounds", sound, NULL));
 		if (chunk == NULL) {
 			warn(QString("Unable to load audio file %1: %2")
 					.arg(sound).arg(Mix_GetError()));
@@ -104,14 +115,16 @@ bool Audio::play(QString sound)
 	return true;
 }
 
-bool Audio::startMusic()
+bool audioStartMusic()
 {
+	create(); // Ensure audio is initialized.
+
 	if (!audioSupported || !musicEnabled)
 		return true;
 
 	QString musicFile = randInt(0, 1) ? "Music 1" : "Music 2";
 
-	music = Mix_LoadMUS(conf->getCString("Music", musicFile));
+	music = Mix_LoadMUS(conf.getCString("Music", musicFile));
 	if (music == NULL) {
 		warn(QString("Unable to load music file: %1").arg(Mix_GetError()));
 		return false;
@@ -137,19 +150,4 @@ bool Audio::startMusic()
 #endif
 
 	return true;
-}
-
-
-
-#if 0
-bool musicPlaying;
-void musicFinished()
-{
-	musicPlaying = false;
-}
-#endif
-
-Audio* getAudio()
-{
-	return audio;
 }

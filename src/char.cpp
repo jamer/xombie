@@ -39,7 +39,7 @@ void Char::update(int dt)
 		}
 
 		// Look at the mouse, yes
-		Point mouse = getEngine()->getMouse().getPosition();
+		Point mouse = Engine::instance()->getMouse().getPosition();
 		Point loc = getOrientation().getLocation();
 
 		// Remember, logical screen coordinates have Y values reversed
@@ -78,13 +78,13 @@ void Char::doCollision(Mob* mob)
 	if (hp > 0) { // never play both death and hit sounds
 		switch (randInt(1, 3)) {
 			case 1:
-				getAudio()->play("Player ouch 1");
+				audioPlay("Player ouch 1");
 				break;
 			case 2:
-				getAudio()->play("Player ouch 2");
+				audioPlay("Player ouch 2");
 				break;
 			case 3:
-				getAudio()->play("Player ouch 3");
+				audioPlay("Player ouch 3");
 				break;
 		}
 	}
@@ -123,7 +123,7 @@ void Char::setHP(int HP)
 
 	if (hp <= 0) {
 		dead = true;
-		getAudio()->play("Player death");
+		audioPlay("Player death");
 		if (isPlayer())
 			LoseGame();
 	}

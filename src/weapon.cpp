@@ -18,7 +18,7 @@ Weapon::Weapon(World* world, QString weaponType) :
 	loadDuration(data.getRange(type, "Load time", 2000, 2200))
 {
 	setGraphicId(QString("%1.png").arg(type));
-	invView = getImgBase()->getImage(QString("%1-inv.png").arg(type));
+	invView = ImgBase::instance()->getImage(QString("%1-inv.png").arg(type));
 
 	ammo = data.getString(type, "Ammo", NULL);
 	if (ammo.isEmpty())
@@ -99,7 +99,7 @@ void Weapon::doShot(list<Shot*>* shotlist)
 
 	else {
 		if (!loadSnd.isEmpty())
-			getAudio()->play(loadSnd);
+			audioPlay(loadSnd);
 		loading = true;
 		loadTime = loadDuration.value();
 	}

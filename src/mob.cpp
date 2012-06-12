@@ -60,8 +60,8 @@ Mob::Mob(QString Type, World* world)
 
 void Mob::generateSpawnPosition(World* world)
 {
-	int screenHeight = getEngine()->getHeight();
-	int screenWidth  = getEngine()->getWidth();
+	int screenHeight = Engine::instance()->getHeight();
+	int screenWidth  = Engine::instance()->getWidth();
 
 	world = world; // TODO
 

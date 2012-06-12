@@ -131,75 +131,51 @@ char* strip(const char* str)
 		return strdup(str);
 
 	len = strlen(str);
-	for (s = str; *s == ' ' || *s == '\t'; str++, beg++);
-	for (s = str + len - 1; *str == ' ' || *str == '\t'; str--, end++);
+	for (s = str; *s == ' ' || *s == '\t'; s++, beg++);
+	for (s = str + len - 1; *s == ' ' || *s == '\t'; s--, end++);
 
 	sz = len - (beg + end);
 	rem = (char*)malloc(sz + 1);
-	strncpy(rem, s + beg, sz);
+	strncpy(rem, str + beg, sz);
 	rem[sz] = 0;
 	return rem;
 }
 
 char* readFile(const char* fname)
 {
-	FILE* f = fopen(fname, "r");
-	if (!f)	{
-		warn(fname);
-		return NULL;
-	}
-
+	FILE* f;
 	struct stat stats;
-	stat(fname, &stats);
-	int len = stats.st_size;
+	char* buf;
+	int len, read;
 
-	char* buf = new char[len + 1];
-	buf[len] = 0;
+	if (!(f = fopen(fname, "r")))
+		goto err;
+	if (stat(fname, &stats))
+		goto err;
 
-	int read = fread(buf, len, 1, f);
-	if (read != 1) {
-		warn(fname);
-		delete buf;
-		return NULL;
-	}
+	len = stats.st_size;
+	buf = (char*)malloc(len + 1);
+	buf[len] = '\0';
 
+	read = fread(buf, len, 1, f);
 	fclose(f);
 
+	if (read != 1)
+		goto errbuf;
 	return buf;
+
+errbuf:
+	free(buf);
+err:
+	warn(fname);
+	return NULL;
 }
 
 uint32_t hash(const char* s)
 {
-	// very simple hash function
-	// suggested by someone on Slashdot
 	uint32_t i;
 	for (i = 0; *s; s++)
 		i = i * 31 + *s;
 
 	return i;
 }
-
-
-
-/***
- * Some sort of write to file function here
- ***
- * From Slashdot
-*
- *
- *
- *
-
-size_t written = 0;
-int r = write(fd, &data, sizeof(data))
-while (r >= 0 && r + written sizeof((data)) {
-	written += r;
-	r = write(fd, &data, sizeof(data));
-}
-if (r 0) { // error handling code, at the very least looking at EIO ENOSPC and EPIPE for network sockets
-}
-
-
- *
- *
- */

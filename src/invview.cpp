@@ -7,7 +7,7 @@ InventoryView::InventoryView()
 {
 	needsDraw = true;
 
-	getAudio()->play("Open inventory");
+	audioPlay("Open inventory");
 }
 
 void InventoryView::draw()
@@ -17,10 +17,10 @@ void InventoryView::draw()
 
 	needsDraw = false;
 
-	Engine* engine = getEngine();
+	Engine* engine = Engine::instance();
 	SDL_Surface* screen = engine->getScreen();
 
-	SDL_Surface* invbg = getImgBase()->getImage("inventory");
+	SDL_Surface* invbg = ImgBase::instance()->getImage("inventory");
 	SDL_Rect bgrect;
 
 	bgrect.w = invbg->w;
@@ -38,7 +38,7 @@ void InventoryView::draw()
 
 void InventoryView::drawItems(SDL_Surface* screen)
 {
-	Char* player = getEngine()->getPlayer();
+	Char* player = Engine::instance()->getPlayer();
 	Inventory* inv = player->getInventory();
 
 	Item* item = inv->getItem(0);
@@ -52,8 +52,8 @@ void InventoryView::doKeyDown(int key)
 		case SDLK_ESCAPE:
 		case SDLK_i:
 		case SDLK_RETURN:
-			getAudio()->play("Close inventory");
-			getEngine()->closeView();
+			audioPlay("Close inventory");
+			Engine::instance()->closeView();
 			break;
 	}
 }

@@ -21,18 +21,13 @@ bool IsGameLost();
 void LoseGame();
 
 
-/** getEngine()
- * global function for easy acces to current Engine object
- */
-Engine* getEngine();
-
-
 class Engine
 {
 public:
 	Engine(SDL_Surface* screen);
 	~Engine();
-	
+	static Engine* instance();
+
 	void mainLoop();
 
 	/** openView()
@@ -55,6 +50,8 @@ public:
 
 	void addScore(int i);
 	int getScore();
+
+	void requestQuit();
 
 private:
 	void loadGame();
@@ -87,6 +84,8 @@ private:
 	 */
 	long wait();
 
+private:
+	bool quitting;
 	Mouse mouse;
 
 	SDL_Surface* screen; // backbuffer

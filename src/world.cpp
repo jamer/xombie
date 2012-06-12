@@ -13,8 +13,6 @@
 
 World::World(QString worldName)
 {
-	engine = getEngine();
-
 	// Load specs.
 	Conf lvl(worldName);
 
@@ -36,7 +34,7 @@ World::World(QString worldName)
 		partymem->getOrientation().setLocation(randInt(200, 300), randInt(200, 300));
 		partymem->setAngle(randAngle());
 		partymem->pickUp(new Pistol(this));
-		engine->getParty()->push_back(partymem);
+		Engine::instance()->getParty()->push_back(partymem);
 	}
 
 	for (int i = 0; i < mobCount; i++) {
@@ -99,7 +97,7 @@ list<Shot*>* World::getShots()
 
 void World::playerShoots()
 {
-	Weapon* weapon = engine->getPlayer()->getInventory()->getWeapon();
+	Weapon* weapon = Engine::instance()->getPlayer()->getInventory()->getWeapon();
 	if (weapon != NULL && weapon->tryShot() == SHOOT)
 		weapon->doShot(&shots);
 }
@@ -157,7 +155,7 @@ void World::update(int dt)
 
 void World::updateChars(int dt)
 {
-	list<Char*>* party = engine->getParty();
+	list<Char*>* party = Engine::instance()->getParty();
 	list<Char*>::iterator pit;
 	for (pit = party->begin(); pit != party->end(); pit++) {
 		Char* ch = *pit;
@@ -183,7 +181,7 @@ void World::updateChars(int dt)
 
 void World::updateMobs(int dt)
 {
-	list<Char*>* party = engine->getParty();
+	list<Char*>* party = Engine::instance()->getParty();
 
 	list<Mob*>::iterator mobit;
 	list<Shot*>::iterator shotit;
@@ -223,7 +221,7 @@ void World::updateMobs(int dt)
 		}
 
 		if (mob->isDead()) {
-			engine->addScore(1);
+			Engine::instance()->addScore(1);
 			mobit = mobs.erase(mobit);
 
 			// TODO: make random item generator
@@ -244,7 +242,7 @@ void World::updateMobs(int dt)
 
 void World::updateItems()
 {
-	list<Char*>* party = engine->getParty();
+	list<Char*>* party = Engine::instance()->getParty();
 
 	list<Item*>::iterator itemit;
 	list<Char*>::iterator pit;
