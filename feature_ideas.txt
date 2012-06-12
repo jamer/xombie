@@ -148,3 +148,126 @@ external quest designer that quest developer could use, perferably GUI
 use YAML to store data:
 	- random item tables?
 	- saved games
+
+
+
+Violetland ideas:
+
+Share your spontaneous ideas for new items/powerups/monsterdrops!
+
+* flare <http://commons.wikimedia.org/wiki/File:Flare_0.jpg> - gets
+dropped randomly by dead monsters and ignites instantly or by walking
+over it. it will light an area around it (and play an ignition sound
+when lit <http://opengameart.org/content/flare-ignition>) for 3/4ths
+of a day. Alternatively one can pick them up and drop them (but that
+would require one more key the player needs to learn to use).
+
+* invisibility - monsters won't notice the player while he is
+invisible but hurt him if he runs into them. Alternatively they can be
+made to see him if he attacks them.
+
+What spontaneous ideas do you have? :)
+
+PS: Hope it finally works to post..
+
+------------------------------------
+
+Also we can share ideas for perks and types of weapon.
+
+I want to see some jumps in game (may be like in unreal tournament by
+double key press).
+
+I think about some perk for laser weapon - few additional short rays
+will thrown when a ray cuts an enemy. Prism.
+
+I like flares, I think it is possible to expand inventory of
+violetland by flares in additional to grenades. But I'm using standard
+opengl lights for lighting and there can be only 8 lights at same time
+(including flashlight of course). So I should to control Violet
+operations with flares or to use some another technology.
+
+-----------------------------------------
+
+for new items and perks, we can take a look at the original
+crimsonland. i thought the goal is just to clone crimsonland, this
+gives some limitations, to what we should do next.
+i also think its a good idea to actually clone it and then we can go
+on, so that at least we have a "crimson violet" game-mode.
+
+i collected all the ideas, that came up in my mind and wrote them
+down. its not only perks/items and some of them extend the origin
+crimsonland by far, so just take a look and comment but better dont
+start to make it now. (its quite a workload too)
+
+
+
+i always see (esp. with shotgun) that you are hitting an area, not a
+single point so it might be possible to determine the distance between
+bullet-impact and centre (they have already hit-rotation). this could
+be useful for hit/death-left/right animation and also for
+headshots ;) ... ough, i just realized that at least you need to know
+if the monsters front or side face is pointing to you to make hit/
+death animation in realistic direction.
+
+i saw you want to make a particle system, which is awesome for bullets
+hitting the ground (or whatever) ... you could add the ability to aim
+on the ground to hit crouching monsters, like spiders (or legless/
+crippled zombies). the possibility to shoot outside of the screen
+should be kept, so maybe, hold down a key to hit the ground.
+
+how about an auto-aiming mechanism, you know, select nearest enemy,
+aim to it, trigger. a lot of things build on that like civilians and
+even new monsters, maybe new perks and items (this lightning or
+imagine autofire-turrets).
+
+or how about mirrored pictures or slow-motion to give alot of
+animations more variety. this is a better solution for hit/death left/
+right too.
+
+slow playback of sounds is nice too = bigger monster -> longer and
+deeper roar, bullet-time. apropos sound: more far away the source of
+sound, more quiet playback.
+
+a more realistic flash-light that en lights an expanding cylinder in
+the direction you point AND that only shows the first monster with
+full bright. all the following monsters get 50% brightness of the
+previous one, so that you only see some, not all monsters (i think the
+behaviour of flash-light is veeery important for gameplay).
+
+how about a weapon-heat indicator that disallows to continue shooting
+when weapon is too hot (maybe weapon malfunction too?). i mean two new
+weapon-attributes and shot-counter, this could also be used for player-
+screams, e.g. you have emptied your 2nd round/clip with ongoing firing
+and there are still n monsters alive so player starts to make a war-
+scream (btw player could say something like "ohh shit" when reloading
+while monster is close or n monsters are visible).
+
+also a new weapon attribute could be weapon-weight that effects
+running speed. when we make a minigun, it should have a disadvantage.
+
+a stance system: you have a melee-stance that also lets you run faster
+(or sprint as long as your "power-bar" is full, melee combat is useful
+if we limit the amount of player ammo) and a weapon-stance in which
+you can shoot.
+
+weather-effects. rain with lightning-flash, fog, and storm that
+distracts bullets and slows down movement in one direction.
+
+when dead, the screen could slowly fade to black, credits scroll from
+down to upside and a unique music is played. this movie character
+would be good for atmospheric rpg i think.
+
+
+ps. player-death ani is nearly ready. i was not able to use blender
+physics-engine so i had to do it frame by frame and therefore its
+not ... RL-realistic.
+
+------------------------------------------------
+
+oh oh, some spntaneous ideas about perks ... ok they are obvious.
+
+acid bullets = 1/3 more dmg per bullet.
+tightwad = 20% more bullets in one clip.
+stealth = decreased range, at which zombies turn to you and attack
+
+
