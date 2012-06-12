@@ -21,16 +21,16 @@ void Rotation::setAngle(const Angle a)
 	angle = a;
 	Angle rightAngle = angle + M_PI_2;
 
-	dx = Vector(cos(angle), sin(angle));
-	dy = Vector(cos(rightAngle), sin(rightAngle));
+	dx = Point(cos(angle), sin(angle));
+	dy = Point(cos(rightAngle), sin(rightAngle));
 }
 
-Vector Rotation::transform(const real distance) const
+Point Rotation::transform(const real distance) const
 {
 	return dx * distance;
 }
 
-Vector Rotation::transform(const Vector coords) const
+Point Rotation::transform(const Point coords) const
 {
 	return dx * coords.x + dy * coords.y;
 }

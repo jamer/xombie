@@ -4,7 +4,7 @@ Orientation::Orientation()
 {
 }
 
-Orientation::Orientation(Vector loc, Angle angle)
+Orientation::Orientation(Point loc, Angle angle)
 	: location(loc), rotation(angle)
 {
 }
@@ -14,7 +14,7 @@ Angle Orientation::getAngle() const
 	return rotation;
 }
 
-Vector Orientation::getLocation() const
+Point Orientation::getLocation() const
 {
 	return location;
 }
@@ -24,7 +24,7 @@ void Orientation::setAngle(const Angle angle)
 	rotation = angle;
 }
 
-void Orientation::setLocation(const Vector loc)
+void Orientation::setLocation(const Point loc)
 {
 	location = loc;
 }
@@ -35,7 +35,7 @@ void Orientation::setLocation(const real x, const real y)
 	location.y = y;
 }
 
-void Orientation::translate(const Vector coords)
+void Orientation::translate(const Point coords)
 {
 	location += coords;
 }
@@ -52,7 +52,7 @@ Orientation& Orientation::operator += (const real distance)
 	return *this;
 }
 
-Orientation& Orientation::operator += (const Vector coords)
+Orientation& Orientation::operator += (const Point coords)
 {
 	location += rotation.transform(coords);
 	return *this;
@@ -65,7 +65,7 @@ Orientation operator + (const Orientation& orient, real distance)
 	return o;
 }
 
-Orientation operator + (const Orientation& orient, const Vector& v)
+Orientation operator + (const Orientation& orient, const Point& v)
 {
 	Orientation o(orient);
 	o += v;

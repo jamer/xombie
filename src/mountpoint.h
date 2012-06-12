@@ -10,19 +10,19 @@
 
 #include "orientation.h"
 #include "sprite.h"
-#include "vector.h"
+#include "point.h"
 
 class MountPoint
 {
 public:
-	MountPoint(Sprite* mount, Vector offset);
+	MountPoint(Sprite* mount, Point offset);
 	~MountPoint();
 
 	Orientation getOrientation() const;
 
 private:
 	Sprite* mount;
-	Vector offset;
+	Point offset;
 };
 
 #endif

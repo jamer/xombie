@@ -69,11 +69,11 @@ void Mouse::unsetCursor()
 	}
 }
 
-Vector Mouse::getPosition()
+Point Mouse::getPosition()
 {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
-	return Vector(x, y);
+	return Point(x, y);
 }
 
 void Mouse::setPosition(SDL_Event& event)

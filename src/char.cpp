@@ -39,8 +39,8 @@ void Char::update(int dt)
 		}
 
 		// Look at the mouse, yes
-		Vector mouse = getEngine()->getMouse().getPosition();
-		Vector loc = getOrientation().getLocation();
+		Point mouse = getEngine()->getMouse().getPosition();
+		Point loc = getOrientation().getLocation();
 
 		// Remember, logical screen coordinates have Y values reversed
 		setAngleFromXY(loc.x - mouse.x, mouse.y - loc.y);
@@ -49,8 +49,8 @@ void Char::update(int dt)
 		// Face nearest mob
 		Mob* mob = world->findClosestMob(getOrientation().getLocation());
 		if (mob) {
-			Vector l = orient.getLocation();
-			Vector m = mob->getOrientation().getLocation();
+			Point l = orient.getLocation();
+			Point m = mob->getOrientation().getLocation();
 			setAngleFromXY(l.x - m.x, m.y - l.y);
 		}
 	}

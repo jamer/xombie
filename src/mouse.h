@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 
-#include "vector.h"
+#include "point.h"
 
 enum CursorType
 {
@@ -22,7 +22,7 @@ public:
 	void draw(SDL_Surface* screen);
 	void setCursor(CursorType type);
 
-	Vector getPosition();
+	Point getPosition();
 	void setPosition(SDL_Event& event);
 
 private:
@@ -31,8 +31,8 @@ private:
 	SDL_Cursor* createCursor(SDL_Surface* surface);
 
 	bool softwareCursor;
-	Vector position;
-	CursorType cursorType; 
+	Point position;
+	CursorType cursorType;
 
 	SDL_Cursor* arrow;
 	SDL_Cursor* crosshair;

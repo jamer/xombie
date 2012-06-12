@@ -5,7 +5,8 @@
  * Rotates coordinates about the origin in a 2-dimensinal plane. A utility class.
  */
 
-#include "vector.h"
+#include "point.h"
+#include "types.h"
 
 class Rotation
 {
@@ -16,14 +17,14 @@ public:
 	Angle getAngle() const;
 	void setAngle(const Angle angle);
 
-	Vector transform(const real distance) const;
-	Vector transform(const Vector coords) const;
+	Point transform(const real distance) const;
+	Point transform(const Point coords) const;
 
 	operator Angle() const;
 	Angle operator = (const Angle angle);
 
 private:
-	Vector dx, dy;
+	Point dx, dy;
 	Angle angle;
 };
 

@@ -30,7 +30,7 @@ void Sprite::move(long dt, Angle angle)
 
 void Sprite::stayOnScreen() // XXX: terrible
 {
-	Vector loc = orient.getLocation();
+	Point loc = orient.getLocation();
 	real x = loc.x;
 	real y = loc.y;
 
@@ -145,7 +145,7 @@ SDL_Rect* Sprite::getBoundaries()
 
 bool Sprite::isOnScreen()
 {
-	Vector loc = orient.getLocation();
+	Point loc = orient.getLocation();
 	real x = loc.x;
 	real y = loc.y;
 
@@ -164,7 +164,7 @@ bool Sprite::isOnScreen()
 
 bool Sprite::isCompletelyOnScreen()
 {
-	Vector loc = orient.getLocation();
+	Point loc = orient.getLocation();
 	real x = loc.x;
 	real y = loc.y;
 

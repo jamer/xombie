@@ -6,7 +6,6 @@
 class Mob;
 
 #include "sprite.h"
-#include "vector.h"
 #include "world.h"
 
 class Mob : public Sprite

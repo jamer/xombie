@@ -9,7 +9,7 @@ class World;
 #include "engine.h"
 #include "mob.h"
 #include "shot.h"
-#include "vector.h"
+#include "point.h"
 
 using std::list;
 
@@ -25,7 +25,7 @@ public:
 	list<Char*>* getNeutrals();
 	list<Shot*>* getShots();
 
-	Mob* findClosestMob(Vector location);
+	Mob* findClosestMob(Point location);
 
 	void update(int dt);
 	void playerShoots();

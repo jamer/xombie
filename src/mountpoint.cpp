@@ -1,6 +1,6 @@
 #include "mountpoint.h"
 
-MountPoint::MountPoint(Sprite* m, Vector off)
+MountPoint::MountPoint(Sprite* m, Point off)
 	: mount(m), offset(off)
 {
 }

@@ -104,7 +104,7 @@ void World::playerShoots()
 		weapon->doShot(&shots);
 }
 
-Mob* World::findClosestMob(Vector location)
+Mob* World::findClosestMob(Point location)
 {
 	real shortest = 0;
 	Mob* nearest = NULL;
