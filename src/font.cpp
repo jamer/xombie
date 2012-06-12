@@ -14,8 +14,8 @@ enum TextQuality {
 // Function prototypes
 TTF_Font* loadFont(char* file, int ptsize);
 SDL_Surface* drawText(TTF_Font* fonttodraw, Uint8 fgR, Uint8 fgG, Uint8 fgB,
-		Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA, char text[],
-		int /* TextQuality*/ quality);
+		Uint8 fgA, Uint8 bgR, Uint8 bgG, Uint8 bgB, Uint8 bgA,
+		char text[], int /* TextQuality*/ quality);
 
 
 // Private variables

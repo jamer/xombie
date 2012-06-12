@@ -14,20 +14,20 @@
 
 ImgBase* images;
 
-int ImgBase::indexFromAngle(double angle)
+int ImgBase::indexFromAngle(angle a)
 {
-	angle += 2 * M_PI / imageAngles / 2;
-	while (angle > 2 * M_PI)
-		angle -= 2 * M_PI;
-	while (angle < 0)
-		angle += 2 * M_PI;
-	return (int)floor(angle * imageAngles / (2*M_PI));
+	a += 2 * M_PI / imageAngles / 2;
+	while (a > 2 * M_PI)
+		a -= 2 * M_PI;
+	while (a < 0)
+		a += 2 * M_PI;
+	return (int)floor(a * imageAngles / (2*M_PI));
 }
 
 ImgBase::ImgBase()
 {
 	images = this;
-	imageAngles = globals->getInt("Graphics", "Pre-rendered angles", 36);	
+	imageAngles = globals->getInt("Graphics", "Pre-rendered angles", 36);
 }
 
 ImgBase::~ImgBase()

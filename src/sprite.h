@@ -15,16 +15,16 @@ public:
 	~Sprite();
 
 	void move(long dt);
-	void move(long dt, Angle angle);
+	void move(long dt, angle theta);
 	void stayOnScreen();
 	virtual void draw(SDL_Surface* screen);
 
 	void setGraphicId(QString id);
-	void setAngle(Angle theta);
+	void setAngle(angle theta);
 	void setAngleFromXY(real x, real y);
 	void setSpeed(real speed);
 
-	Angle getAngle();
+	angle getAngle();
 	Orientation& getOrientation();
 
 	SDL_Surface* getGraphic();

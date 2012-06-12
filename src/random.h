@@ -1,12 +1,12 @@
 #ifndef _RAND_H_
 #define _RAND_H_
 
-#include "orientation.h"
+#include "types.h"
 
 void InitRand();
 int randInt(int low, int high);
 real randReal();
-Angle randAngle();
+angle randAngle();
 
 #endif // _RAND_H_
 

@@ -21,7 +21,7 @@ Shot::Shot(QString type, Sprite* src, Range inaccuracy) :
 	setSpeed((getBoundaries()->w + src->getBoundaries()->w) / 2);
 	move(1000);
 
-	Angle nAngle = getAngle() + entropy * (randAngle() - M_PI);
+	angle nAngle = getAngle() + entropy * (randAngle() - M_PI);
 	setAngle(nAngle);
 
 	// set speed, not all shots move equally

@@ -6,22 +6,22 @@ Rotation::Rotation()
 {
 }
 
-Rotation::Rotation(const Angle angle)
+Rotation::Rotation(const angle theta)
 {
-	setAngle(angle);
+	setAngle(theta);
 }
 
-Angle Rotation::getAngle() const
+angle Rotation::getAngle() const
 {
-	return angle;
+	return theta;
 }
 
-void Rotation::setAngle(const Angle a)
+void Rotation::setAngle(const angle theta)
 {
-	angle = a;
-	Angle rightAngle = angle + M_PI_2;
+	this->theta = theta;
+	angle rightAngle = theta + M_PI_2;
 
-	dx = Point(cos(angle), sin(angle));
+	dx = Point(cos(theta), sin(theta));
 	dy = Point(cos(rightAngle), sin(rightAngle));
 }
 
@@ -35,14 +35,14 @@ Point Rotation::transform(const Point coords) const
 	return dx * coords.x + dy * coords.y;
 }
 
-Rotation::operator Angle() const
+Rotation::operator angle() const
 {
-	return angle;
+	return theta;
 }
 
-Angle Rotation::operator = (const Angle angle)
+angle Rotation::operator = (const angle theta)
 {
-	setAngle(angle);
-	return angle;
+	setAngle(theta);
+	return theta;
 }
 

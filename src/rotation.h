@@ -12,20 +12,20 @@ class Rotation
 {
 public:
 	Rotation();
-	Rotation(const Angle angle);
+	Rotation(const angle theta);
 
-	Angle getAngle() const;
-	void setAngle(const Angle angle);
+	angle getAngle() const;
+	void setAngle(const angle theta);
 
 	Point transform(const real distance) const;
 	Point transform(const Point coords) const;
 
-	operator Angle() const;
-	Angle operator = (const Angle angle);
+	operator angle() const;
+	angle operator = (const angle theta);
 
 private:
 	Point dx, dy;
-	Angle angle;
+	angle theta;
 };
 
 #endif

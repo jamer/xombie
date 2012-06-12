@@ -20,10 +20,10 @@ void Sprite::move(long dt)
 	orient += speed / 1000 * dt;
 }
 
-void Sprite::move(long dt, Angle angle)
+void Sprite::move(long dt, angle a)
 {
-	real dx = cos(-angle) * speed * dt / 1000.0;
-	real dy = sin(-angle) * speed * dt / 1000.0;
+	real dx = cos(-a) * speed * dt / 1000.0;
+	real dy = sin(-a) * speed * dt / 1000.0;
 
 	orient.translate(dx, dy);
 }
@@ -65,43 +65,43 @@ void Sprite::setGraphicId(QString id)
 	origsz.h = gfx->h;
 }
 
-void Sprite::setAngle(Angle angle)
+void Sprite::setAngle(angle theta)
 {
 	ImgBase* base = getImgBase();
-	gfx = base->getImage(gfxId, base->indexFromAngle(angle), true); // !
-	orient.setAngle(-angle);
+	gfx = base->getImage(gfxId, base->indexFromAngle(theta), true); // !
+	orient.setAngle(-theta);
 }
 
 void Sprite::setAngleFromXY(real x, real y)
 {
-	Angle angle = 0.0;
+	angle theta = 0.0;
 
 	// Moving at an angle
 	if (x != 0.0 && y != 0.0) {
-		angle = atan(y / x);
+		theta = atan(y / x);
 		if (y < 0.0 && x < 0.0)
 			;
 		else if (y < 0.0 && x > 0.0)
-			angle += M_PI;
+			theta += M_PI;
 		else if (y > 0.0 && x < 0.0)
-			angle += M_PI*2;
+			theta += M_PI*2;
 		else if (y > 0.0 && x > 0.0)
-			angle += M_PI;
+			theta += M_PI;
 	}
 
 	// Moving straight
 	else {
 		if (x < 0.0)
-			angle = 0.0;
+			theta = 0.0;
 		else if (x > 0.0)
-			angle = M_PI;
+			theta = M_PI;
 		else if (y < 0.0)
-			angle = M_PI_2;
+			theta = M_PI_2;
 		else if (y > 0.0)
-			angle = 3*M_PI_2;
+			theta = 3*M_PI_2;
 	}
 
-	setAngle(angle);
+	setAngle(theta);
 }
 
 void Sprite::setSpeed(real spd)
@@ -109,7 +109,7 @@ void Sprite::setSpeed(real spd)
 	speed = spd;
 }
 
-Angle Sprite::getAngle()
+angle Sprite::getAngle()
 {
 	return -orient.getAngle();
 }

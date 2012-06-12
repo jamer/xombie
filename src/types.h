@@ -2,6 +2,6 @@
 #define _TYPE_H_XOM
 
 typedef double real;
-typedef real Angle;
+typedef real angle;
 
 #endif

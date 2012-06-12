@@ -115,14 +115,14 @@ void Mob::update(int dt)
 		dir = randInt(-1, 1);
 	}
 
-	Angle ang = getAngle() + 0.001 * dt * dir;
+	angle a = getAngle() + 0.001 * dt * dir;
 
-	while (ang < 0)
-		ang += 2 * M_PI;
-	while (2 * M_PI < ang)
-		ang -= 2 * M_PI;
+	while (a < 0)
+		a += 2 * M_PI;
+	while (2 * M_PI < a)
+		a -= 2 * M_PI;
 
-	setAngle(ang);
+	setAngle(a);
 	move(dt);
 	stayOnScreen();
 }

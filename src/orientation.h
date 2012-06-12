@@ -5,9 +5,6 @@
  * A position and direction.
  */
 
-typedef double Angle;
-class Rotation;
-
 #include "rotation.h"
 #include "point.h"
 
@@ -15,12 +12,12 @@ class Orientation
 {
 public:
 	Orientation();
-	Orientation(const Point location, const Angle angle);
+	Orientation(const Point location, const angle theta);
 
-	Angle getAngle() const;
+	angle getAngle() const;
 	Point getLocation() const;
 
-	void setAngle(const Angle angle);
+	void setAngle(const angle theta);
 	void setLocation(const Point location);
 	void setLocation(const real x, const real y);
 

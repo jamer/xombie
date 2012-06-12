@@ -19,8 +19,8 @@ real randReal()
 	return (real)rand() / (real)RAND_MAX;
 }
 
-Angle randAngle()
+angle randAngle()
 {
-	return (Angle)rand() / (Angle)RAND_MAX * M_PI * 2;
+	return (angle)rand() / (angle)RAND_MAX * M_PI * 2;
 }
 

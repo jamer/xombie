@@ -4,12 +4,12 @@ Orientation::Orientation()
 {
 }
 
-Orientation::Orientation(Point loc, Angle angle)
-	: location(loc), rotation(angle)
+Orientation::Orientation(Point loc, angle a)
+	: location(loc), rotation(a)
 {
 }
 
-Angle Orientation::getAngle() const
+angle Orientation::getAngle() const
 {
 	return rotation;
 }
@@ -19,9 +19,9 @@ Point Orientation::getLocation() const
 	return location;
 }
 
-void Orientation::setAngle(const Angle angle)
+void Orientation::setAngle(const angle a)
 {
-	rotation = angle;
+	rotation = a;
 }
 
 void Orientation::setLocation(const Point loc)
